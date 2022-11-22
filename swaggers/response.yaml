@@ -1,0 +1,79 @@
+components:
+  responses:
+    ApiResponse:
+      description: API Response
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        status:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+    ValidationError:
+      description: Validation Error. The given data was invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EntityError'
+    Unauthorized:
+      description: Unauthorized. Missing or Invalid token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Unauthorized'
+    InternalServerError:
+      description: Internal Server Error. Something went wrong.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalError'
+  schemas:
+    Unauthorized:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 401
+        status:
+          type: string
+          example: UNAUTHORIZED
+        message:
+          type: string
+    EntityError:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 422
+        status:
+          type: string
+          example: UNPROCESSABLE_ENTITY
+        message:
+          type: string
+          example: The given data was invalid.
+        errors:
+          type: object
+          properties:
+            field:
+              type: string
+              message: The field is required.
+    InternalError:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 500
+        status:
+          type: string
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
