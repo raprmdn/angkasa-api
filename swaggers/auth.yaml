@@ -1,0 +1,429 @@
+openapi: 3.0.0
+info:
+  title: E-Ticket Angkasa API Documentation
+  description: API Documentation for Angkasa Final Project.
+  version: 1.0.0
+tags:
+  - name: Authentication
+    description: Everything about Authentication
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /register:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new User
+      description: Endpoint to register a new user
+      operationId: registerUser
+      requestBody:
+        description: Create a new user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUserRequest'
+        required: true
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 201
+                  status:
+                    type: string
+                    example: CREATED
+                  message:
+                    type: string
+                    example: Success create a new account
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /login:
+    post:
+      tags:
+        - Authentication
+      summary: Login a User
+      description: Endpoint to login a user
+      operationId: loginUser
+      requestBody:
+        description: Login a user
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: example@email.com
+                password:
+                  type: string
+                  example: password
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success login
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/User'
+                      token:
+                        type: string
+                        example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUz
+        '400':
+          description: BAD_REQUEST (These credentials does not match our records)
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /login/google/callback:
+    post:
+      tags:
+        - Authentication
+      summary: Login a User with Google
+      description: Endpoint to login a user with Google
+      operationId: googleLogin
+      requestBody:
+        description: Login a user with Google
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - credential
+              properties:
+                credential:
+                  type: string
+                  example: 1234567890
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success authorized with Google Account
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/User'
+                      token:
+                        type: string
+                        example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUz
+        '400':
+          description: BAD_REQUEST
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /verification/send:
+    post:
+      tags:
+        - Authentication
+      summary: Send verification email
+      description: Endpoint to send verification email
+      operationId: sendVerificationEmail
+      requestBody:
+        description: Send verification email
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  example: example@email.com
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: OTP Code for Verification Email has been sent to your email
+        '400':
+          description: BAD_REQUEST
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /verify/otp/email:
+    post:
+      tags:
+        - Authentication
+      summary: Verification OTP Email
+      description: Endpoint to check OTP Code for verifying the user email
+      operationId: verificationOTPEmail
+      requestBody:
+        description: Verify OTP Email Verify
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - otp
+                - email
+              properties:
+                otp:
+                  type: integer
+                  example: 123456
+                email:
+                  type: string
+                  example: example@email.com
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success verify user email
+        '400':
+          description: BAD_REQUEST
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /forgot-password:
+    post:
+      tags:
+        - Authentication
+      summary: Forgot Password with OTP
+      description: Endpoint to request OTP for User Forgot Password
+      operationId: forgotPassword
+      requestBody:
+        description: Request OTP Forgot Password
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  example: example@email.com
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: OTP Code has been sent to your email
+        '400':
+          description: BAD_REQUEST
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /reset-password:
+    put:
+      tags:
+        - Authentication
+      summary: Reset Password with OTP
+      description: Endpoint to reset password with OTP that have been requested from /forgot-password endpoint
+      operationId: resetPassword
+      requestBody:
+        description: Reset Password with OTP
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - otp
+                - email
+                - password
+                - passwordConfirmation
+              properties:
+                otp:
+                  type: integer
+                  example: 123456
+                email:
+                  type: string
+                  example: example@email.com
+                password:
+                  type: string
+                  example: password
+                passwordConfirmation:
+                  type: string
+                  example: password
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success reset password
+        '400':
+          description: BAD_REQUEST
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /me:
+    get:
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      summary: Get Authenticated User
+      description: Endpoint to get Authenticated User with JWT Token
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success get authenticated user
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        fullname:
+          type: string
+          example: John Doe
+        username:
+          type: string
+          example: johndoe
+        email:
+          type: string
+          example: johndoe@email.com
+        role:
+          type: string
+          example: User
+        provider:
+          type: string
+          example: local
+        avatar:
+          type: string
+          example: https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50
+        emailVerifiedAt:
+          type: string
+          example: null
+        createdAt:
+          type: string
+          example: 2022-11-01T07:00:00.000000Z
+        updatedAt:
+          type: string
+          example: 2022-11-01T07:00:00.000000Z
+    RegisterUserRequest:
+      required:
+        - fullname
+        - username
+        - email
+        - password
+        - passwordConfirmation
+      type: object
+      properties:
+        fullname:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        passwordConfirmation:
+          type: string

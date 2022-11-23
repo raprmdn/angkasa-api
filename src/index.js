@@ -6,8 +6,12 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 const { StatusCodes: status } = require("http-status-codes");
-const routes = require("./routes");
+const swaggerUi = require("swagger-ui-express");
+const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerOptions = require("./helpers/swagger.helper");
+const routes = require("./routes/index");
 const { apiResponse } = require("./utils/apiResponse.utils");
+const { swaggerAccess } = require("./middlewares/swagger.middleware");
 
 const app = express();
 const port = process.env.PORT;
@@ -19,7 +23,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("dev"));
 
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
 app.use("/api", routes);
+app.use(
+  "/documentation",
+  swaggerAccess,
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec)
+);
 
 app.get("/", (req, res) =>
   res
