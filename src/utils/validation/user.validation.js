@@ -37,6 +37,7 @@ module.exports = {
         }),
       email: Joi.string()
         .email()
+        .max(255)
         .required()
         .label("email")
         .external(async (value) => {
@@ -60,5 +61,21 @@ module.exports = {
         .status(status.UNPROCESSABLE_ENTITY)
         .json(apiResponseValidationError(e));
     }
+  },
+
+  login: (req, res, next) => {
+    const schema = Joi.object({
+      email: Joi.string().email().max(255).required().label("email"),
+      password: Joi.string().required().label("password"),
+    });
+
+    const { error } = schema.validate(req.body, options);
+    if (error) {
+      return res
+        .status(status.UNPROCESSABLE_ENTITY)
+        .json(apiResponseValidationError(error));
+    }
+
+    next();
   },
 };
