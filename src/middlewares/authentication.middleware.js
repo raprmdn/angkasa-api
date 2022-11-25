@@ -1,9 +1,10 @@
 const { StatusCodes: status } = require("http-status-codes");
 const { apiResponse } = require("../utils/apiResponse.utils");
 const { verifyAccessToken } = require("../utils/jwt.utils");
+const { Users, Roles } = require("../models");
 
 module.exports = {
-  authentication: (req, res, next) => {
+  authentication: async (req, res, next) => {
     try {
       const token = req.headers["authorization"];
       if (!token)
@@ -12,24 +13,6 @@ module.exports = {
           "UNAUTHORIZED",
           "Unauthorized. Please login to continue."
         );
-
-      // cek apakah ada roles nya dan apakah ada di dalam payoload
-      //   if (roles.length > 0 && !roles.includes(payload.role))
-      //     throw apiResponse(
-      //       status.UNAUTHORIZED,
-      //       "UNAUTHORIZED",
-      //       "Unauthorized. Please login to continue."
-      //     );
-
-      //   const user = Users.findOne({ where: { id: req.body.id } });
-      //   console.log(user.roleId);
-      //   if (roleId == null) {
-      //     throw apiResponse(
-      //       status.UNAUTHORIZED,
-      //       "UNAUTHORIZED",
-      //       "Unauthorized. Please login to continue."
-      //     );
-      //   }
 
       req.user = verifyAccessToken(token);
 

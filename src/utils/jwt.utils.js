@@ -8,7 +8,7 @@ module.exports = {
       email: user.email,
     };
     return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, {
-      expiresIn: "10m",
+      expiresIn: "20m",
     });
   },
   verifyAccessToken: (token) =>

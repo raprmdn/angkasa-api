@@ -46,16 +46,25 @@ module.exports = {
         );
       }
 
-      const isValid = checkPassword(password, user.password);
-      if (!isValid) {
+      const isPasswordValid = checkPassword(password, user.password);
+      if (!isPasswordValid) {
         return apiResponse(
           status.BAD_REQUEST,
           "BAD_REQUEST",
           "These credentials does not match our records"
         );
       }
+
+      // const isRoleIdValid = await Roles.findOne({ where: { id: user.roleId } });
+      // if (!isRoleIdValid) {
+      //   return apiResponse(
+      //     status.BAD_REQUEST,
+      //     "BAD_REQUEST",
+      //     "These credentials does not match our records"
+      //   );
+      // }
+
       const accessToken = generateAccessToken(user);
-      console.log(accessToken);
 
       return apiResponse(status.OK, "OK", "Success Login", {
         user,
