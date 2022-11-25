@@ -41,6 +41,7 @@ module.exports = {
             provider: {
                 type: Sequelize.STRING,
                 allowNull: true,
+                defaultValue: 'local',
             },
             providerId: {
                 type: Sequelize.STRING,

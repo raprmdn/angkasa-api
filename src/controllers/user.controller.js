@@ -1,6 +1,4 @@
 const userServices = require("../services/user.service");
-const { apiResponse } = require("../utils/apiResponse.utils");
-// const { StatusCodes: status } = require("http-status-codes");
 
 module.exports = {
   register: async (req, res) => {

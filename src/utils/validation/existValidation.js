@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const { Users } = require("../../models");
+const { User } = require("../../models");
 
 const customThrowErrorJoiString = (msg, field) => {
   throw new Joi.ValidationError(
@@ -22,7 +22,7 @@ const customThrowErrorJoiString = (msg, field) => {
 
 module.exports = {
   isUsernameExist: async (username) => {
-    const user = await Users.findOne({ where: { username: username } });
+    const user = await User.findOne({ where: { username: username } });
     if (user) {
       customThrowErrorJoiString("Username already exist", "username");
     }
@@ -30,7 +30,7 @@ module.exports = {
     return true;
   },
   isEmailExist: async (email) => {
-    const user = await Users.findOne({ where: { email: email } });
+    const user = await User.findOne({ where: { email: email } });
     if (user) {
       customThrowErrorJoiString("Email already exist", "email");
     }

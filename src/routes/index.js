@@ -1,6 +1,6 @@
+const express = require('express');
 const googleLogin = require('./google.route')
 const UserRouter = require("./user.route");
-const express = require('express');
 
 const router = express.Router();
 

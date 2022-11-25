@@ -1,20 +1,26 @@
 const { StatusCodes: status } = require("http-status-codes");
 const { apiResponse } = require("../utils/apiResponse.utils");
-const { verifyAccessToken } = require("../utils/jwt.utils");
-const { Users, Roles } = require("../models");
+const { verifyToken } = require("../utils/jwt.utils");
 
 module.exports = {
   authentication: async (req, res, next) => {
     try {
-      const token = req.headers["authorization"];
-      if (!token)
+      const bearer = req.headers["authorization"];
+      if (!bearer)
         throw apiResponse(
           status.UNAUTHORIZED,
           "UNAUTHORIZED",
           "Unauthorized. Please login to continue."
         );
 
-      req.user = verifyAccessToken(token);
+      const token = bearer.split(' ')[1];
+      if (!token) throw apiResponse(
+          status.UNAUTHORIZED,
+          'UNAUTHORIZED',
+          'Unauthorized. Please login to continue.'
+      );
+
+      req.user = verifyToken(token);
 
       next();
     } catch (e) {

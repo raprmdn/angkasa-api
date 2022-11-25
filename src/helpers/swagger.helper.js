@@ -5,7 +5,7 @@ const swaggerDefinition = {
         description: 'API Documentation for Angkasa Final Project.',
         version: '1.0.0',
         contact: {
-            email: 'raprmdn@gmail.com',
+            email: 'angkasa@email.com',
         }
     },
     servers: [
