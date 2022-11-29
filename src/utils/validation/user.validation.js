@@ -1,7 +1,8 @@
 const Joi = require("joi");
+const passwordComplexity = require("joi-password-complexity");
+const { StatusCodes: status } = require("http-status-codes");
 const { isEmailExist, isUsernameExist } = require("./existValidation");
 const { apiResponseValidationError } = require("../apiResponse.utils");
-const { StatusCodes: status } = require("http-status-codes");
 
 const options = {
   errors: {
@@ -12,7 +13,6 @@ const options = {
   abortEarly: false,
 };
 
-const passwordComplexity = require("joi-password-complexity");
 const complexityOptions = {
   min: 8,
   max: 25,
