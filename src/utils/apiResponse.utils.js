@@ -64,5 +64,19 @@ module.exports = {
         result.message = message;
 
         return result;
+    },
+    /**
+     * @param {string} message
+     * @returns {{ code: 429, status: "TOO_MANY_REQUESTS", message: string }}
+     * @example throw apiTooManyRequestsResponse('Too many requests');
+     * @description This function is used to return response with status code 429
+     */
+    apiTooManyRequestResponse: (message) => {
+        const result = {};
+        result.code = StatusCodes.TOO_MANY_REQUESTS;
+        result.status = "TOO_MANY_REQUESTS";
+        result.message = message;
+
+        return result;
     }
 };
