@@ -7,4 +7,8 @@ module.exports = {
         const emailVerificationEJS = await ejs.renderFile(path.join(__dirname, '../templates/email-verification.ejs'), { data });
         await sendEmail(data.email, 'Email Verification', emailVerificationEJS)
     },
+    SendResetPasswordOTP: async (data) => {
+        const resetPasswordEJS = await ejs.renderFile(path.join(__dirname, '../templates/reset-password.ejs'), { data });
+        await sendEmail(data.email, 'Reset Password', resetPasswordEJS)
+    }
 };
