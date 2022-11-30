@@ -31,6 +31,24 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/InternalError'
+    BadRequest:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequest'
+    TooManyRequest:
+      description: Too Many Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequest'
+    NotFound:
+      description: Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFound'
   schemas:
     Unauthorized:
       type: object
@@ -60,7 +78,7 @@ components:
           properties:
             field:
               type: string
-              message: The field is required.
+              example: The field is required.
     InternalError:
       type: object
       properties:
@@ -70,6 +88,39 @@ components:
         status:
           type: string
           example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+    BadRequest:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        status:
+          type: string
+          example: BAD_REQUEST
+        message:
+          type: string
+    TooManyRequest:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 409
+        status:
+          type: string
+          example: TOO_MANY_REQUESTS
+        message:
+          type: string
+    NotFound:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 404
+        status:
+          type: string
+          example: NOT_FOUND
         message:
           type: string
   securitySchemes:

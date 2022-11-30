@@ -95,7 +95,7 @@ paths:
                         type: string
                         example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUz
         '400':
-          description: BAD_REQUEST (These credentials does not match our records)
+          $ref: '#/components/responses/BadRequest'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
@@ -146,15 +146,19 @@ paths:
                         type: string
                         example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUz
         '400':
-          description: BAD_REQUEST
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          description: invalid_grant
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /verification/send:
+  /email-verification/request:
     post:
       tags:
         - Authentication
+      security:
+        - bearerAuth: [ ]
       summary: Send verification email
       description: Endpoint to send verification email
       operationId: sendVerificationEmail
@@ -187,9 +191,13 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: OTP Code for Verification Email has been sent to your email
+                    example: OTP Code for email verification has been sent to your email
         '400':
-          description: BAD_REQUEST
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          $ref: '#/components/responses/TooManyRequest'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
@@ -198,9 +206,11 @@ paths:
     post:
       tags:
         - Authentication
+      security:
+        - bearerAuth: [ ]
       summary: Verification OTP Email
       description: Endpoint to check OTP Code for verifying the user email
-      operationId: verificationOTPEmail
+      operationId: verifyEmailOTP
       requestBody:
         description: Verify OTP Email Verify
         content:
@@ -209,15 +219,10 @@ paths:
               type: object
               required:
                 - otp
-                - email
               properties:
                 otp:
                   type: integer
                   example: 123456
-                email:
-                  type: string
-                  example: example@email.com
-        required: true
       responses:
         '200':
           description: OK
@@ -234,20 +239,24 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success verify user email
+                    example: Successfully verified the email
         '400':
-          description: BAD_REQUEST
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /forgot-password:
+  /reset-password/request:
     post:
       tags:
         - Authentication
       summary: Forgot Password with OTP
       description: Endpoint to request OTP for User Forgot Password
-      operationId: forgotPassword
+      operationId: sendResetPasswordOTP
       requestBody:
         description: Request OTP Forgot Password
         content:
@@ -277,19 +286,70 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: OTP Code has been sent to your email
+                    example: OTP Code for reset password has been sent to your email
         '400':
-          description: BAD_REQUEST
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          $ref: '#/components/responses/TooManyRequest'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /verify/otp/reset-password:
+    post:
+      tags:
+        - Authentication
+      summary: Verify Reset Password OTP
+      description: Endpoint to verify the OTP Reset Password after getting the code from the email
+      operationId: verifyResetPasswordOTP
+      requestBody:
+        description: Verify the OTP Reset Password
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - otp
+                - email
+              properties:
+                otp:
+                  type: number
+                  example: 123456
+                email:
+                  type: string
+                  example: example@email.com
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: OTP is valid. Please proceed to reset password
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /reset-password:
-    put:
+    post:
       tags:
         - Authentication
-      summary: Reset Password with OTP
-      description: Endpoint to reset password with OTP that have been requested from /forgot-password endpoint
+      summary: Reset Password after OTP is valid
+      description: Endpoint to reset password with OTP after valid from /verify/otp/reset-password
       operationId: resetPassword
       requestBody:
         description: Reset Password with OTP
@@ -332,9 +392,11 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success reset password
+                    example: Success reset the password
         '400':
-          description: BAD_REQUEST
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
@@ -344,7 +406,7 @@ paths:
       tags:
         - Authentication
       security:
-        - bearerAuth: []
+        - bearerAuth: [ ]
       summary: Get Authenticated User
       description: Endpoint to get Authenticated User with JWT Token
       responses:
@@ -404,10 +466,10 @@ components:
           example: null
         createdAt:
           type: string
-          example: 2022-11-01T07:00:00.000000Z
+          example: 2022-11-25 22:18:32
         updatedAt:
           type: string
-          example: 2022-11-01T07:00:00.000000Z
+          example: 2022-11-25 22:18:32
     RegisterUserRequest:
       required:
         - fullname
