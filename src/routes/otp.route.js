@@ -11,7 +11,7 @@ const { emailVerificationLimit, passwordResetLimit } = require('../middlewares/l
 
 const router = express.Router();
 
-router.post('/request-email-verification', emailVerificationLimit,  authentication, OTPController.requestEmailVerification);
+router.post('/email-verification/request', emailVerificationLimit,  authentication, OTPController.requestEmailVerification);
 router.post('/verify/otp/email', authentication, verifyUserEmailOTPValidation, OTPController.verifyUserEmailOTP);
 
 router.post('/reset-password/request', passwordResetLimit, requestResetPasswordValidation, OTPController.requestResetPassword);
