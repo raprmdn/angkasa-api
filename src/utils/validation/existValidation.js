@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const { User } = require("../../models");
+const { User, Role } = require("../../models");
 
 const customThrowErrorJoiString = (msg, field) => {
   throw new Joi.ValidationError(
@@ -36,4 +36,11 @@ module.exports = {
     }
     return true;
   },
+  isRoleNameExist: async (roleName) => {
+    const role = await Role.findOne({where: {name: roleName.toUpperCase()}})
+    if (role) {
+      customThrowErrorJoiString("Role name already exist", "name");
+    }
+    return true;
+  }
 };
