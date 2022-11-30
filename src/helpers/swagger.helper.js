@@ -14,11 +14,11 @@ const swaggerDefinition = {
             description: 'Development server'
         },
         {
-            url: 'https://staging-url/api',
+            url: 'https://angkasa-api-staging.km3ggwp.com/api',
             description: 'Staging server'
         },
         {
-            url: 'https://production-url/api',
+            url: 'https://angkasa-api.km3ggwp.com//api',
             description: 'Production server'
         }
     ],
@@ -26,6 +26,14 @@ const swaggerDefinition = {
         {
             name: 'Authentication',
             description: 'Everything about Authentication',
+            externalDocs: {
+                description: 'Find out more',
+                url: '#'
+            }
+        },
+        {
+            name: 'Role',
+            description: 'Everything about Role',
             externalDocs: {
                 description: 'Find out more',
                 url: '#'
