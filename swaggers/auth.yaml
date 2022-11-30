@@ -22,8 +22,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RegisterUserRequest'
-        required: true
+              required:
+                - fullname
+                - username
+                - email
+                - password
+                - passwordConfirmation
+              type: object
+              properties:
+                fullname:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                passwordConfirmation:
+                  type: string
+        required:
+          true
       responses:
         '201':
           description: OK
@@ -162,19 +180,6 @@ paths:
       summary: Send verification email
       description: Endpoint to send verification email
       operationId: sendVerificationEmail
-      requestBody:
-        description: Send verification email
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - email
-              properties:
-                email:
-                  type: string
-                  example: example@email.com
-        required: true
       responses:
         '200':
           description: OK
@@ -196,10 +201,10 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '409':
-          $ref: '#/components/responses/TooManyRequest'
         '422':
           $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/TooManyRequest'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /verify/otp/email:
@@ -289,10 +294,10 @@ paths:
                     example: OTP Code for reset password has been sent to your email
         '400':
           $ref: '#/components/responses/BadRequest'
-        '409':
-          $ref: '#/components/responses/TooManyRequest'
         '422':
           $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/TooManyRequest'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /verify/otp/reset-password:
@@ -470,22 +475,3 @@ components:
         updatedAt:
           type: string
           example: 2022-11-25 22:18:32
-    RegisterUserRequest:
-      required:
-        - fullname
-        - username
-        - email
-        - password
-        - passwordConfirmation
-      type: object
-      properties:
-        fullname:
-          type: string
-        username:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-        passwordConfirmation:
-          type: string

@@ -31,6 +31,14 @@ const swaggerDefinition = {
                 url: '#'
             }
         },
+        {
+            name: 'Role',
+            description: 'Everything about Role',
+            externalDocs: {
+                description: 'Find out more',
+                url: '#'
+            }
+        },
     ],
     basePath: '/api'
 };

@@ -1,0 +1,362 @@
+openapi: 3.0.0
+info:
+  title: E-Ticket Angkasa API Documentation
+  description: API Documentation for Angkasa Final Project.
+  version: 1.0.0
+tags:
+  - name: Role
+    description: Everything about Role
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /role:
+    get:
+      tags:
+        - Role
+      security:
+        - bearerAuth: [ ]
+      summary: Get list all roles
+      description: Endpoint to get list roles
+      operationId: getRoles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success to get all Roles
+                  data:
+                    type: object
+                    properties:
+                      roles:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Role'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Role
+      security:
+        - bearerAuth: [ ]
+      summary: Create a new role
+      description: Endpoint to create a new role
+      operationId: createRole
+      requestBody:
+        description: Create a new role
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+              type: object
+              properties:
+                name:
+                  type: string
+        required:
+          true
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 201
+                  status:
+                    type: string
+                    example: CREATED
+                  message:
+                    type: string
+                    example: Success to created a new Role
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /role/{id}:
+    get:
+      tags:
+        - Role
+      security:
+        - bearerAuth: [ ]
+      summary: Find role by id
+      description: Endpoint to get list roles
+      operationId: findRoleById
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be fetched.'
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success to get all Roles
+                  data:
+                    type: object
+                    properties:
+                      role:
+                        allOf:
+                          - $ref: '#/components/schemas/Role'
+                          - type: object
+                            properties:
+                              users:
+                                type: array
+                                items:
+                                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Role
+      security:
+        - bearerAuth: [ ]
+      summary: Update role
+      description: Endpoint to update a role
+      operationId: updateRole
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be provided for update the role'
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: Update a existing role
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+              type: object
+              properties:
+                name:
+                  type: string
+        required:
+          true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success to updated a role
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Role
+      security:
+        - bearerAuth: [ ]
+      summary: Delete a role
+      description: Endpoint to delete a role
+      operationId: deleteRoleById
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be provided for deleting any role.'
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success to deleted a role
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /role/check-user-role:
+    get:
+      tags:
+        - Role
+      security:
+        - bearerAuth: [ ]
+      summary: Check user role
+      description: Endpoint to check current user role
+      operationId: checkCurrentUserRole
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success check user current role
+                  data:
+                    type: object
+                    properties:
+                      role:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /role/assign-role:
+    put:
+      tags:
+        - Role
+      security:
+        - bearerAuth: [ ]
+      summary: Update role
+      description: Endpoint to update a role
+      operationId: assignRole
+      requestBody:
+        description: Update a existing role
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+              type: object
+              properties:
+                roleId:
+                  type: number
+                userId:
+                  type: number
+        required:
+          true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success assign role
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: ADMIN
+        createdAt:
+          type: string
+          example: 2022-11-25 22:18:32
+        updatedAt:
+          type: string
+          example: 2022-11-25 22:18:32
+
+
