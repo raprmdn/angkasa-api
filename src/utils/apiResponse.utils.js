@@ -78,5 +78,19 @@ module.exports = {
         result.message = message;
 
         return result;
+    },
+    /**
+     * @param {string} message
+     * @returns {{ code: 403, status: "FORBIDDEN", message: string }}
+     * @example throw apiForbiddenResponse('Forbidden');
+     * @description This function is used to return response with status code 403
+     */
+    apiForbiddenResponse: (message) => {
+        const result = {};
+        result.code = StatusCodes.FORBIDDEN;
+        result.status = "FORBIDDEN";
+        result.message = message;
+
+        return result;
     }
 };

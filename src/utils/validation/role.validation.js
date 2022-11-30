@@ -13,13 +13,13 @@ const options = {
 };
 
 module.exports = {
-  roleNameRequired: async (req, res, next) => {
+  roleValidation: async (req, res, next) => {
     const schema = Joi.object({
       name: Joi.string()
         .required()
         .label("name")
         .external(async (value) => {
-          return await isRoleNameExist(value);
+          return await isRoleNameExist(value, req.params.id);
         }),
     });
     try {
@@ -31,36 +31,15 @@ module.exports = {
         .json(apiResponseValidationError(error));
     }
   },
-  roleIdRequired: async (req, res, next) => {
+  assignRoleValidation: (req, res, next) => {
     const schema = Joi.object({
-      id: Joi.required().label("id"),
+      roleId: Joi.number().positive().required().label("Role ID"),
+      userId: Joi.number().positive().required().label("User ID"),
     });
-    try {
-      await schema.validateAsync(req.body, options);
-      next();
-    } catch (error) {
-      return res
-        .status(status.UNPROCESSABLE_ENTITY)
-        .json(apiResponseValidationError(error));
-    }
-  },
-  roleIdNameRequired: async (req, res, next) => {
-    const schema = Joi.object({
-      id: Joi.required().label("id"),
-      name: Joi.string()
-        .required()
-        .label("name")
-        .external(async (value) => {
-          return await isRoleNameExist(value);
-        }),
-    });
-    try {
-      await schema.validateAsync(req.body, options);
-      next();
-    } catch (error) {
-      return res
-        .status(status.UNPROCESSABLE_ENTITY)
-        .json(apiResponseValidationError(error));
-    }
-  },
+
+    const { error } = schema.validate(req.body, options);
+    if (error) return res.status(status.UNPROCESSABLE_ENTITY).json(apiResponseValidationError(error));
+
+    next();
+  }
 };

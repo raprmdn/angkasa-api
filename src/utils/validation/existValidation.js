@@ -36,9 +36,9 @@ module.exports = {
     }
     return true;
   },
-  isRoleNameExist: async (roleName) => {
+  isRoleNameExist: async (roleName, id = null) => {
     const role = await Role.findOne({where: {name: roleName.toUpperCase()}})
-    if (role) {
+    if (role && role.id !== +id) {
       customThrowErrorJoiString("Role name already exist", "name");
     }
     return true;
