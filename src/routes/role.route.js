@@ -1,12 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const {createRole, getRole, updateRole, deleteRole, getRoles} = require('../controllers/role.controller');
-const roleValidation = require('../utils/validation/role.validation');
+const RoleController = require('../controllers/role.controller');
+const {
+    roleValidation,
+    assignRoleValidation,
+} = require('../utils/validation/role.validation');
+const { authentication } = require("../middlewares/authentication.middleware");
+const { hasRole } = require("../middlewares/authorization.middleware");
 
-router.post('/create', roleValidation.roleNameRequired, createRole);
-router.get('/get', roleValidation.roleIdRequired, getRole);
-router.get('/', getRoles);
-router.put('/update', roleValidation.roleIdNameRequired, updateRole);
-router.delete('/delete', roleValidation.roleIdRequired, deleteRole);
+router.get('/check-user-role', authentication, RoleController.checkRole)
+router.put('/assign-role', authentication, hasRole(['ADMIN']), assignRoleValidation, RoleController.assignRole)
+
+router.get('/', authentication, hasRole(['ADMIN']), RoleController.getRoles);
+router.post('/', authentication, hasRole(['ADMIN']), roleValidation, RoleController.createRole);
+router.get('/:id',authentication, hasRole(['ADMIN']), RoleController.show);
+router.put('/:id', authentication, hasRole(['ADMIN']), roleValidation, RoleController.updateRole);
+router.delete('/:id', authentication, hasRole(['ADMIN']), RoleController.deleteRole);
 
 module.exports = router;

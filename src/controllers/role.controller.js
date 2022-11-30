@@ -9,9 +9,9 @@ module.exports = {
       return res.status(error.code).json(error);
     }
   },
-  getRole: async (req, res) => {
+  show: async (req, res) => {
     try {
-      const roleServiceResponse = await RoleService.getRole(req);
+      const roleServiceResponse = await RoleService.show(req);
       return res.status(roleServiceResponse.code).json(roleServiceResponse);
     } catch (error) {
       return res.status(error.code).json(error);
@@ -41,4 +41,20 @@ module.exports = {
       return res.status(error.code).json(error);
     }
   },
+  checkRole: async (req, res) => {
+    try {
+      const roleServiceResponse = await RoleService.checkRole(req);
+      return res.status(roleServiceResponse.code).json(roleServiceResponse);
+    } catch (e) {
+      return res.status(e.code).json(e);
+    }
+  },
+  assignRole: async (req, res) => {
+    try {
+      const roleServiceResponse = await RoleService.assignRole(req);
+      return res.status(roleServiceResponse.code).json(roleServiceResponse);
+    } catch (e) {
+      return res.status(e.code).json(e);
+    }
+  }
 };

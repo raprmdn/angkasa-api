@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 module.exports = {
     UserTransform: (user) => ({
         id: user.id,
@@ -7,8 +9,8 @@ module.exports = {
         role: user.role?.name,
         provider: user.provider,
         avatar: user.avatar,
-        emailVerifiedAt: user.emailVerifiedAt,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
+        emailVerifiedAt: user.emailVerifiedAt ? moment(user.emailVerifiedAt).format('YYYY-MM-DD HH:mm:ss') : null,
+        createdAt: moment(user.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+        updatedAt: moment(user.updatedAt).format('YYYY-MM-DD HH:mm:ss'),
     })
 };
