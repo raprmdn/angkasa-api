@@ -6,7 +6,7 @@ const { airportValidation } = require('../utils/validation/aiport.validation');
 
 const router = express.Router();
 
-router.get('/', AirportController.popularAirports);
+router.get('/popular', AirportController.popularAirports);
 router.post('/', authentication, hasRole(['ADMIN']), airportValidation, AirportController.create);
 router.get('/:id', authentication, hasRole(['ADMIN']), AirportController.show);
 router.put('/:id', authentication, hasRole(['ADMIN']), airportValidation, AirportController.update);
