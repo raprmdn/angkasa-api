@@ -1,0 +1,74 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        fullname:
+          type: string
+          example: John Doe
+        username:
+          type: string
+          example: johndoe
+        email:
+          type: string
+          example: johndoe@email.com
+        role:
+          type: string
+          example: User
+        provider:
+          type: string
+          example: local
+        avatar:
+          type: string
+          example: https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50
+        emailVerifiedAt:
+          type: string
+          example: null
+        createdAt:
+          type: string
+          example: 2022-11-25 22:18:32
+        updatedAt:
+          type: string
+          example: 2022-11-25 22:18:32
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: ADMIN
+        createdAt:
+          type: string
+          example: 2022-11-25 22:18:32
+        updatedAt:
+          type: string
+          example: 2022-11-25 22:18:32
+    Airport:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Soekarno-Hatta International Airport
+        country:
+          type: string
+          example: Indonesia
+        region:
+          type: string
+          example: Banten
+        municipality:
+          type: string
+          example: Jakarta
+        iata:
+          type: string
+          example: CGK
+        type:
+          type: string
+          example: large_airport
