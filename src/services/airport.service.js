@@ -1,9 +1,27 @@
 const { Airport } = require('../models');
+const fetch = require('node-fetch')
 const { StatusCodes: status } = require('http-status-codes');
-const { apiResponse, apiNotFoundResponse} = require('../utils/apiResponse.utils');
-const AirportTransform = require("../helpers/transformers/airport.transformers");
+const { apiResponse, apiNotFoundResponse } = require('../utils/apiResponse.utils');
+const AirportTransform = require('../helpers/transformers/airport.transformers');
 
 module.exports = {
+    findAirport: async (req) => {
+        try {
+            const { airport } = req.query;
+
+            const response = await fetch(`https://port-api.com/port/suggest/${airport}`)
+                .catch((e) => {
+                    console.error(`Error fetching airport on port-api.com: ${e}`);
+                    throw apiResponse(status.INTERNAL_SERVER_ERROR, 'INTERNAL_SERVER_ERROR', 'There\'s an issue. Please try again later.');
+                });
+            const data = await response.json()
+            const airports = AirportTransform.AirportApiCollectionResponse(data.features);
+
+            return apiResponse(status.OK, 'OK', 'Airports retrieved successfully', { airports });
+        } catch (e) {
+            throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+        }
+    },
     popularAirports: async () => {
         try {
             const airports = await Airport.findAll({

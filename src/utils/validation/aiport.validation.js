@@ -29,4 +29,16 @@ module.exports = {
 
         next();
     },
+    searchAirportValidation: async (req, res, next) => {
+        const schema = Joi.object({
+            airport: Joi.string().required().max(255).label('Airport'),
+        });
+
+        const { error } = schema.validate(req.query, options);
+        if (error) {
+            return res.status(status.UNPROCESSABLE_ENTITY).json(apiResponseValidationError(error));
+        }
+
+        next();
+    }
 };

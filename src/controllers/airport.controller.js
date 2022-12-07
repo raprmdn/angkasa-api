@@ -1,6 +1,14 @@
 const AirportService = require('../services/airport.service');
 
 module.exports = {
+    findAirport: async (req, res) => {
+        try {
+            const serviceResponse = await AirportService.findAirport(req);
+            return res.status(serviceResponse.code).json(serviceResponse);
+        } catch (e) {
+            return res.status(e.code).json(e);
+        }
+    },
     popularAirports: async (req, res) => {
         try {
             const serviceResponse = await AirportService.popularAirports();
