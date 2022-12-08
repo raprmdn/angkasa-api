@@ -133,11 +133,11 @@ module.exports = {
         );
       }
       const hashed = await hashPassword(newPassword);
-      const updatedUser = await user.update({
+      const updatePassword = await user.update({
         password: hashed,
       });
 
-      const userTransformed = UserTransform(updatedUser);
+      const userTransformed = UserTransform(updatePassword);
 
       return apiResponse(status.OK, "OK", "Success update user password", {
         user: userTransformed,
