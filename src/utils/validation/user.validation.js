@@ -99,4 +99,24 @@ module.exports = {
         .json(apiResponseValidationError(e));
     }
   },
+  updatePassword: async (req, res, next) => {
+    const schema = Joi.object({
+      oldPassword: Joi.string().required().label("oldPassword"),
+      newPassword: passwordComplexity(complexityOptions).label("newPassword"),
+      newPasswordConfirmation: Joi.string()
+        .valid(Joi.ref("newPassword"))
+        .required()
+        .label("newPasswordConfirmation")
+        .options({ messages: { "any.only": "{{#label}} does not match" } }),
+    });
+
+    try {
+      await schema.validateAsync(req.body, options);
+      next();
+    } catch (e) {
+      return res
+        .status(status.UNPROCESSABLE_ENTITY)
+        .json(apiResponseValidationError(e));
+    }
+  },
 };
