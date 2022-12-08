@@ -36,7 +36,10 @@ module.exports = {
   login: async (req) => {
     try {
       const { email, password } = req.body;
-      const user = await User.findOne({ where: { email: email }, include: "role" });
+      const user = await User.findOne({
+        where: { email: email },
+        include: "role",
+      });
       if (!user) {
         return apiResponse(
           status.BAD_REQUEST,
@@ -78,8 +81,69 @@ module.exports = {
 
       const userTransformed = UserTransform(user);
 
-      return apiResponse(status.OK, "OK", "Success get authenticated user", { user: userTransformed });
+      return apiResponse(status.OK, "OK", "Success get authenticated user", {
+        user: userTransformed,
+      });
     } catch (e) {
+      throw apiResponse(
+        e.code || status.INTERNAL_SERVER_ERROR,
+        e.status || "INTERNAL_SERVER_ERROR",
+        e.message
+      );
+    }
+  },
+  updateProfile: async (req) => {
+    try {
+      const { id } = req.user;
+      const updatedUser = req.body;
+      const user = await User.findByPk(id);
+      if (!user)
+        throw apiResponse(status.NOT_FOUND, "NOT_FOUND", "User not found");
+      await user.update(updatedUser);
+
+      const userTransformed = UserTransform(user);
+
+      return apiResponse(status.OK, "OK", "Success update user profile", {
+        user: userTransformed,
+      });
+    } catch (e) {
+      console.log(e);
+      throw apiResponse(
+        e.code || status.INTERNAL_SERVER_ERROR,
+        e.status || "INTERNAL_SERVER_ERROR",
+        e.message
+      );
+    }
+  },
+  updatePassword: async (req) => {
+    try {
+      const { id } = req.user;
+      const { oldPassword, newPassword } = req.body;
+
+      const user = await User.findByPk(id);
+      if (!user)
+        throw apiResponse(status.NOT_FOUND, "NOT_FOUND", "User not found");
+
+      const isPasswordValid = await checkPassword(oldPassword, user.password);
+      if (!isPasswordValid) {
+        throw apiResponse(
+          status.NOT_FOUND,
+          "NOT_FOUND",
+          "Old password does not match!"
+        );
+      }
+      const hashed = await hashPassword(newPassword);
+      const updatedUser = await user.update({
+        password: hashed,
+      });
+
+      const userTransformed = UserTransform(updatedUser);
+
+      return apiResponse(status.OK, "OK", "Success update user password", {
+        user: userTransformed,
+      });
+    } catch (e) {
+      console.log(e);
       throw apiResponse(
         e.code || status.INTERNAL_SERVER_ERROR,
         e.status || "INTERNAL_SERVER_ERROR",
