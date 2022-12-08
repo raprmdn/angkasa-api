@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "sq:cms": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all"
   },
   "author": "Kelompok 8",
   "license": "ISC",
@@ -26,6 +27,7 @@
     "joi-password-complexity": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.4",
+    "node-fetch": "^2.6.6",
     "nodemailer": "^6.8.0",
     "pg": "^8.8.0",
     "sequelize": "^6.23.1",
