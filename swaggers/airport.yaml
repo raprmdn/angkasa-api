@@ -4,21 +4,19 @@ info:
   description: API Documentation for Angkasa Final Project.
   version: 1.0.0
 tags:
-  - name: Role
-    description: Everything about Role
+  - name: Airport
+    description: Everything about Airport
     externalDocs:
       description: Find out more
       url: http://swagger.io
 paths:
-  /role:
+  /airports/popular:
     get:
       tags:
-        - Role
-      security:
-        - bearerAuth: [ ]
-      summary: Get list all roles
-      description: Endpoint to get list roles
-      operationId: getRoles
+        - Airport
+      summary: Get popular airports
+      description: Endpoint to get 10 popular airports
+      operationId: popularAirports
       responses:
         '200':
           description: OK
@@ -35,30 +33,68 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success to get all Roles
+                    example: Popular airports retrieved successfully
                   data:
                     type: object
                     properties:
-                      roles:
+                      airports:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Role'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                          $ref: '#/components/schemas/Airport'
         '500':
           $ref: '#/components/responses/InternalServerError'
-    post:
+  /airports/search:
+    get:
       tags:
-        - Role
+        - Airport
       security:
         - bearerAuth: [ ]
-      summary: Create a new role
-      description: Endpoint to create a new role
-      operationId: createRole
+      summary: Search airport
+      description: Endpoint to get a airport
+      operationId: searchAirport
+      parameters:
+        - name: airport
+          in: query
+          description: 'The airport query param for search the airport.'
+          required: true
+          schema:
+            type: string
+            example: 'Jakarta'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Airports retrieved successfully
+                  data:
+                    type: object
+                    properties:
+                      airports:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Airport'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /airports:
+    post:
+      tags:
+        - Airport
+      security:
+        - bearerAuth: [ ]
+      summary: Create a new airport
+      description: Endpoint to create a new airport
+      operationId: createAirport
       requestBody:
         description: Create a new role
         content:
@@ -66,9 +102,24 @@ paths:
             schema:
               required:
                 - name
+                - country
+                - region
+                - municipality
+                - iata
+                - type
               type: object
               properties:
                 name:
+                  type: string
+                country:
+                  type: string
+                region:
+                  type: string
+                municipality:
+                  type: string
+                iata:
+                  type: string
+                type:
                   type: string
         required:
           true
@@ -88,26 +139,24 @@ paths:
                     example: CREATED
                   message:
                     type: string
-                    example: Success to created a new Role
+                    example: Airport created successfully
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /role/{id}:
+  /airports/{id}:
     get:
       tags:
-        - Role
+        - Airport
       security:
         - bearerAuth: [ ]
-      summary: Find role by id
-      description: Endpoint to get list roles
-      operationId: findRoleById
+      summary: Show a airport
+      description: Endpoint to get a airport
+      operationId: showAirport
       parameters:
         - name: id
           in: path
@@ -131,19 +180,13 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success to get all Roles
+                    example: Airport retrieved successfully
                   data:
                     type: object
                     properties:
-                      role:
-                        allOf:
-                          - $ref: '#/components/schemas/Role'
-                          - type: object
-                            properties:
-                              users:
-                                type: array
-                                items:
-                                  $ref: '#/components/schemas/User'
+                      airport:
+                        $ref: '#/components/schemas/Airport'
+
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -154,29 +197,44 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     put:
       tags:
-        - Role
+        - Airport
       security:
         - bearerAuth: [ ]
-      summary: Update role
-      description: Endpoint to update a role
-      operationId: updateRole
+      summary: Update a aiport
+      description: Endpoint to update a airport
+      operationId: updateAirport
       parameters:
         - name: id
           in: path
-          description: 'The id params that needs to be provided for update the role'
+          description: 'The id params that needs to be proviede for update airport'
           required: true
           schema:
             type: number
       requestBody:
-        description: Update a existing role
+        description: Update airport request body
         content:
           application/json:
             schema:
               required:
                 - name
+                - country
+                - region
+                - municipality
+                - iata
+                - type
               type: object
               properties:
                 name:
+                  type: string
+                country:
+                  type: string
+                region:
+                  type: string
+                municipality:
+                  type: string
+                iata:
+                  type: string
+                type:
                   type: string
         required:
           true
@@ -196,7 +254,13 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success to updated a role
+                    example: Airport updated successfully
+                  data:
+                    type: object
+                    properties:
+                      airport:
+                        $ref: '#/components/schemas/Airport'
+
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -209,16 +273,16 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       tags:
-        - Role
+        - Airport
       security:
         - bearerAuth: [ ]
-      summary: Delete a role
-      description: Endpoint to delete a role
-      operationId: deleteRoleById
+      summary: Delete a aiport
+      description: Endpoint to delete a airport
+      operationId: deleteAirport
       parameters:
         - name: id
           in: path
-          description: 'The id params that needs to be provided for deleting any role.'
+          description: 'The id params that needs to be proviede for update airport'
           required: true
           schema:
             type: number
@@ -238,106 +302,13 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success to deleted a role
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /role/check-user-role:
-    get:
-      tags:
-        - Role
-      security:
-        - bearerAuth: [ ]
-      summary: Check user role
-      description: Endpoint to check current user role
-      operationId: checkCurrentUserRole
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    example: 200
-                  status:
-                    type: string
-                    example: OK
-                  message:
-                    type: string
-                    example: Success check user current role
-                  data:
-                    type: object
-                    properties:
-                      role:
-                        type: object
-                        properties:
-                          name:
-                            type: string
+                    example: Airport deleted successfully
 
         '401':
           $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /role/assign-role:
-    put:
-      tags:
-        - Role
-      security:
-        - bearerAuth: [ ]
-      summary: Update role
-      description: Endpoint to update a role
-      operationId: assignRole
-      requestBody:
-        description: Update a existing role
-        content:
-          application/json:
-            schema:
-              required:
-                - name
-              type: object
-              properties:
-                roleId:
-                  type: number
-                userId:
-                  type: number
-        required:
-          true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    example: 200
-                  status:
-                    type: string
-                    example: OK
-                  message:
-                    type: string
-                    example: Success assign role
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
-        '422':
-          $ref: '#/components/responses/ValidationError'
         '500':
           $ref: '#/components/responses/InternalServerError'

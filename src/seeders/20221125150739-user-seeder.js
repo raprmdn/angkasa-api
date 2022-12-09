@@ -40,7 +40,7 @@ module.exports = {
                 email: 'user@email.com',
                 password: await bcrypt.hash('Abc123456!', 10),
                 emailVerifiedAt: new Date(),
-                roleId: 1,
+                roleId: 2,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             }
