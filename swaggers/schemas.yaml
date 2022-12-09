@@ -72,3 +72,40 @@ components:
         type:
           type: string
           example: large_airport
+    Airline:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: GARUDA INDONESIA
+        logo:
+          type: string
+        airlineIata:
+          type: string
+          example: GA
+        createdAt:
+          type: string
+          example: 2022-11-25 22:18:32
+        updatedAt:
+          type: string
+          example: 2022-11-25 22:18:32
+    Benefit:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: BAGASI 20 KG
+        logo:
+          type: string
+        createdAt:
+          type: string
+          example: 2022-11-25 22:18:32
+        updatedAt:
+          type: string
+          example: 2022-11-25 22:18:32

@@ -4,19 +4,19 @@ info:
   description: API Documentation for Angkasa Final Project.
   version: 1.0.0
 tags:
-  - name: Airport
-    description: Everything about Airport
+  - name: Airline
+    description: Everything about Airline
     externalDocs:
       description: Find out more
       url: http://swagger.io
 paths:
-  /airports/popular:
+  /airline:
     get:
       tags:
-        - Airport
-      summary: Get popular airports
-      description: Endpoint to get 10 popular airports
-      operationId: popularAirports
+        - Airline
+      summary: Find all airlines
+      description: Endpoint to get all airlines
+      operationId: getAirline
       responses:
         '200':
           description: OK
@@ -33,93 +33,42 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Popular airports retrieved successfully
+                    example: Success to get all Airlines
                   data:
                     type: object
                     properties:
                       airports:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Airport'
+                          $ref: '#/components/schemas/Airline'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /airports/search:
-    get:
-      tags:
-        - Airport
-      security:
-        - bearerAuth: [ ]
-      summary: Search airport
-      description: Endpoint to get a airport
-      operationId: searchAirport
-      parameters:
-        - name: airport
-          in: query
-          description: 'The airport query param for search the airport.'
-          required: true
-          schema:
-            type: string
-            example: 'Jakarta'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    example: 200
-                  status:
-                    type: string
-                    example: OK
-                  message:
-                    type: string
-                    example: Airports retrieved successfully
-                  data:
-                    type: object
-                    properties:
-                      airports:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Airport'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /airports:
     post:
       tags:
-        - Airport
+        - Airline
       security:
         - bearerAuth: [ ]
-      summary: Create a new airport
-      description: Endpoint to create a new airport
-      operationId: createAirport
+      summary: Create a new airline
+      description: Endpoint to create a new airline
+      operationId: createAirline
       requestBody:
-        description: Create a new role
+        description: Create a new airline
         content:
           application/json:
             schema:
               required:
                 - name
-                - country
-                - region
-                - municipality
+                - logo
                 - iata
-                - type
               type: object
               properties:
                 name:
                   type: string
-                country:
-                  type: string
-                region:
-                  type: string
-                municipality:
+                logo:
                   type: string
                 iata:
-                  type: string
-                type:
                   type: string
         required:
           true
@@ -139,7 +88,12 @@ paths:
                     example: CREATED
                   message:
                     type: string
-                    example: Airport created successfully
+                    example: Success to created a new Airline
+                  data:
+                    type: object
+                    properties:
+                      airport:
+                        $ref: '#/components/schemas/Airline'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -148,15 +102,15 @@ paths:
           $ref: '#/components/responses/ValidationError'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /airports/{id}:
+  /airline/{id}:
     get:
       tags:
-        - Airport
+        - Airline
       security:
         - bearerAuth: [ ]
-      summary: Show a airport
-      description: Endpoint to get a airport
-      operationId: showAirport
+      summary: Show a airline
+      description: Endpoint to get a airline
+      operationId: showAirline
       parameters:
         - name: id
           in: path
@@ -180,13 +134,12 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Airport retrieved successfully
+                    example: Success to get an Airline
                   data:
                     type: object
                     properties:
-                      airport:
-                        $ref: '#/components/schemas/Airport'
-
+                      airline:
+                        $ref: '#/components/schemas/Airline'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -197,44 +150,35 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     put:
       tags:
-        - Airport
+        - Airline
       security:
         - bearerAuth: [ ]
-      summary: Update a aiport
-      description: Endpoint to update a airport
-      operationId: updateAirport
+      summary: Update a airline
+      description: Endpoint to update a airline
+      operationId: updateAirline
       parameters:
         - name: id
           in: path
-          description: 'The id params that needs to be proviede for update airport'
+          description: 'The id params that needs to be provided for update airline'
           required: true
           schema:
             type: number
       requestBody:
-        description: Update airport request body
+        description: Create a new airline
         content:
           application/json:
             schema:
               required:
                 - name
-                - country
-                - region
-                - municipality
+                - logo
                 - iata
-                - type
               type: object
               properties:
                 name:
                   type: string
-                country:
-                  type: string
-                region:
-                  type: string
-                municipality:
+                logo:
                   type: string
                 iata:
-                  type: string
-                type:
                   type: string
         required:
           true
@@ -254,13 +198,12 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Airport updated successfully
+                    example: Succes to update an Airline
                   data:
                     type: object
                     properties:
                       airport:
-                        $ref: '#/components/schemas/Airport'
-
+                        $ref: '#/components/schemas/Airline'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -273,16 +216,16 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       tags:
-        - Airport
+        - Airline
       security:
         - bearerAuth: [ ]
-      summary: Delete a aiport
-      description: Endpoint to delete a airport
-      operationId: deleteAirport
+      summary: Delete a airline
+      description: Endpoint to delete a airline
+      operationId: deleteAirline
       parameters:
         - name: id
           in: path
-          description: 'The id params that needs to be proviede for update airport'
+          description: 'The id params that needs to be provided for delete airport'
           required: true
           schema:
             type: number
@@ -302,8 +245,7 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Airport deleted successfully
-
+                    example: Success to deleted a Airline
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':

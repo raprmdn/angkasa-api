@@ -43,6 +43,22 @@ const swaggerDefinition = {
                 url: '#'
             }
         },
+        {
+            name: 'Airline',
+            description: 'Everything about Airline',
+            externalDocs: {
+                description: 'Find out more',
+                url: '#'
+            }
+        },
+        {
+            name: 'Benefit',
+            description: 'Everything about Benefit',
+            externalDocs: {
+                description: 'Find out more',
+                url: '#'
+            }
+        },
     ],
     basePath: '/api'
 };

@@ -4,19 +4,19 @@ info:
   description: API Documentation for Angkasa Final Project.
   version: 1.0.0
 tags:
-  - name: Airport
-    description: Everything about Airport
+  - name: Benefit
+    description: Everything about Benefit
     externalDocs:
       description: Find out more
       url: http://swagger.io
 paths:
-  /airports/popular:
+  /benefit:
     get:
       tags:
-        - Airport
-      summary: Get popular airports
-      description: Endpoint to get 10 popular airports
-      operationId: popularAirports
+        - Benefit
+      summary: Find all benefits
+      description: Endpoint to get all benefit
+      operationId: getBenefit
       responses:
         '200':
           description: OK
@@ -33,93 +33,39 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Popular airports retrieved successfully
+                    example: Success to get all Airlines
                   data:
                     type: object
                     properties:
-                      airports:
+                      benefits:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Airport'
+                          $ref: '#/components/schemas/Benefit'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /airports/search:
-    get:
-      tags:
-        - Airport
-      security:
-        - bearerAuth: [ ]
-      summary: Search airport
-      description: Endpoint to get a airport
-      operationId: searchAirport
-      parameters:
-        - name: airport
-          in: query
-          description: 'The airport query param for search the airport.'
-          required: true
-          schema:
-            type: string
-            example: 'Jakarta'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    example: 200
-                  status:
-                    type: string
-                    example: OK
-                  message:
-                    type: string
-                    example: Airports retrieved successfully
-                  data:
-                    type: object
-                    properties:
-                      airports:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Airport'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /airports:
     post:
       tags:
-        - Airport
+        - Benefit
       security:
         - bearerAuth: [ ]
-      summary: Create a new airport
-      description: Endpoint to create a new airport
-      operationId: createAirport
+      summary: Create a new benefit
+      description: Endpoint to create a new benefit
+      operationId: createBenefit
       requestBody:
-        description: Create a new role
+        description: Create a new benefit
         content:
           application/json:
             schema:
               required:
                 - name
-                - country
-                - region
-                - municipality
-                - iata
-                - type
+                - icon
               type: object
               properties:
                 name:
                   type: string
-                country:
-                  type: string
-                region:
-                  type: string
-                municipality:
-                  type: string
-                iata:
-                  type: string
-                type:
+                icon:
                   type: string
         required:
           true
@@ -139,7 +85,12 @@ paths:
                     example: CREATED
                   message:
                     type: string
-                    example: Airport created successfully
+                    example: Success to created a new Benefit
+                  data:
+                    type: object
+                    properties:
+                      benefit:
+                        $ref: '#/components/schemas/Benefit'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -148,15 +99,15 @@ paths:
           $ref: '#/components/responses/ValidationError'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /airports/{id}:
+  /benefit/{id}:
     get:
       tags:
-        - Airport
+        - Benefit
       security:
         - bearerAuth: [ ]
-      summary: Show a airport
-      description: Endpoint to get a airport
-      operationId: showAirport
+      summary: Show a benefit
+      description: Endpoint to get a benefit
+      operationId: showBenefit
       parameters:
         - name: id
           in: path
@@ -180,13 +131,12 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Airport retrieved successfully
+                    example: Success to get a Benefit
                   data:
                     type: object
                     properties:
-                      airport:
-                        $ref: '#/components/schemas/Airport'
-
+                      airline:
+                        $ref: '#/components/schemas/Benefit'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -197,47 +147,35 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     put:
       tags:
-        - Airport
+        - Benefit
       security:
         - bearerAuth: [ ]
-      summary: Update a aiport
-      description: Endpoint to update a airport
-      operationId: updateAirport
-      parameters:
-        - name: id
-          in: path
-          description: 'The id params that needs to be proviede for update airport'
-          required: true
-          schema:
-            type: number
+      summary: Update a benefit
+      description: Endpoint to update a benefit
+      operationId: updateBenefit
       requestBody:
-        description: Update airport request body
+        description: Create a new benefit
         content:
           application/json:
             schema:
               required:
                 - name
-                - country
-                - region
-                - municipality
-                - iata
-                - type
+                - icon
               type: object
               properties:
                 name:
                   type: string
-                country:
-                  type: string
-                region:
-                  type: string
-                municipality:
-                  type: string
-                iata:
-                  type: string
-                type:
+                icon:
                   type: string
         required:
           true
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be provided for update airline'
+          required: true
+          schema:
+            type: number
       responses:
         '200':
           description: OK
@@ -254,13 +192,12 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Airport updated successfully
+                    example: Success to updated a Benefit
                   data:
                     type: object
                     properties:
-                      airport:
-                        $ref: '#/components/schemas/Airport'
-
+                      benefit:
+                        $ref: '#/components/schemas/Benefit'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -273,16 +210,16 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       tags:
-        - Airport
+        - Benefit
       security:
         - bearerAuth: [ ]
-      summary: Delete a aiport
-      description: Endpoint to delete a airport
-      operationId: deleteAirport
+      summary: Delete a benefit
+      description: Endpoint to delete a benefit
+      operationId: deleteBenefit
       parameters:
         - name: id
           in: path
-          description: 'The id params that needs to be proviede for update airport'
+          description: 'The id params that needs to be provided for delete benefit'
           required: true
           schema:
             type: number
@@ -302,8 +239,7 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Airport deleted successfully
-
+                    example: Success to deleted a Benefit
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
