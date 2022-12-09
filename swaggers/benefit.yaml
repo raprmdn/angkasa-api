@@ -103,8 +103,6 @@ paths:
     get:
       tags:
         - Benefit
-      security:
-        - bearerAuth: [ ]
       summary: Show a benefit
       description: Endpoint to get a benefit
       operationId: showBenefit
