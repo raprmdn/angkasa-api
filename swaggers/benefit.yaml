@@ -4,21 +4,19 @@ info:
   description: API Documentation for Angkasa Final Project.
   version: 1.0.0
 tags:
-  - name: Role
-    description: Everything about Role
+  - name: Benefit
+    description: Everything about Benefit
     externalDocs:
       description: Find out more
       url: http://swagger.io
 paths:
-  /role:
+  /benefit:
     get:
       tags:
-        - Role
-      security:
-        - bearerAuth: [ ]
-      summary: Get list all roles
-      description: Endpoint to get list roles
-      operationId: getRoles
+        - Benefit
+      summary: Find all benefits
+      description: Endpoint to get all benefit
+      operationId: getBenefit
       responses:
         '200':
           description: OK
@@ -35,40 +33,39 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success to get all Roles
+                    example: Success to get all Airlines
                   data:
                     type: object
                     properties:
-                      roles:
+                      benefits:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Role'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
+                          $ref: '#/components/schemas/Benefit'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
     post:
       tags:
-        - Role
+        - Benefit
       security:
         - bearerAuth: [ ]
-      summary: Create a new role
-      description: Endpoint to create a new role
-      operationId: createRole
+      summary: Create a new benefit
+      description: Endpoint to create a new benefit
+      operationId: createBenefit
       requestBody:
-        description: Create a new role
+        description: Create a new benefit
         content:
           application/json:
             schema:
               required:
                 - name
+                - icon
               type: object
               properties:
                 name:
+                  type: string
+                icon:
                   type: string
         required:
           true
@@ -88,26 +85,29 @@ paths:
                     example: CREATED
                   message:
                     type: string
-                    example: Success to created a new Role
+                    example: Success to created a new Benefit
+                  data:
+                    type: object
+                    properties:
+                      benefit:
+                        $ref: '#/components/schemas/Benefit'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /role/{id}:
+  /benefit/{id}:
     get:
       tags:
-        - Role
+        - Benefit
       security:
         - bearerAuth: [ ]
-      summary: Find role by id
-      description: Endpoint to get list roles
-      operationId: findRoleById
+      summary: Show a benefit
+      description: Endpoint to get a benefit
+      operationId: showBenefit
       parameters:
         - name: id
           in: path
@@ -131,19 +131,12 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success to get all Roles
+                    example: Success to get a Benefit
                   data:
                     type: object
                     properties:
-                      role:
-                        allOf:
-                          - $ref: '#/components/schemas/Role'
-                          - type: object
-                            properties:
-                              users:
-                                type: array
-                                items:
-                                  $ref: '#/components/schemas/User'
+                      airline:
+                        $ref: '#/components/schemas/Benefit'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -154,32 +147,35 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     put:
       tags:
-        - Role
+        - Benefit
       security:
         - bearerAuth: [ ]
-      summary: Update role
-      description: Endpoint to update a role
-      operationId: updateRole
-      parameters:
-        - name: id
-          in: path
-          description: 'The id params that needs to be provided for update the role'
-          required: true
-          schema:
-            type: number
+      summary: Update a benefit
+      description: Endpoint to update a benefit
+      operationId: updateBenefit
       requestBody:
-        description: Update a existing role
+        description: Create a new benefit
         content:
           application/json:
             schema:
               required:
                 - name
+                - icon
               type: object
               properties:
                 name:
                   type: string
+                icon:
+                  type: string
         required:
           true
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be provided for update airline'
+          required: true
+          schema:
+            type: number
       responses:
         '200':
           description: OK
@@ -196,7 +192,12 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success to updated a role
+                    example: Success to updated a Benefit
+                  data:
+                    type: object
+                    properties:
+                      benefit:
+                        $ref: '#/components/schemas/Benefit'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -209,16 +210,16 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       tags:
-        - Role
+        - Benefit
       security:
         - bearerAuth: [ ]
-      summary: Delete a role
-      description: Endpoint to delete a role
-      operationId: deleteRoleById
+      summary: Delete a benefit
+      description: Endpoint to delete a benefit
+      operationId: deleteBenefit
       parameters:
         - name: id
           in: path
-          description: 'The id params that needs to be provided for deleting any role.'
+          description: 'The id params that needs to be provided for delete benefit'
           required: true
           schema:
             type: number
@@ -238,106 +239,12 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success to deleted a role
-        '400':
-          $ref: '#/components/responses/BadRequest'
+                    example: Success to deleted a Benefit
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /role/check-user-role:
-    get:
-      tags:
-        - Role
-      security:
-        - bearerAuth: [ ]
-      summary: Check user role
-      description: Endpoint to check current user role
-      operationId: checkCurrentUserRole
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    example: 200
-                  status:
-                    type: string
-                    example: OK
-                  message:
-                    type: string
-                    example: Success check user current role
-                  data:
-                    type: object
-                    properties:
-                      role:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /role/assign-role:
-    put:
-      tags:
-        - Role
-      security:
-        - bearerAuth: [ ]
-      summary: Update role
-      description: Endpoint to update a role
-      operationId: assignRole
-      requestBody:
-        description: Update a existing role
-        content:
-          application/json:
-            schema:
-              required:
-                - name
-              type: object
-              properties:
-                roleId:
-                  type: number
-                userId:
-                  type: number
-        required:
-          true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    example: 200
-                  status:
-                    type: string
-                    example: OK
-                  message:
-                    type: string
-                    example: Success assign role
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '422':
-          $ref: '#/components/responses/ValidationError'
         '500':
           $ref: '#/components/responses/InternalServerError'
