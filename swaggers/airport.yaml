@@ -47,8 +47,6 @@ paths:
     get:
       tags:
         - Airport
-      security:
-        - bearerAuth: [ ]
       summary: Search airport
       description: Endpoint to get a airport
       operationId: searchAirport

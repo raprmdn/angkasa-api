@@ -106,8 +106,6 @@ paths:
     get:
       tags:
         - Airline
-      security:
-        - bearerAuth: [ ]
       summary: Show a airline
       description: Endpoint to get a airline
       operationId: showAirline
