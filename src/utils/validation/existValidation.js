@@ -1,5 +1,5 @@
 const Joi = require("joi");
-const { User, Role, Airline } = require("../../models");
+const { User, Role, Airline, Benefit } = require("../../models");
 
 const customThrowErrorJoiString = (msg, field) => {
   throw new Joi.ValidationError(
@@ -58,6 +58,18 @@ module.exports = {
       })
       if (airline && airline.id !== +id) {
         customThrowErrorJoiString("Airline IATA already exist", "iata");
+      }
+    }
+  },
+  isBenefitNameExist: async (benefitName, id=null) => {
+    if(benefitName) {
+      const benefit = await Benefit.findOne({
+        where: {
+          name: benefitName.toUpperCase()
+        }
+      })
+      if (benefit && benefit.id !== +id) {
+        customThrowErrorJoiString("Benefit name already exist", "name");
       }
     }
   }
