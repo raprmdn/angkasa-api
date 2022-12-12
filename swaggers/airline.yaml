@@ -4,21 +4,19 @@ info:
   description: API Documentation for Angkasa Final Project.
   version: 1.0.0
 tags:
-  - name: Role
-    description: Everything about Role
+  - name: Airline
+    description: Everything about Airline
     externalDocs:
       description: Find out more
       url: http://swagger.io
 paths:
-  /role:
+  /airline:
     get:
       tags:
-        - Role
-      security:
-        - bearerAuth: [ ]
-      summary: Get list all roles
-      description: Endpoint to get list roles
-      operationId: getRoles
+        - Airline
+      summary: Find all airlines
+      description: Endpoint to get all airlines
+      operationId: getAirline
       responses:
         '200':
           description: OK
@@ -35,40 +33,42 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success to get all Roles
+                    example: Success to get all Airlines
                   data:
                     type: object
                     properties:
-                      roles:
+                      airports:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Role'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
+                          $ref: '#/components/schemas/Airline'
         '404':
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/InternalServerError'
     post:
       tags:
-        - Role
+        - Airline
       security:
         - bearerAuth: [ ]
-      summary: Create a new role
-      description: Endpoint to create a new role
-      operationId: createRole
+      summary: Create a new airline
+      description: Endpoint to create a new airline
+      operationId: createAirline
       requestBody:
-        description: Create a new role
+        description: Create a new airline
         content:
           application/json:
             schema:
               required:
                 - name
+                - logo
+                - iata
               type: object
               properties:
                 name:
+                  type: string
+                logo:
+                  type: string
+                iata:
                   type: string
         required:
           true
@@ -88,26 +88,27 @@ paths:
                     example: CREATED
                   message:
                     type: string
-                    example: Success to created a new Role
+                    example: Success to created a new Airline
+                  data:
+                    type: object
+                    properties:
+                      airport:
+                        $ref: '#/components/schemas/Airline'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /role/{id}:
+  /airline/{id}:
     get:
       tags:
-        - Role
-      security:
-        - bearerAuth: [ ]
-      summary: Find role by id
-      description: Endpoint to get list roles
-      operationId: findRoleById
+        - Airline
+      summary: Show a airline
+      description: Endpoint to get a airline
+      operationId: showAirline
       parameters:
         - name: id
           in: path
@@ -131,19 +132,12 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success to get all Roles
+                    example: Success to get an Airline
                   data:
                     type: object
                     properties:
-                      role:
-                        allOf:
-                          - $ref: '#/components/schemas/Role'
-                          - type: object
-                            properties:
-                              users:
-                                type: array
-                                items:
-                                  $ref: '#/components/schemas/User'
+                      airline:
+                        $ref: '#/components/schemas/Airline'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -154,29 +148,35 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     put:
       tags:
-        - Role
+        - Airline
       security:
         - bearerAuth: [ ]
-      summary: Update role
-      description: Endpoint to update a role
-      operationId: updateRole
+      summary: Update a airline
+      description: Endpoint to update a airline
+      operationId: updateAirline
       parameters:
         - name: id
           in: path
-          description: 'The id params that needs to be provided for update the role'
+          description: 'The id params that needs to be provided for update airline'
           required: true
           schema:
             type: number
       requestBody:
-        description: Update a existing role
+        description: Create a new airline
         content:
           application/json:
             schema:
               required:
                 - name
+                - logo
+                - iata
               type: object
               properties:
                 name:
+                  type: string
+                logo:
+                  type: string
+                iata:
                   type: string
         required:
           true
@@ -196,7 +196,12 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success to updated a role
+                    example: Succes to update an Airline
+                  data:
+                    type: object
+                    properties:
+                      airport:
+                        $ref: '#/components/schemas/Airline'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -209,16 +214,16 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       tags:
-        - Role
+        - Airline
       security:
         - bearerAuth: [ ]
-      summary: Delete a role
-      description: Endpoint to delete a role
-      operationId: deleteRoleById
+      summary: Delete a airline
+      description: Endpoint to delete a airline
+      operationId: deleteAirline
       parameters:
         - name: id
           in: path
-          description: 'The id params that needs to be provided for deleting any role.'
+          description: 'The id params that needs to be provided for delete airport'
           required: true
           schema:
             type: number
@@ -238,106 +243,12 @@ paths:
                     example: OK
                   message:
                     type: string
-                    example: Success to deleted a role
-        '400':
-          $ref: '#/components/responses/BadRequest'
+                    example: Success to deleted a Airline
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /role/check-user-role:
-    get:
-      tags:
-        - Role
-      security:
-        - bearerAuth: [ ]
-      summary: Check user role
-      description: Endpoint to check current user role
-      operationId: checkCurrentUserRole
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    example: 200
-                  status:
-                    type: string
-                    example: OK
-                  message:
-                    type: string
-                    example: Success check user current role
-                  data:
-                    type: object
-                    properties:
-                      role:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /role/assign-role:
-    put:
-      tags:
-        - Role
-      security:
-        - bearerAuth: [ ]
-      summary: Update role
-      description: Endpoint to update a role
-      operationId: assignRole
-      requestBody:
-        description: Update a existing role
-        content:
-          application/json:
-            schema:
-              required:
-                - name
-              type: object
-              properties:
-                roleId:
-                  type: number
-                userId:
-                  type: number
-        required:
-          true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    example: 200
-                  status:
-                    type: string
-                    example: OK
-                  message:
-                    type: string
-                    example: Success assign role
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '422':
-          $ref: '#/components/responses/ValidationError'
         '500':
           $ref: '#/components/responses/InternalServerError'
