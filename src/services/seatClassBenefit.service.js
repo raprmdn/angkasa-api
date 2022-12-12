@@ -9,8 +9,16 @@ module.exports = {
   createSeatClassBenefit: async (req) => {
     try {
       const { seatClassId, benefitId } = req.body;
-
-      await isSeatClassBenefitExist(seatClassId, benefitId);
+      const seatClassBenefit = await SeatClassBenefit.findOne({
+        where: { seatClassId: seatClassId, benefitId: benefitId },
+      });
+      if (seatClassBenefit) {
+        throw apiResponse(
+          status.INTERNAL_SERVER_ERROR,
+          "INTERNAL_SERVER_ERROR",
+          "Seat class already have benefits"
+        );
+      }
 
       const newSeatClassBenefit = await SeatClassBenefit.create({
         seatClassId: seatClassId,
