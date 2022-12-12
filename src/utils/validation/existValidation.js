@@ -1,5 +1,11 @@
 const Joi = require("joi");
-const { User, Role, Airline, Benefit } = require("../../models");
+const {
+  User,
+  Role,
+  Airline,
+  Benefit,
+  SeatClassBenefit,
+} = require("../../models");
 
 const customThrowErrorJoiString = (msg, field) => {
   throw new Joi.ValidationError(
@@ -37,40 +43,67 @@ module.exports = {
     return true;
   },
   isRoleNameExist: async (roleName, id = null) => {
-    const role = await Role.findOne({where: {name: roleName.toUpperCase()}})
+    const role = await Role.findOne({
+      where: { name: roleName.toUpperCase() },
+    });
     if (role && role.id !== +id) {
       customThrowErrorJoiString("Role name already exist", "name");
     }
     return true;
   },
-  isAirlineNameExist: async (airlineName, id=null) => {
-    if (airlineName){
-      const airline = await Airline.findOne({where: {name: airlineName.toUpperCase()}})
+  isAirlineNameExist: async (airlineName, id = null) => {
+    if (airlineName) {
+      const airline = await Airline.findOne({
+        where: { name: airlineName.toUpperCase() },
+      });
       if (airline && airline.id !== +id) {
         customThrowErrorJoiString("Airline name already exist", "name");
       }
     }
   },
-  isAirlineIataExist: async (airlineIata, id=null) => {
-    if(airlineIata){
+  isAirlineIataExist: async (airlineIata, id = null) => {
+    if (airlineIata) {
       const airline = await Airline.findOne({
-        where: {airlineIata: airlineIata.toUpperCase()}
-      })
+        where: { airlineIata: airlineIata.toUpperCase() },
+      });
       if (airline && airline.id !== +id) {
         customThrowErrorJoiString("Airline IATA already exist", "iata");
       }
     }
   },
-  isBenefitNameExist: async (benefitName, id=null) => {
-    if(benefitName) {
+  isBenefitNameExist: async (benefitName, id = null) => {
+    if (benefitName) {
       const benefit = await Benefit.findOne({
         where: {
-          name: benefitName.toUpperCase()
-        }
-      })
+          name: benefitName.toUpperCase(),
+        },
+      });
       if (benefit && benefit.id !== +id) {
         customThrowErrorJoiString("Benefit name already exist", "name");
       }
     }
-  }
+  },
+  isBenefitAvailable: async (benefitId) => {
+    const benefit = await Benefit.findOne({
+      where: {
+        id: benefitId,
+      },
+    });
+    if (!benefit) {
+      customThrowErrorJoiString("Benefit doesn't exist", "benefit");
+    }
+    return true;
+  },
+  isSeatClassBenefitExist: async (benefitId, seatClassId) => {
+    const seatClassBenefit = await SeatClassBenefit.findOne({
+      where: { seatClassId: seatClassId, benefitId: benefitId },
+    });
+    if (seatClassBenefit) {
+      customThrowErrorJoiString(
+        "Seat class already have benefits",
+        "benefitId"
+      );
+    }
+    return true;
+  },
 };
