@@ -78,4 +78,45 @@ module.exports = {
 
     next();
   },
+  updateProfile: async (req, res, next) => {
+    const schema = Joi.object({
+      fullname: Joi.string().max(255).label("fullname"),
+      username: Joi.string()
+        .min(5)
+        .max(25)
+        .label("username")
+        .external(async (value) => {
+          return await isUsernameExist(value);
+        }),
+    });
+
+    try {
+      await schema.validateAsync(req.body, options);
+      next();
+    } catch (e) {
+      return res
+        .status(status.UNPROCESSABLE_ENTITY)
+        .json(apiResponseValidationError(e));
+    }
+  },
+  updatePassword: async (req, res, next) => {
+    const schema = Joi.object({
+      oldPassword: Joi.string().required().label("oldPassword"),
+      newPassword: passwordComplexity(complexityOptions).label("newPassword"),
+      newPasswordConfirmation: Joi.string()
+        .valid(Joi.ref("newPassword"))
+        .required()
+        .label("newPasswordConfirmation")
+        .options({ messages: { "any.only": "{{#label}} does not match" } }),
+    });
+
+    try {
+      await schema.validateAsync(req.body, options);
+      next();
+    } catch (e) {
+      return res
+        .status(status.UNPROCESSABLE_ENTITY)
+        .json(apiResponseValidationError(e));
+    }
+  },
 };
