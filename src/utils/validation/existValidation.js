@@ -4,6 +4,7 @@ const {
   Role,
   Airline,
   Benefit,
+  SeatClass,
   SeatClassBenefit,
 } = require("../../models");
 
@@ -91,6 +92,17 @@ module.exports = {
     });
     if (!benefit) {
       customThrowErrorJoiString("Benefit doesn't exist", "benefit");
+    }
+    return true;
+  },
+  isSeatClassAvailable: async (seatClassId) => {
+    const seatClass = await SeatClass.findOne({
+      where: {
+        id: seatClassId,
+      },
+    });
+    if (!seatClass) {
+      customThrowErrorJoiString("Seat Class doesn't exist", "seatClass");
     }
     return true;
   },
