@@ -7,10 +7,10 @@ const {
 const { authentication } = require("../middlewares/authentication.middleware");
 const { hasRole } = require("../middlewares/authorization.middleware");
 
-router.get("/", SCBController.getSeatClassBenefits);
-router.get("/benefit", SCBController.getSeatClass);
+router.get("/", SCBController.getSeatClass);
+router.get("/benefit", SCBController.getSeatClassBenefits);
 router.post(
-  "/",
+  "/benefit",
   authentication,
   hasRole(["ADMIN"]),
   seatClassBenefitCreateValidation,

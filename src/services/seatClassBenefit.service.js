@@ -10,7 +10,7 @@ module.exports = {
     try {
       const { seatClassId, benefitId } = req.body;
 
-      // await isSeatClassBenefitExist(seatClassId, benefitId);
+      await isSeatClassBenefitExist(seatClassId, benefitId);
 
       const newSeatClassBenefit = await SeatClassBenefit.create({
         seatClassId: seatClassId,
@@ -36,9 +36,9 @@ module.exports = {
 
   getSeatClassBenefits: async (req) => {
     try {
-      const SeatClassBenefit = await SeatClassBenefit.findAll();
+      const seatClassBenefit = await SeatClassBenefit.findAll();
 
-      if (!SeatClassBenefit)
+      if (!seatClassBenefit)
         throw apiResponse(
           status.NOT_FOUND,
           "NOT_FOUND",
@@ -51,7 +51,7 @@ module.exports = {
         "OK",
         "Success to get all seat class benefits",
         {
-          SeatClassBenefit,
+          seatClassBenefit,
         }
       );
     } catch (error) {

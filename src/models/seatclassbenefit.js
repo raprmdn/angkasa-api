@@ -9,13 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      SeatClassBenefit.belongsTo(models.Benefit, {
-        foreignKey: "benefitId",
-        as: "benefit",
-      });
       SeatClassBenefit.belongsTo(models.SeatClass, {
         foreignKey: "seatClassId",
         as: "seatClass",
+      });
+      SeatClassBenefit.belongsTo(models.Benefit, {
+        foreignKey: "benefitId",
+        as: "benefit",
       });
     }
   }
