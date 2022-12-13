@@ -1,32 +1,34 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('SeatClassBenefits', {
+        await queryInterface.createTable('AirplaneSeatClasses', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
+            airplaneId: {
+                type: Sequelize.INTEGER,
+                references: {
+                    model: 'Airplanes',
+                    key: 'id',
+                }
+            },
             seatClassId: {
                 type: Sequelize.INTEGER,
                 references: {
                     model: 'SeatClasses',
                     key: 'id',
-                },
+                }
             },
-            benefitId: {
+            seat: {
                 type: Sequelize.INTEGER,
-                references: {
-                    model: 'Benefits',
-                    key: 'id',
-                },
-            },
+            }
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('SeatClassBenefits');
+        await queryInterface.dropTable('AirplaneSeatClasses');
     }
 };

@@ -10,7 +10,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "BAGASI 20 KG",
+        name: "BAGASI 15 KG",
         icon: "https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png",
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -22,13 +22,19 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        name: "BAGASI 50 KG",
+        icon: "https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         name: "WIFI",
         icon: "https://cdn3.iconfinder.com/data/icons/feather-5/24/wifi-256.png",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        name: "MAKAN",
+        name: "MAKANAN",
         icon: "https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png",
         createdAt: new Date(),
         updatedAt: new Date(),

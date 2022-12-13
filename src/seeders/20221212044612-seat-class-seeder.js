@@ -15,7 +15,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        type: "BUSSINES",
+        type: "BUSINESS",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
