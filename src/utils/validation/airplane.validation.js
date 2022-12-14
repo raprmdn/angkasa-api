@@ -15,7 +15,7 @@ const options = {
 
 const seatClassValidation = Joi.object({
     seatClassId: Joi.number().required().label('Seat Class ID'),
-    seat: Joi.number().required().label('Seat Class Total Seat'),
+    seat: Joi.number().positive().required().label('Seat Number of Seat Class'),
 });
 
 module.exports = {
@@ -26,7 +26,7 @@ module.exports = {
             airplaneCode: Joi.string().required().uppercase({ force: true }).external(async (value) => {
                 return await isAirplaneCodeExists(value);
             }).label('Airplane Code'),
-            seat: Joi.number().required().label('Airplane Total Seat'),
+            seat: Joi.number().positive().required().label('Airplane Total Seat'),
             seatClass: Joi.array()
                 .items(seatClassValidation)
                 .has(seatClassValidation)
