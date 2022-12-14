@@ -12,14 +12,18 @@ module.exports = {
             type: {
                 type: Sequelize.STRING
             },
-            planeCode: {
+            airplaneCode: {
                 type: Sequelize.STRING
             },
             seat: {
                 type: Sequelize.INTEGER
             },
             airlineId: {
-                type: Sequelize.INTEGER
+                type: Sequelize.INTEGER,
+                references: {
+                    model: 'Airlines',
+                    key: 'id'
+                }
             },
             createdAt: {
                 allowNull: false,

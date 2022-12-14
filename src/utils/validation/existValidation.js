@@ -6,6 +6,7 @@ const {
   Benefit,
   SeatClass,
   SeatClassBenefit,
+  Airplane,
 } = require("../../models");
 
 const customThrowErrorJoiString = (msg, field) => {
@@ -118,4 +119,15 @@ module.exports = {
     }
     return true;
   },
+  isAirplaneCodeExists: async (airplaneCode, id = null) => {
+    const airplane = await Airplane.findOne({
+      where: { airplaneCode: airplaneCode }
+    });
+
+    if (airplane && airplane.id !== +id) {
+      customThrowErrorJoiString("Airplane code already exists", "airplaneCode");
+    }
+
+    return true;
+  }
 };
