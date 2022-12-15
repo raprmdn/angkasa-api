@@ -8,6 +8,7 @@ const AirlineRouter = require("./airline.route");
 const BenefitRouter = require("./benefit.route");
 const SCBRouter = require("./seatClassBenefit.route");
 const AirplaneRouter = require("./airplane.route");
+const NotificationRouter = require('./notification.route');
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.use("/airline", AirlineRouter);
 router.use("/benefit", BenefitRouter);
 router.use("/seat-class", SCBRouter);
 router.use('/airplanes', AirplaneRouter);
+router.use('/notifications', NotificationRouter);
 
 module.exports = router;
