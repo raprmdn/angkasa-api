@@ -8,6 +8,9 @@ const {
   SeatClassBenefit,
   Airplane,
 } = require("../../models");
+const fetch = require("node-fetch");
+const { apiResponse, apiNotFoundResponse } = require("../apiResponse.utils");
+const { StatusCodes: status } = require("http-status-codes");
 
 const customThrowErrorJoiString = (msg, field) => {
   throw new Joi.ValidationError(
@@ -129,5 +132,28 @@ module.exports = {
     }
 
     return true;
+  },
+  isExistsIata: async (req, iata, label) => {
+    try {
+      const res = await fetch(`https://port-api.com/airport/iata/${iata}`)
+          .catch((e) => {
+            console.error(`Error fetching airport on port-api.com: ${e}`);
+            throw apiResponse(status.INTERNAL_SERVER_ERROR, 'INTERNAL_SERVER_ERROR', e.message);
+          });
+      if (res.status !== 200) {
+        throw apiNotFoundResponse(`Airport with IATA '${iata}' not found`)
+      }
+
+      if (label === 'from') {
+        req.airportFrom = await res.json();
+      }
+      if (label === 'to') {
+        req.airportTo = await res.json();
+      }
+
+      return true;
+    } catch (e) {
+      throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+    }
   }
 };
