@@ -8,6 +8,7 @@ const { authentication } = require("../middlewares/authentication.middleware");
 const { hasRole } = require("../middlewares/authorization.middleware");
 
 router.get("/", SCBController.getSeatClass);
+router.get("/airplane/:id", SCBController.airplaneSeatClass);
 router.get("/benefit", SCBController.getSeatClassBenefits);
 router.post(
   "/benefit",
