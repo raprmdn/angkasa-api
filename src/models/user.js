@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'roleId',
                 as: 'role',
             });
+
+            User.hasMany(models.Notification, {
+              as: 'notifications',
+              foreignKey: 'userId'
+            })
         }
     }
     User.init({
@@ -34,5 +39,15 @@ module.exports = (sequelize, DataTypes) => {
         sequelize,
         modelName: 'User',
     });
+
+    User.addHook('afterCreate', async (user) => {
+      const firstName = user.fullname.split(' ')[0];
+      await sequelize.models.Notification.create({
+        userId: user.id,
+        title: `Hi ${firstName} 👋, Welcome to Angkasa !!`,
+        body: "Thanks for signing up. Ready to take off? Now no need worry if you want to go anywhere, find lots of flight ticket to various destination you want only in Angkasa",
+        type: "REGISTERED_NOTIFICATION",
+      })
+    })
     return User;
 };
