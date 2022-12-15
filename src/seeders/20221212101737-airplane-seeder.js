@@ -5,7 +5,7 @@ module.exports = {
         await queryInterface.bulkInsert('Airplanes', [
             {
                 type: 'Boeing 737-8U3',
-                planeCode: 'PK-GMC',
+                airplaneCode: 'PK-GMC',
                 seat: 170,
                 airlineId: 1,
                 createdAt: new Date(),
@@ -13,8 +13,16 @@ module.exports = {
             },
             {
                 type: 'Boeing 777-300ER',
-                planeCode: 'PK-GIE',
+                airplaneCode: 'PK-GIE',
                 seat: 314,
+                airlineId: 1,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                type: 'Airbus A330-900 NEO',
+                airplaneCode: 'PK-GHE',
+                seat: 301,
                 airlineId: 1,
                 createdAt: new Date(),
                 updatedAt: new Date(),

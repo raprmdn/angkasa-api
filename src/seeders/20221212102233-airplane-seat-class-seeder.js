@@ -27,6 +27,16 @@ module.exports = {
                 airplaneId: 2,
                 seatClassId: 1,
                 seat: 268,
+            },
+            {
+                airplaneId: 3,
+                seatClassId: 3,
+                seat: 24,
+            },
+            {
+                airplaneId: 3,
+                seatClassId: 1,
+                seat: 277,
             }
         ], {});
     },
