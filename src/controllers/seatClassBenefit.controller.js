@@ -30,4 +30,14 @@ module.exports = {
       return res.status(error.code).json(error);
     }
   },
+  airplaneSeatClass: async (req, res) => {
+    try {
+      const seatClassServiceResponse = await seatClassService.airplaneSeatClass(req);
+      return res
+        .status(seatClassServiceResponse.code)
+        .json(seatClassServiceResponse);
+    } catch (error) {
+      return res.status(error.code).json(error);
+    }
+  },
 };
