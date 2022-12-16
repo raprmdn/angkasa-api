@@ -13,23 +13,27 @@ module.exports = {
         const random = Math.floor(10 + Math.random() * 9000);
         return `${airline.airlineIata} ${random}`;
     },
-    CheckAvailabilityFlights: async (id, std, sta, date) => {
-        const anyFlight = await Flight.findOne({
+    CheckAvailabilityFlights: async (id, std, sta, date, flightId) => {
+        const flights = await Flight.findAll({
             where: {
                 airplaneId: id,
                 date: date,
             },
         });
 
-        if (anyFlight) {
-            const anyFlightStd = moment(anyFlight.std);
-            const anyFlightSta = moment(anyFlight.sta).add(2, 'hours');
-            const stdMoment = moment(std);
-            const staMoment = moment(sta);
+        if (flights.length > 0) {
+            flights.forEach((flight) => {
+                if (+flightId !== flight.id) {
+                    const stdFlight = moment(flight.std);
+                    const staFlight = moment(flight.sta).add(2, 'hours');
+                    const stdRequest = moment(std);
+                    const staRequest = moment(sta);
 
-            if (stdMoment.isBetween(anyFlightStd, anyFlightSta) || staMoment.isBetween(anyFlightStd, anyFlightSta)) {
-                throw apiBadRequestResponse('Airplane is not available at this time')
-            }
+                    if (stdRequest.isBetween(stdFlight, staFlight) || staRequest.isBetween(stdFlight, staFlight)) {
+                        throw apiBadRequestResponse('Airplane is not available at the selected time');
+                    }
+                }
+            });
         }
     },
 };
