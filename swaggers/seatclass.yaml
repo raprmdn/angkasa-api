@@ -1,0 +1,148 @@
+openapi: 3.0.0
+info:
+  title: E-Ticket Angkasa API Documentation
+  description: API Documentation for Angkasa Final Project.
+  version: 1.0.0
+tags:
+  - name: Seat Class
+    description: Everything about Seat Class
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /seat-class:
+    get:
+      summary: Find all seat class
+      tags:
+        - Seat Class
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      seatClass:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            type:
+                              type: string
+                            createdAt:
+                              type: string
+                            updatedAt:
+                              type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Success to get all seat class
+                    data:
+                      seatClass:
+                        - id: 1
+                          type: ECONOMY
+                          createdAt: '2022-12-16T11:37:01.932Z'
+                          updatedAt: '2022-12-16T11:37:01.932Z'
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Success to get all seat class
+                    data:
+                      seatClass:
+                        - id: 1
+                          type: ECONOMY
+                          createdAt: '2022-12-16T11:37:01.932Z'
+                          updatedAt: '2022-12-16T11:37:01.932Z'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: get-seat-class
+      description: Endpoint for find all seat class
+  '/seat-class/airplane/{id}':
+      parameters:
+        - schema:
+            type: string
+          name: id
+          in: path
+          required: true
+      get:
+        summary: Find seat class airplane
+        tags:
+          - Seat Class
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    code:
+                      type: integer
+                    status:
+                      type: string
+                    message:
+                      type: string
+                    data:
+                      type: object
+                      properties:
+                        seatClasses:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              type:
+                                type: string
+                              seat:
+                                type: integer
+                  x-examples:
+                    Example 1:
+                      code: 200
+                      status: OK
+                      message: Success to get all airplane seat class
+                      data:
+                        seatClasses:
+                          - id: 1
+                            type: ECONOMY
+                            seat: 268
+                examples:
+                  Example Response:
+                    value:
+                      code: 200
+                      status: OK
+                      message: Success to get all airplane seat class
+                      data:
+                        seatClasses:
+                          - id: 1
+                            type: ECONOMY
+                            seat: 268
+                          - id: 3
+                            type: BUSINESS
+                            seat: 38
+                          - id: 4
+                            type: FIRST CLASS
+                            seat: 8
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '500':
+            $ref: '#/components/responses/InternalServerError'
+        operationId: get-seat-class-airplane-id
+        description: Endpoint for get seat classes of airplane

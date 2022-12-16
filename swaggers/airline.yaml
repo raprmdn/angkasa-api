@@ -37,7 +37,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      airports:
+                      airlines:
                         type: array
                         items:
                           $ref: '#/components/schemas/Airline'
@@ -92,7 +92,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      airport:
+                      airline:
                         $ref: '#/components/schemas/Airline'
         '401':
           $ref: '#/components/responses/Unauthorized'
@@ -200,7 +200,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      airport:
+                      airline:
                         $ref: '#/components/schemas/Airline'
         '401':
           $ref: '#/components/responses/Unauthorized'
