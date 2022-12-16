@@ -113,6 +113,11 @@ module.exports = {
         try {
             const { id } = req.params;
 
+            const flightExists = await Flight.findByPk(id);
+            if (!flightExists) {
+                throw apiNotFoundResponse('Flight not found');
+            }
+
             const response = await Flight.findByPk(id, {
                 include: [
                     {
@@ -229,7 +234,7 @@ module.exports = {
                     throw apiNotFoundResponse('Flight not found');
                 }
 
-                await CheckAvailabilityFlights(flight.airplaneId, std, sta, date);
+                await CheckAvailabilityFlights(flight.airplaneId, std, sta, date, id);
 
                 const flightDate = FormatFlightDate(date);
                 const flightEstimated = FormatFlightEstimated(estimated);
