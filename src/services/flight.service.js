@@ -47,7 +47,10 @@ module.exports = {
                 where: {
                     fromAirportIata: departure,
                     toAirportIata: arrival,
-                    date: date,
+                    date: {
+                        [Op.gte]: moment(date).format('YYYY-MM-DD 00:00:00'),
+                        [Op.lte]: moment(date).format('YYYY-MM-DD 23:59:59'),
+                    },
                     std: {
                         [Op.gte]: moment().format()
                     },
@@ -105,7 +108,6 @@ module.exports = {
                 flights
             });
         } catch (e) {
-            console.log(e);
             throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
         }
     },
