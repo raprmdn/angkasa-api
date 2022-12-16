@@ -2,7 +2,12 @@ const express = require('express');
 const FlightController = require('../controllers/flight.controller');
 const { authentication } = require("../middlewares/authentication.middleware");
 const { hasRole } = require("../middlewares/authorization.middleware");
-const { flightValidation, searchFlightValidation, changeSeatPriceValidation } = require("../utils/validation/flight.validation");
+const {
+    flightValidation,
+    searchFlightValidation,
+    changeSeatPriceValidation,
+    rescheduleFlightValidation,
+} = require("../utils/validation/flight.validation");
 
 const router = express.Router();
 
@@ -11,6 +16,7 @@ router.post('/', authentication, hasRole(['ADMIN']), flightValidation, FlightCon
 router.get('/search', searchFlightValidation, FlightController.search);
 router.get('/:id', FlightController.show);
 router.put('/:id/change-seat-price', authentication, hasRole(['ADMIN']), changeSeatPriceValidation, FlightController.changeSeatPrice);
+router.put('/:id/reschedule', authentication, hasRole(['ADMIN']), rescheduleFlightValidation, FlightController.reschedule);
 
 
 module.exports = router;

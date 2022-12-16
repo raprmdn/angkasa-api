@@ -80,6 +80,29 @@ module.exports = {
 
         next();
     },
+    rescheduleFlightValidation: (req, res, next) => {
+        const schema = Joi.object({
+            date: Joi.date().format('YYYY-MM-DD').required().label('Date'),
+            std: Joi.date().format('YYYY-MM-DD HH:mm:ss').greater(Joi.ref('date')).required()
+                .label('Schedule Time Departure')
+                .messages({
+                    'date.greater': 'STD ({#label}) must be greater than date',
+                }),
+            sta: Joi.date().format('YYYY-MM-DD HH:mm:ss').greater(Joi.ref('std')).required()
+                .label('Schedule Time Arrival')
+                .messages({
+                    'date.greater': 'STA ({#label}) must be greater than STD (Schedule Time Departure)',
+                }),
+            estimated: Joi.date().format('mm').required().label('Estimated Time'),
+        });
+
+        const { error } = schema.validate(req.body, options);
+        if (error) {
+            return res.status(status.UNPROCESSABLE_ENTITY).json(apiResponseValidationError(error));
+        }
+
+        next();
+    },
     changeSeatPriceValidation: (req, res, next) => {
         const schema = Joi.object({
             seatPrices: Joi.array()

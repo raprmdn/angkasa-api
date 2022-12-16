@@ -33,6 +33,14 @@ module.exports = {
             return res.status(e.code).json(e);
         }
     },
+    reschedule: async (req, res) => {
+        try {
+            const serviceResponse = await FlightService.reschedule(req);
+            return res.status(serviceResponse.code).json(serviceResponse);
+        } catch (e) {
+            return res.status(e.code).json(e);
+        }
+    },
     changeSeatPrice: async (req, res) => {
         try {
             const serviceResponse = await FlightService.changeSeatPrice(req);

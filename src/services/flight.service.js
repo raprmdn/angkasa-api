@@ -218,6 +218,35 @@ module.exports = {
             throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
         }
     },
+    reschedule: async (req) => {
+        try {
+            await sequelize.transaction(async (t) => {
+                const { id } = req.params;
+                const { date, std, sta, estimated } = req.body;
+
+                const flight = await Flight.findByPk(id);
+                if (!flight) {
+                    throw apiNotFoundResponse('Flight not found');
+                }
+
+                await CheckAvailabilityFlights(flight.airplaneId, std, sta, date);
+
+                const flightDate = FormatFlightDate(date);
+                const flightEstimated = FormatFlightEstimated(estimated);
+
+                await flight.update({
+                    date: flightDate,
+                    std,
+                    sta,
+                    estimated: flightEstimated,
+                }, { transaction: t });
+            });
+
+            return apiResponse(status.OK, 'OK', 'Flight rescheduled successfully');
+        } catch (e) {
+            throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+        }
+    },
     changeSeatPrice: async (req) => {
         try {
             const { id } = req.params;
