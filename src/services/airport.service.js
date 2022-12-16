@@ -14,8 +14,9 @@ module.exports = {
                     console.error(`Error fetching airport on port-api.com: ${e}`);
                     throw apiResponse(status.INTERNAL_SERVER_ERROR, 'INTERNAL_SERVER_ERROR', 'There\'s an issue. Please try again later.');
                 });
-            const data = await response.json()
-            const airports = AirportTransform.AirportApiCollectionResponse(data.features);
+            const data = await response.json();
+            const filteredData = data.features.filter((item) => item.properties.iata !== null);
+            const airports = AirportTransform.AirportApiCollectionResponse(filteredData);
 
             return apiResponse(status.OK, 'OK', 'Airports retrieved successfully', { airports });
         } catch (e) {

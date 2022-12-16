@@ -25,4 +25,20 @@ module.exports = {
       return res.status(e.code).json(e);
     }
   },
+  updateProfile: async (req, res) => {
+    try {
+      const userServiceResponse = await userServices.updateProfile(req);
+      return res.status(userServiceResponse.code).json(userServiceResponse);
+    } catch (e) {
+      return res.status(e.code).json(e);
+    }
+  },
+  updatePassword: async (req, res) => {
+    try {
+      const userServiceResponse = await userServices.updatePassword(req);
+      return res.status(userServiceResponse.code).json(userServiceResponse);
+    } catch (e) {
+      return res.status(e.code).json(e);
+    }
+  },
 };
