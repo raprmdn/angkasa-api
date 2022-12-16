@@ -1,6 +1,6 @@
 const { StatusCodes: status } = require("http-status-codes");
 const { apiResponse } = require("../utils/apiResponse.utils");
-const { Airline } = require("../models");
+const { Airline, Airplane } = require("../models");
 
 module.exports = {
   createAirline: async (req) => {
@@ -35,12 +35,19 @@ module.exports = {
   showAirline: async (req) => {
     try {
       const { id } = req.params;
-      const airline = await Airline.findByPk(id);
+      const airline = await Airline.findByPk(id, {
+        include: {
+          model: Airplane,
+          as: "airplanes",
+        },
+      });
 
       if (!airline)
         throw apiResponse(status.NOT_FOUND, "NOT_FOUND", "Airline not Found");
 
-      return apiResponse(status.OK, "OK", "Success to get an Airline", airline);
+      return apiResponse(status.OK, "OK", "Success to get an Airline", {
+        airline,
+      });
     } catch (error) {
       throw apiResponse(
         error.code || status.INTERNAL_SERVER_ERROR,
@@ -102,9 +109,24 @@ module.exports = {
   deleteAirline: async (req) => {
     try {
       const { id } = req.params;
-      const airline = await Airline.findByPk(id);
+      const airline = await Airline.findByPk(id, {
+        include: {
+          model: Airplane,
+          as: "airplanes",
+        },
+      });
       if (!airline)
         throw apiResponse(status.NOT_FOUND, "NOT_FOUND", "Airline not found");
+
+      const { airplanes } = airline;
+
+      if (airplanes.length > 0) {
+        throw apiResponse(
+          status.BAD_REQUEST,
+          "BAD_REQUEST",
+          "failed to delete Airline because the Airline is still associated with some Airplanes"
+        );
+      }
 
       await airline.destroy();
 
