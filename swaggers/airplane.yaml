@@ -1,0 +1,273 @@
+openapi: 3.0.0
+info:
+  title: E-Ticket Angkasa API Documentation
+  description: API Documentation for Angkasa Final Project.
+  version: 1.0.0
+tags:
+  - name: Airplane
+    description: Everything about Airplane
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  '/airplanes/{id}':
+    get:
+      summary: Show an airplane
+      tags:
+        - Airplane
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      airplane:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          type:
+                            type: string
+                          airplaneCode:
+                            type: string
+                          seat:
+                            type: integer
+                          airline:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              logo:
+                                type: string
+                          seatClasses:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                seat:
+                                  type: integer
+                                benefits:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      name:
+                                        type: string
+                                      icon:
+                                        type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Airplane retrieved successfully
+                    data:
+                      airplane:
+                        id: 2
+                        type: Boeing 777-3U3ER
+                        airplaneCode: PK-GIK
+                        seat: 314
+                        airline:
+                          name: GARUDA INDONESIA
+                          logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                        seatClasses:
+                          - type: ECONOMY
+                            seat: 268
+                            benefits:
+                              - name: BAGASI 15 KG
+                                icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                              - name: MAKANAN
+                                icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                          - type: BUSINESS
+                            seat: 38
+                            benefits:
+                              - name: HIBURAN
+                                icon: 'https://cdn4.iconfinder.com/data/icons/48-bubbles/48/24.TV-256.png'
+                              - name: BAGASI 30 KG
+                                icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                              - name: WIFI
+                                icon: 'https://cdn3.iconfinder.com/data/icons/feather-5/24/wifi-256.png'
+                              - name: MAKANAN
+                                icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                              - name: USB PORT / POWER
+                                icon: 'https://cdn0.iconfinder.com/data/icons/iphone-7-airpods-icons/24/lightning-usb-256.png'
+                          - type: FIRST CLASS
+                            seat: 8
+                            benefits:
+                              - name: HIBURAN
+                                icon: 'https://cdn4.iconfinder.com/data/icons/48-bubbles/48/24.TV-256.png'
+                              - name: BAGASI 50 KG
+                                icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                              - name: WIFI
+                                icon: 'https://cdn3.iconfinder.com/data/icons/feather-5/24/wifi-256.png'
+                              - name: MAKANAN
+                                icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                              - name: USB PORT / POWER
+                                icon: 'https://cdn0.iconfinder.com/data/icons/iphone-7-airpods-icons/24/lightning-usb-256.png'
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Airplane retrieved successfully
+                    data:
+                      airplane:
+                        id: 2
+                        type: Boeing 777-3U3ER
+                        airplaneCode: PK-GIK
+                        seat: 314
+                        airline:
+                          name: GARUDA INDONESIA
+                          logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                        seatClasses:
+                          - type: ECONOMY
+                            seat: 268
+                            benefits:
+                              - name: BAGASI 15 KG
+                                icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                              - name: MAKANAN
+                                icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                          - type: BUSINESS
+                            seat: 38
+                            benefits:
+                              - name: HIBURAN
+                                icon: 'https://cdn4.iconfinder.com/data/icons/48-bubbles/48/24.TV-256.png'
+                              - name: BAGASI 30 KG
+                                icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                              - name: WIFI
+                                icon: 'https://cdn3.iconfinder.com/data/icons/feather-5/24/wifi-256.png'
+                              - name: MAKANAN
+                                icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                              - name: USB PORT / POWER
+                                icon: 'https://cdn0.iconfinder.com/data/icons/iphone-7-airpods-icons/24/lightning-usb-256.png'
+                          - type: FIRST CLASS
+                            seat: 8
+                            benefits:
+                              - name: HIBURAN
+                                icon: 'https://cdn4.iconfinder.com/data/icons/48-bubbles/48/24.TV-256.png'
+                              - name: BAGASI 50 KG
+                                icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                              - name: WIFI
+                                icon: 'https://cdn3.iconfinder.com/data/icons/feather-5/24/wifi-256.png'
+                              - name: MAKANAN
+                                icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                              - name: USB PORT / POWER
+                                icon: 'https://cdn0.iconfinder.com/data/icons/iphone-7-airpods-icons/24/lightning-usb-256.png'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: get-airplanes
+      description: Endpoint to show an airplane
+      parameters: [ ]
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+  /airplanes:
+      post:
+        summary: Create an airplane
+        operationId: post-airplanes
+        responses:
+          '201':
+            description: CREATED
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    code:
+                      type: integer
+                    status:
+                      type: string
+                    message:
+                      type: string
+                  x-examples:
+                    Example 1:
+                      code: 201
+                      status: CREATED
+                      message: Airplane created successfully
+                examples:
+                  Example Response:
+                    value:
+                      code: 201
+                      status: CREATED
+                      message: Airplane created successfully
+          '400':
+            $ref: '#/components/responses/BadRequest'
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '403':
+            $ref: '#/components/responses/Forbidden'
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '422':
+            $ref: '#/components/responses/ValidationError'
+          '500':
+            $ref: '#/components/responses/InternalServerError'
+        description: Create Airplane
+        security:
+          - bearerAuth: [ ]
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  airlineId:
+                    type: integer
+                  type:
+                    type: string
+                  airplaneCode:
+                    type: string
+                  seat:
+                    type: integer
+                  seatClass:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        seatClassId:
+                          type: integer
+                        seat:
+                          type: integer
+                x-examples:
+                  Example 1:
+                    airlineId: 1
+                    type: Airbus A320-214
+                    airplaneCode: PK-LUP
+                    seat: 156
+                    seatClass:
+                      - seatClassId: 3
+                        seat: 12
+                      - seatClassId: 1
+                        seat: 144
+              examples:
+                Example Request Body:
+                  value:
+                    airlineId: 1
+                    type: Airbus A320-214
+                    airplaneCode: PK-LUP
+                    seat: 156
+                    seatClass:
+                      - seatClassId: 3
+                        seat: 12
+                      - seatClassId: 1
+                        seat: 144
+          description: Create an airplane
+        tags:
+          - Airplane

@@ -133,7 +133,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      airline:
+                      benefit:
                         $ref: '#/components/schemas/Benefit'
         '401':
           $ref: '#/components/responses/Unauthorized'

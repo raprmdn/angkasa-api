@@ -1,0 +1,231 @@
+openapi: 3.0.0
+info:
+  title: E-Ticket Angkasa API Documentation
+  description: API Documentation for Angkasa Final Project.
+  version: 1.0.0
+tags:
+  - name: Notification
+    description: Everything about Notification
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /notifications/all:
+    get:
+      summary: Get all user notifications
+      tags:
+        - Notification
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      notifications:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            userId:
+                              type: integer
+                            title:
+                              type: string
+                            body:
+                              type: string
+                            type:
+                              type: string
+                            seenAt:
+                              type: 'null'
+                            createdAt:
+                              type: string
+                            updatedAt:
+                              type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Success to get all Notification
+                    data:
+                      notifications:
+                        - id: 1
+                          userId: 1
+                          title: "Hi Rafi \U0001F44B, Welcome to Angkasa !!"
+                          body: 'Thanks for signing up. Ready to take off? Now no need worry if you want to go anywhere, find lots of flight ticket to various destination you want only in Angkasa'
+                          type: REGISTERED_NOTIFICATION
+                          seenAt: null
+                          createdAt: '2022-12-16T12:39:12.352Z'
+                          updatedAt: '2022-12-16T12:39:12.352Z'
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Success to get all Notification
+                    data:
+                      notifications:
+                        - id: 1
+                          userId: 1
+                          title: "Hi Rafi \U0001F44B, Welcome to Angkasa !!"
+                          body: 'Thanks for signing up. Ready to take off? Now no need worry if you want to go anywhere, find lots of flight ticket to various destination you want only in Angkasa'
+                          type: REGISTERED_NOTIFICATION
+                          seenAt: null
+                          createdAt: '2022-12-16T12:39:12.352Z'
+                          updatedAt: '2022-12-16T12:39:12.352Z'
+                        - id: 2
+                          userId: 1
+                          title: Success to Book
+                          body: Thanks for ordering flight ticket
+                          type: PAYMENT_NOTIFICATION
+                          seenAt: null
+                          createdAt: '2022-12-16T15:28:14.860Z'
+                          updatedAt: '2022-12-16T15:28:14.860Z'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: get-notifications-all
+      description: Endpoint to get all user notifications
+      security:
+        - bearerAuth: [ ]
+  '/notification/{id}':
+      parameters:
+        - schema:
+            type: string
+          name: id
+          in: path
+          required: true
+      put:
+        summary: Read notification
+        operationId: put-notification-id
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    code:
+                      type: integer
+                    status:
+                      type: string
+                    message:
+                      type: string
+                  x-examples:
+                    Example 1:
+                      code: 200
+                      status: OK
+                      message: Success to updated notification read status
+                examples:
+                  Example Response:
+                    value:
+                      code: 200
+                      status: OK
+                      message: Success to updated notification read status
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '500':
+            $ref: '#/components/responses/InternalServerError'
+        description: Endpoint for read notification
+        tags:
+          - Notification
+        security:
+          - bearerAuth: [ ]
+  /notifications/all/read:
+      post:
+        summary: Mark all as read notification
+        operationId: post-notifications-all-read
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    code:
+                      type: integer
+                    status:
+                      type: string
+                    message:
+                      type: string
+                  x-examples:
+                    Example 1:
+                      code: 200
+                      status: OK
+                      message: Success to mark all Notifications as Read
+                examples:
+                  Example Response:
+                    value:
+                      code: 200
+                      status: OK
+                      message: Success to mark all Notifications as Read
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '500':
+            $ref: '#/components/responses/InternalServerError'
+        security:
+          - bearerAuth: [ ]
+        description: Endpoint for Mark all as read notification
+        tags:
+          - Notification
+      delete:
+        summary: Delete all read notification
+        operationId: delete-notifications-all-read
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    code:
+                      type: integer
+                    status:
+                      type: string
+                    message:
+                      type: string
+                  x-examples:
+                    Example 1:
+                      code: 200
+                      status: OK
+                      message: Success to delete read Notifications
+                examples:
+                  Example Response:
+                    value:
+                      code: 200
+                      status: OK
+                      message: Success to delete read Notifications
+          '401':
+            $ref: '#/components/responses/Unauthorized'
+          '404':
+            $ref: '#/components/responses/NotFound'
+          '500':
+            $ref: '#/components/responses/InternalServerError'
+        tags:
+          - Notification
+        description: Endpoint for delete all read notification
+        security:
+          - bearerAuth: [ ]
