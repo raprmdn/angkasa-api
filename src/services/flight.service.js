@@ -1,9 +1,9 @@
 const { Flight, Airplane, Airline, SeatClass, Benefit, SeatPrice, sequelize } = require('../models');
 const { Op } = require('sequelize');
 const { StatusCodes: status } = require('http-status-codes');
-const { apiResponse, apiNotFoundResponse, apiBadRequestResponse} = require("../utils/apiResponse.utils");
+const { apiResponse, apiNotFoundResponse, apiBadRequestResponse } = require("../utils/apiResponse.utils");
 const { FormatFlightDate, FormatFlightEstimated, generateFlightNumber, CheckAvailabilityFlights } = require('../helpers/flight.helper');
-const { FlightIndexTransform, FlightSearchTransform } = require("../helpers/transformers/flight.transformers");
+const { FlightIndexTransform, FlightSearchTransform, FlightShowTransform } = require("../helpers/transformers/flight.transformers");
 const moment = require("moment");
 
 module.exports = {
@@ -14,7 +14,14 @@ module.exports = {
                     {
                         model: Airplane,
                         as: 'airplane',
-                        attributes: ['id', 'type', 'airplaneCode', 'seat']
+                        attributes: ['id', 'type', 'airplaneCode', 'seat'],
+                        include: [
+                            {
+                                model: Airline,
+                                as: 'airline',
+                                attributes: ['id', 'name', 'airlineIata', 'logo'],
+                            }
+                        ]
                     },
                     {
                         model: SeatPrice,
@@ -102,6 +109,58 @@ module.exports = {
             throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
         }
     },
+    show: async (req) => {
+        try {
+            const { id } = req.params;
+
+            const response = await Flight.findByPk(id, {
+                include: [
+                    {
+                        model: Airplane,
+                        as: 'airplane',
+                        attributes: ['id', 'type', 'airplaneCode', 'seat'],
+                        include: [
+                            {
+                                model: Airline,
+                                as: 'airline',
+                                attributes: ['id', 'name', 'airlineIata', 'logo'],
+                            },
+                            {
+                                model: SeatClass,
+                                as: 'seatClasses',
+                                attributes: ['id', 'type'],
+                                through: {
+                                    attributes: ['seat']
+                                },
+                                include: [
+                                    {
+                                        model: Benefit,
+                                        as: 'benefits',
+                                        attributes: ['id', 'name', 'icon'],
+                                        through: {
+                                            attributes: []
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        required: true
+                    },
+                    {
+                        model: SeatPrice,
+                        as: 'seatPrices',
+                        required: true
+                    },
+                ],
+                distinct: true,
+            });
+            const flight = FlightShowTransform(response);
+
+            return apiResponse(status.OK, 'OK', 'Flight retrieved successfully', { flight });
+        } catch (e) {
+            throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+        }
+    },
     create: async (req) => {
         try {
             await sequelize.transaction(async (t) => {
@@ -155,6 +214,39 @@ module.exports = {
             });
 
             return apiResponse(status.CREATED, 'CREATED', 'Flight created successfully');
+        } catch (e) {
+            throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+        }
+    },
+    changeSeatPrice: async (req) => {
+        try {
+            const { id } = req.params;
+            const { seatPrices } = req.body;
+
+            const flight = await Flight.findByPk(id);
+            if (!flight) {
+                throw apiNotFoundResponse('Flight not found');
+            }
+
+            const flightSeatPrices = await flight.getSeatPrices();
+            const flightSeatPricesIds = flightSeatPrices.map((flightSeatPrice) => flightSeatPrice.id);
+            const seatPricesIds = seatPrices.map((seatPrice) => seatPrice.id);
+            if (!seatPricesIds.every((seatPriceId) => flightSeatPricesIds.includes(seatPriceId))) {
+                throw apiBadRequestResponse('The provided seat prices are not valid for this flight');
+            }
+
+            await Promise.all(
+                seatPrices.map(async (seatPrice) => {
+                    const flightSeatPrice = flightSeatPrices.find((flightSeatPrice) => flightSeatPrice.id === seatPrice.id);
+                    await flightSeatPrice.update({
+                        price: seatPrice.price,
+                        discount: seatPrice.discount,
+                    });
+                })
+            );
+
+
+            return apiResponse(status.OK, 'OK', 'Flight seat price updated successfully');
         } catch (e) {
             throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
         }

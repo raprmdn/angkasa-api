@@ -79,5 +79,29 @@ module.exports = {
         }
 
         next();
-    }
+    },
+    changeSeatPriceValidation: (req, res, next) => {
+        const schema = Joi.object({
+            seatPrices: Joi.array()
+                .items({
+                    id: Joi.number().positive().required().label('Flight Seat Price ID'),
+                    price: Joi.number().positive().required().label('Price'),
+                    discount: Joi.number().optional().integer().min(0).allow(null).label('Discount'),
+                })
+                .has({
+                    id: Joi.number().positive().required().label('Flight Seat Price ID'),
+                    price: Joi.number().positive().required().label('Price'),
+                    discount: Joi.number().optional().integer().min(0).allow(null).label('Discount'),
+                })
+                .unique('id')
+                .min(1).required().label('Airplane Seat Class Price'),
+        });
+
+        const { error } = schema.validate(req.body, options);
+        if (error) {
+            return res.status(status.UNPROCESSABLE_ENTITY).json(apiResponseValidationError(error));
+        }
+
+        next();
+    },
 };

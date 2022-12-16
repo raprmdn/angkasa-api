@@ -35,9 +35,7 @@ const transform = (flight) => ({
     airplaneId: flight.airplaneId,
 });
 
-const indexTransform = (flight) => ({
-    ...transform(flight),
-    airplane: flight.airplane,
+const seatPricesMapper = (flight) => ({
     class: flight.seatPrices.map((seatPrice) => ({
         id: seatPrice.id,
         type: seatPrice.seatType,
@@ -52,7 +50,13 @@ const indexTransform = (flight) => ({
     })),
 });
 
-const withAirplaneDetailsTransform = (flight) => ({
+const flightIndexTransform = (flight) => ({
+    ...transform(flight),
+    airplane: flight.airplane,
+    ...seatPricesMapper(flight),
+});
+
+const flightSearchTransform = (flight) => ({
     ...transform(flight),
     class: {
         id: flight.seatPrices[0].id,
@@ -90,7 +94,35 @@ const withAirplaneDetailsTransform = (flight) => ({
     }
 });
 
+const flightShowTransform = (flight) => ({
+    ...transform(flight),
+    ...seatPricesMapper(flight),
+    airplane: {
+        id: flight.airplane.id,
+        type: flight.airplane.type,
+        airplaneCode: flight.airplane.airplaneCode,
+        seat: flight.airplane.seat,
+        airline: {
+            id: flight.airplane.airline.id,
+            name: flight.airplane.airline.name,
+            airlineIata: flight.airplane.airline.airlineIata,
+            logo: flight.airplane.airline.logo,
+        },
+        class: flight.airplane.seatClasses.map((seatClass) => ({
+            id: seatClass.id,
+            type: seatClass.type,
+            seat: seatClass.AirplaneSeatClass.seat,
+            benefits: flight.airplane.seatClasses[0].benefits.map((benefit) => ({
+                id: benefit.id,
+                name: benefit.name,
+                icon: benefit.icon,
+            })),
+        })),
+    }
+});
+
 module.exports = {
-    FlightIndexTransform: (flights) => flights.map((flight) => indexTransform(flight)),
-    FlightSearchTransform: (flights) => flights.map((flight) => withAirplaneDetailsTransform(flight)),
+    FlightIndexTransform: (flights) => flights.map((flight) => flightIndexTransform(flight)),
+    FlightSearchTransform: (flights) => flights.map((flight) => flightSearchTransform(flight)),
+    FlightShowTransform: (flight) => flightShowTransform(flight),
 };
