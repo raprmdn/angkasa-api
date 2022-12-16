@@ -1,0 +1,1188 @@
+openapi: 3.0.0
+info:
+  title: E-Ticket Angkasa API Documentation
+  description: API Documentation for Angkasa Final Project.
+  version: 1.0.0
+tags:
+  - name: Flight
+    description: Everything about Flight
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /flights:
+    get:
+      summary: Get all flights
+      tags:
+        - Flight
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      flights:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            flightNumber:
+                              type: string
+                            date:
+                              type: object
+                              properties:
+                                raw:
+                                  type: string
+                                formatted:
+                                  type: string
+                            fromAirport:
+                              type: object
+                              properties:
+                                iata:
+                                  type: string
+                                name:
+                                  type: string
+                                country:
+                                  type: string
+                                city:
+                                  type: string
+                            toAirport:
+                              type: object
+                              properties:
+                                iata:
+                                  type: string
+                                name:
+                                  type: string
+                                country:
+                                  type: string
+                                city:
+                                  type: string
+                            std:
+                              type: object
+                              properties:
+                                raw:
+                                  type: string
+                                hours:
+                                  type: string
+                                dm:
+                                  type: string
+                            sta:
+                              type: object
+                              properties:
+                                raw:
+                                  type: string
+                                hours:
+                                  type: string
+                                dm:
+                                  type: string
+                            estimated:
+                              type: string
+                            type:
+                              type: string
+                            airplaneId:
+                              type: integer
+                            airplane:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                type:
+                                  type: string
+                                airplaneCode:
+                                  type: string
+                                seat:
+                                  type: integer
+                                airline:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    name:
+                                      type: string
+                                    airlineIata:
+                                      type: string
+                                    logo:
+                                      type: string
+                            class:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  type:
+                                    type: string
+                                  price:
+                                    type: object
+                                    properties:
+                                      raw:
+                                        type: integer
+                                      formatted:
+                                        type: string
+                                  discount:
+                                    type: object
+                                    properties:
+                                      raw:
+                                        type:
+                                          - integer
+                                          - 'null'
+                                      formatted:
+                                        type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Flights retrieved successfully
+                    data:
+                      flights:
+                        - id: 1
+                          flightNumber: GA 420
+                          date:
+                            raw: '2022-12-16T18:35:02.000Z'
+                            formatted: '2022-12-17'
+                          fromAirport:
+                            iata: CGK
+                            name: Soekarno-Hatta International Airport
+                            country: Indonesia
+                            city: Jakarta
+                          toAirport:
+                            iata: DPS
+                            name: Ngurah Rai (Bali) International Airport
+                            country: Indonesia
+                            city: Denpasar
+                          std:
+                            raw: '2022-12-17T06:15:02.000Z'
+                            hours: '13:15'
+                            dm: 17 Dec
+                          sta:
+                            raw: '2022-12-17T09:10:02.000Z'
+                            hours: '16:10'
+                            dm: 17 Dec
+                          estimated: 1h 55m
+                          type: direct
+                          airplaneId: 1
+                          airplane:
+                            id: 1
+                            type: Boeing 737-8U3
+                            airplaneCode: PK-GMC
+                            seat: 170
+                            airline:
+                              id: 1
+                              name: GARUDA INDONESIA
+                              airlineIata: GA
+                              logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                          class:
+                            - id: 1
+                              type: BUSINESS
+                              price:
+                                raw: 11010720
+                                formatted: "Rp\_11.010.720"
+                              discount:
+                                raw: 35000
+                                formatted: "Rp\_35.000"
+                            - id: 2
+                              type: ECONOMY
+                              price:
+                                raw: 1921020
+                                formatted: "Rp\_1.921.020"
+                              discount:
+                                raw: null
+                                formatted: "Rp\_0"
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Flights retrieved successfully
+                    data:
+                      flights:
+                        - id: 1
+                          flightNumber: GA 420
+                          date:
+                            raw: '2022-12-16T18:35:02.000Z'
+                            formatted: '2022-12-17'
+                          fromAirport:
+                            iata: CGK
+                            name: Soekarno-Hatta International Airport
+                            country: Indonesia
+                            city: Jakarta
+                          toAirport:
+                            iata: DPS
+                            name: Ngurah Rai (Bali) International Airport
+                            country: Indonesia
+                            city: Denpasar
+                          std:
+                            raw: '2022-12-17T06:15:02.000Z'
+                            hours: '13:15'
+                            dm: 17 Dec
+                          sta:
+                            raw: '2022-12-17T09:10:02.000Z'
+                            hours: '16:10'
+                            dm: 17 Dec
+                          estimated: 1h 55m
+                          type: direct
+                          airplaneId: 1
+                          airplane:
+                            id: 1
+                            type: Boeing 737-8U3
+                            airplaneCode: PK-GMC
+                            seat: 170
+                            airline:
+                              id: 1
+                              name: GARUDA INDONESIA
+                              airlineIata: GA
+                              logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                          class:
+                            - id: 1
+                              type: BUSINESS
+                              price:
+                                raw: 11010720
+                                formatted: "Rp\_11.010.720"
+                              discount:
+                                raw: 35000
+                                formatted: "Rp\_35.000"
+                            - id: 2
+                              type: ECONOMY
+                              price:
+                                raw: 1921020
+                                formatted: "Rp\_1.921.020"
+                              discount:
+                                raw: null
+                                formatted: "Rp\_0"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          description: Internal Server Error
+      operationId: get-flights
+      description: Get all flights
+    post:
+      summary: Create a flight
+      operationId: post-flights
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                x-examples:
+                  Example 1:
+                    code: 201
+                    status: CREATED
+                    message: Flight created successfully
+              examples:
+                Example Response:
+                  value:
+                    code: 201
+                    status: CREATED
+                    message: Flight created successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      description: Create a flight
+      tags:
+        - Flight
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                airplaneId:
+                  type: integer
+                date:
+                  type: string
+                from:
+                  type: string
+                to:
+                  type: string
+                std:
+                  type: string
+                sta:
+                  type: string
+                estimated:
+                  type: integer
+                seatPrices:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      airplaneSeatClassId:
+                        type: integer
+                      price:
+                        type: integer
+              x-examples:
+                Example 1:
+                  airplaneId: 2
+                  date: '2022-12-17'
+                  from: CGK
+                  to: DPS
+                  std: '2022-12-17 08:55:00'
+                  sta: '2022-12-17 11:35:00'
+                  estimated: 110
+                  seatPrices:
+                    - airplaneSeatClassId: 4
+                      price: 19420535
+                    - airplaneSeatClassId: 3
+                      price: 12526350
+                    - airplaneSeatClassId: 1
+                      price: 7245024
+            examples:
+              Example Request Body:
+                value:
+                  airplaneId: 2
+                  date: '2022-12-17'
+                  from: CGK
+                  to: DPS
+                  std: '2022-12-17 08:55:00'
+                  sta: '2022-12-17 11:35:00'
+                  estimated: 110
+                  seatPrices:
+                    - airplaneSeatClassId: 4
+                      price: 19420535
+                    - airplaneSeatClassId: 3
+                      price: 12526350
+                    - airplaneSeatClassId: 1
+                      price: 7245024
+        description: Create a flight request body
+  '/flights/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Show flight
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      flight:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          flightNumber:
+                            type: string
+                          date:
+                            type: object
+                            properties:
+                              raw:
+                                type: string
+                              formatted:
+                                type: string
+                          fromAirport:
+                            type: object
+                            properties:
+                              iata:
+                                type: string
+                              name:
+                                type: string
+                              country:
+                                type: string
+                              city:
+                                type: string
+                          toAirport:
+                            type: object
+                            properties:
+                              iata:
+                                type: string
+                              name:
+                                type: string
+                              country:
+                                type: string
+                              city:
+                                type: string
+                          std:
+                            type: object
+                            properties:
+                              raw:
+                                type: string
+                              hours:
+                                type: string
+                              dm:
+                                type: string
+                          sta:
+                            type: object
+                            properties:
+                              raw:
+                                type: string
+                              hours:
+                                type: string
+                              dm:
+                                type: string
+                          estimated:
+                            type: string
+                          type:
+                            type: string
+                          airplaneId:
+                            type: integer
+                          class:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                type:
+                                  type: string
+                                price:
+                                  type: object
+                                  properties:
+                                    raw:
+                                      type: integer
+                                    formatted:
+                                      type: string
+                                discount:
+                                  type: object
+                                  properties:
+                                    raw:
+                                      type:
+                                        - integer
+                                        - 'null'
+                                    formatted:
+                                      type: string
+                          airplane:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              type:
+                                type: string
+                              airplaneCode:
+                                type: string
+                              seat:
+                                type: integer
+                              airline:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  name:
+                                    type: string
+                                  airlineIata:
+                                    type: string
+                                  logo:
+                                    type: string
+                              class:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    type:
+                                      type: string
+                                    seat:
+                                      type: integer
+                                    benefits:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          id:
+                                            type: integer
+                                          name:
+                                            type: string
+                                          icon:
+                                            type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Flight retrieved successfully
+                    data:
+                      flight:
+                        id: 5
+                        flightNumber: GA 420
+                        date:
+                          raw: '2022-12-20T18:37:01.000Z'
+                          formatted: '2022-12-21'
+                        fromAirport:
+                          iata: CGK
+                          name: Soekarno-Hatta International Airport
+                          country: Indonesia
+                          city: Jakarta
+                        toAirport:
+                          iata: DPS
+                          name: Ngurah Rai (Bali) International Airport
+                          country: Indonesia
+                          city: Denpasar
+                        std:
+                          raw: '2022-12-21T06:17:01.000Z'
+                          hours: '13:17'
+                          dm: 21 Dec
+                        sta:
+                          raw: '2022-12-21T09:12:01.000Z'
+                          hours: '16:12'
+                          dm: 21 Dec
+                        estimated: 1h 55m
+                        type: direct
+                        airplaneId: 1
+                        class:
+                          - id: 10
+                            type: ECONOMY
+                            price:
+                              raw: 1921020
+                              formatted: "Rp\_1.921.020"
+                            discount:
+                              raw: null
+                              formatted: "Rp\_0"
+                          - id: 9
+                            type: BUSINESS
+                            price:
+                              raw: 11010720
+                              formatted: "Rp\_11.010.720"
+                            discount:
+                              raw: 35000
+                              formatted: "Rp\_35.000"
+                        airplane:
+                          id: 1
+                          type: Boeing 737-8U3
+                          airplaneCode: PK-GMC
+                          seat: 170
+                          airline:
+                            id: 1
+                            name: GARUDA INDONESIA
+                            airlineIata: GA
+                            logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                          class:
+                            - id: 1
+                              type: ECONOMY
+                              seat: 162
+                              benefits:
+                                - id: 2
+                                  name: BAGASI 15 KG
+                                  icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                                - id: 6
+                                  name: MAKANAN
+                                  icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                            - id: 3
+                              type: BUSINESS
+                              seat: 8
+                              benefits:
+                                - id: 2
+                                  name: BAGASI 15 KG
+                                  icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                                - id: 6
+                                  name: MAKANAN
+                                  icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Flight retrieved successfully
+                    data:
+                      flight:
+                        id: 5
+                        flightNumber: GA 420
+                        date:
+                          raw: '2022-12-20T18:37:01.000Z'
+                          formatted: '2022-12-21'
+                        fromAirport:
+                          iata: CGK
+                          name: Soekarno-Hatta International Airport
+                          country: Indonesia
+                          city: Jakarta
+                        toAirport:
+                          iata: DPS
+                          name: Ngurah Rai (Bali) International Airport
+                          country: Indonesia
+                          city: Denpasar
+                        std:
+                          raw: '2022-12-21T06:17:01.000Z'
+                          hours: '13:17'
+                          dm: 21 Dec
+                        sta:
+                          raw: '2022-12-21T09:12:01.000Z'
+                          hours: '16:12'
+                          dm: 21 Dec
+                        estimated: 1h 55m
+                        type: direct
+                        airplaneId: 1
+                        class:
+                          - id: 10
+                            type: ECONOMY
+                            price:
+                              raw: 1921020
+                              formatted: "Rp\_1.921.020"
+                            discount:
+                              raw: null
+                              formatted: "Rp\_0"
+                          - id: 9
+                            type: BUSINESS
+                            price:
+                              raw: 11010720
+                              formatted: "Rp\_11.010.720"
+                            discount:
+                              raw: 35000
+                              formatted: "Rp\_35.000"
+                        airplane:
+                          id: 1
+                          type: Boeing 737-8U3
+                          airplaneCode: PK-GMC
+                          seat: 170
+                          airline:
+                            id: 1
+                            name: GARUDA INDONESIA
+                            airlineIata: GA
+                            logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                          class:
+                            - id: 1
+                              type: ECONOMY
+                              seat: 162
+                              benefits:
+                                - id: 2
+                                  name: BAGASI 15 KG
+                                  icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                                - id: 6
+                                  name: MAKANAN
+                                  icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                            - id: 3
+                              type: BUSINESS
+                              seat: 8
+                              benefits:
+                                - id: 2
+                                  name: BAGASI 15 KG
+                                  icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                                - id: 6
+                                  name: MAKANAN
+                                  icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: get-flights-id
+      description: Endpoint to show a flight
+      parameters: [ ]
+      tags:
+        - Flight
+  /flights/search:
+    get:
+      summary: Search Flights
+      tags:
+        - Flight
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      flightsCount:
+                        type: integer
+                      flights:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            flightNumber:
+                              type: string
+                            date:
+                              type: object
+                              properties:
+                                raw:
+                                  type: string
+                                formatted:
+                                  type: string
+                            fromAirport:
+                              type: object
+                              properties:
+                                iata:
+                                  type: string
+                                name:
+                                  type: string
+                                country:
+                                  type: string
+                                city:
+                                  type: string
+                            toAirport:
+                              type: object
+                              properties:
+                                iata:
+                                  type: string
+                                name:
+                                  type: string
+                                country:
+                                  type: string
+                                city:
+                                  type: string
+                            std:
+                              type: object
+                              properties:
+                                raw:
+                                  type: string
+                                hours:
+                                  type: string
+                                dm:
+                                  type: string
+                            sta:
+                              type: object
+                              properties:
+                                raw:
+                                  type: string
+                                hours:
+                                  type: string
+                                dm:
+                                  type: string
+                            estimated:
+                              type: string
+                            type:
+                              type: string
+                            airplaneId:
+                              type: integer
+                            class:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                type:
+                                  type: string
+                                price:
+                                  type: object
+                                  properties:
+                                    raw:
+                                      type: integer
+                                    formatted:
+                                      type: string
+                                discount:
+                                  type: object
+                                  properties:
+                                    raw:
+                                      type: 'null'
+                                    formatted:
+                                      type: string
+                            airplane:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                type:
+                                  type: string
+                                airplaneCode:
+                                  type: string
+                                seat:
+                                  type: integer
+                                airline:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    name:
+                                      type: string
+                                    airlineIata:
+                                      type: string
+                                    logo:
+                                      type: string
+                                class:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    type:
+                                      type: string
+                                    seat:
+                                      type: integer
+                                    benefits:
+                                      type: array
+                                      items:
+                                        type: object
+                                        properties:
+                                          id:
+                                            type: integer
+                                          name:
+                                            type: string
+                                          icon:
+                                            type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Flights retrieved successfully
+                    data:
+                      flightsCount: 6
+                      flights:
+                        - id: 36
+                          flightNumber: ID 6505
+                          date:
+                            raw: '2022-12-16T18:37:01.000Z'
+                            formatted: '2022-12-17'
+                          fromAirport:
+                            iata: CGK
+                            name: Soekarno-Hatta International Airport
+                            country: Indonesia
+                            city: Jakarta
+                          toAirport:
+                            iata: DPS
+                            name: Ngurah Rai (Bali) International Airport
+                            country: Indonesia
+                            city: Denpasar
+                          std:
+                            raw: '2022-12-17T07:07:01.000Z'
+                            hours: '14:07'
+                            dm: 17 Dec
+                          sta:
+                            raw: '2022-12-17T09:57:01.000Z'
+                            hours: '16:57'
+                            dm: 17 Dec
+                          estimated: 1h 50m
+                          type: direct
+                          airplaneId: 9
+                          class:
+                            id: 57
+                            type: ECONOMY
+                            price:
+                              raw: 1792830
+                              formatted: "Rp\_1.792.830"
+                            discount:
+                              raw: null
+                              formatted: "Rp\_0"
+                          airplane:
+                            id: 9
+                            type: Boeing 737-8GP
+                            airplaneCode: PK-LDJ
+                            seat: 189
+                            airline:
+                              id: 3
+                              name: BATIK AIR
+                              airlineIata: ID
+                              logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/4d7fa58c-a41f-4424-a599-7a2ccd27f270-1608152644158-75f5ada3c1800a50a7ba02a56ae2603b.png'
+                            class:
+                              id: 1
+                              type: ECONOMY
+                              seat: 189
+                              benefits:
+                                - id: 2
+                                  name: BAGASI 15 KG
+                                  icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                                - id: 6
+                                  name: MAKANAN
+                                  icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Flights retrieved successfully
+                    data:
+                      flightsCount: 6
+                      flights:
+                        - id: 36
+                          flightNumber: ID 6505
+                          date:
+                            raw: '2022-12-16T18:37:01.000Z'
+                            formatted: '2022-12-17'
+                          fromAirport:
+                            iata: CGK
+                            name: Soekarno-Hatta International Airport
+                            country: Indonesia
+                            city: Jakarta
+                          toAirport:
+                            iata: DPS
+                            name: Ngurah Rai (Bali) International Airport
+                            country: Indonesia
+                            city: Denpasar
+                          std:
+                            raw: '2022-12-17T07:07:01.000Z'
+                            hours: '14:07'
+                            dm: 17 Dec
+                          sta:
+                            raw: '2022-12-17T09:57:01.000Z'
+                            hours: '16:57'
+                            dm: 17 Dec
+                          estimated: 1h 50m
+                          type: direct
+                          airplaneId: 9
+                          class:
+                            id: 57
+                            type: ECONOMY
+                            price:
+                              raw: 1792830
+                              formatted: "Rp\_1.792.830"
+                            discount:
+                              raw: null
+                              formatted: "Rp\_0"
+                          airplane:
+                            id: 9
+                            type: Boeing 737-8GP
+                            airplaneCode: PK-LDJ
+                            seat: 189
+                            airline:
+                              id: 3
+                              name: BATIK AIR
+                              airlineIata: ID
+                              logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/4d7fa58c-a41f-4424-a599-7a2ccd27f270-1608152644158-75f5ada3c1800a50a7ba02a56ae2603b.png'
+                            class:
+                              id: 1
+                              type: ECONOMY
+                              seat: 189
+                              benefits:
+                                - id: 2
+                                  name: BAGASI 15 KG
+                                  icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                                - id: 6
+                                  name: MAKANAN
+                                  icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          description: Unauthorized
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: get-flights-search
+      description: Search flights
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: departure
+          required: true
+          description: Departure Airport
+        - schema:
+            type: string
+          in: query
+          name: arrival
+          required: true
+          description: Arrival Airport
+        - schema:
+            type: string
+            example: '2022-12-17'
+          in: query
+          name: date
+          description: Date
+          required: true
+        - schema:
+            type: string
+            example: ECONOMY
+          in: query
+          name: class
+          description: Seat Class
+          required: true
+    parameters: [ ]
+  '/flights/{id}/change-seat-price':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    put:
+      summary: Flight change seat price
+      operationId: put-flights-id-change-seat-price
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Flight seat price updated successfully
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Flight seat price updated successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      description: Endpoint for change seat price
+      security:
+        - bearerAuth: [ ]
+      parameters: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                seatPrices:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      price:
+                        type: integer
+                      discount:
+                        type: integer
+              x-examples:
+                Example 1:
+                  seatPrices:
+                    - id: 10
+                      price: 1821020
+                    - id: 9
+                      price: 10010720
+                      discount: 12000
+            examples:
+              Example Request Body:
+                value:
+                  seatPrices:
+                    - id: 10
+                      price: 1821020
+                    - id: 9
+                      price: 10010720
+                      discount: 12000
+        description: Request body change seat price
+      tags:
+        - Flight
+  '/flights/{id}/reschedule':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    put:
+      summary: Reschedule the flight
+      operationId: put-flights-id-reschedule
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Flight rescheduled successfully
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Flight rescheduled successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Flight
+      description: Endpoit for reschedule the flight
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                std:
+                  type: string
+                sta:
+                  type: string
+                estimated:
+                  type: integer
+              x-examples:
+                Example 1:
+                  date: '2022-12-17'
+                  std: '2022-12-17 12:05:00'
+                  sta: '2022-12-17 15:40:00'
+                  estimated: 115
+            examples:
+              Example Request Body:
+                value:
+                  date: '2022-12-17'
+                  std: '2022-12-17 12:05:00'
+                  sta: '2022-12-17 15:40:00'
+                  estimated: 115
+        description: Request body for reschedule the flight
+      parameters: [ ]
