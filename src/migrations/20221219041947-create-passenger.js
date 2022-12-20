@@ -19,25 +19,10 @@ module.exports = {
             fullName: {
                 type: Sequelize.STRING
             },
-            firstName: {
+            type: {
                 type: Sequelize.STRING
             },
-            lastName: {
-                type: Sequelize.STRING
-            },
-            citizenship: {
-                type: Sequelize.STRING
-            },
-            birthdate: {
-                type: Sequelize.STRING
-            },
-            passport: {
-                type: Sequelize.STRING
-            },
-            passportCitizenship: {
-                type: Sequelize.STRING
-            },
-            passportExpire: {
+            number: {
                 type: Sequelize.STRING
             },
             createdAt: {
