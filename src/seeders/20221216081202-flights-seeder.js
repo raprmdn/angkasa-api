@@ -161,6 +161,7 @@ module.exports = {
                         flightId: flight.id,
                         seatType: 'ECONOMY',
                         price: 1921020,
+                        discount: 0,
                     });
                 }
 
@@ -181,6 +182,7 @@ module.exports = {
                         flightId: flight.id,
                         seatType: 'ECONOMY',
                         price: 7372600,
+                        discount: 0,
                     });
                 }
 
@@ -189,6 +191,7 @@ module.exports = {
                         flightId: flight.id,
                         seatType: 'ECONOMY',
                         price: 990080,
+                        discount: 0,
                     });
                 }
 
@@ -197,6 +200,7 @@ module.exports = {
                         flightId: flight.id,
                         seatType: 'ECONOMY',
                         price: 1259780,
+                        discount: 0,
                     });
                 }
 
@@ -205,6 +209,7 @@ module.exports = {
                         flightId: flight.id,
                         seatType: 'ECONOMY',
                         price: 1157930,
+                        discount: 0,
                     });
                 }
 
@@ -213,6 +218,7 @@ module.exports = {
                         flightId: flight.id,
                         seatType: 'ECONOMY',
                         price: 1792830,
+                        discount: 0,
                     });
                 }
             });
