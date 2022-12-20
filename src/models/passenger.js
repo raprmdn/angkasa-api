@@ -20,13 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     Passenger.init({
         orderId: DataTypes.INTEGER,
         fullName: DataTypes.STRING,
-        firstName: DataTypes.STRING,
-        lastName: DataTypes.STRING,
-        citizenship: DataTypes.STRING,
-        birthdate: DataTypes.STRING,
-        passport: DataTypes.STRING,
-        passportCitizenship: DataTypes.STRING,
-        passportExpire: DataTypes.STRING
+        type: DataTypes.STRING,
+        number: DataTypes.STRING,
     }, {
         sequelize,
         modelName: 'Passenger',

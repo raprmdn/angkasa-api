@@ -1,14 +1,171 @@
 const {
     Order, Flight, User, SeatPrice, OrderDetail,
-    Airplane, Airline, OrderContact, Passenger, sequelize
+    Airplane, Airline, OrderContact, Passenger,
+    SeatClass, Benefit, sequelize
 } = require('../models');
 const { StatusCodes: status } = require('http-status-codes');
 const moment = require('moment');
-const { apiResponse, apiNotFoundResponse, apiBadRequestResponse} = require("../utils/apiResponse.utils");
+const { Op } = require("sequelize");
+const { apiResponse, apiNotFoundResponse, apiBadRequestResponse } = require("../utils/apiResponse.utils");
 const { generateIdentifier, generateCode, isRequiredVisa } = require("../helpers/order.helper");
-const { CreateOrderTransformer } = require("../helpers/transformers/order.transformers");
+const { IndexOrderTransformer, CreateOrderTransformer, ShowOrderTransformer} = require("../helpers/transformers/order.transformers");
 
 module.exports = {
+    index: async (req) => {
+        try {
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const search = req.query.search ? req.query.search.toUpperCase() : '';
+            const offset = (page - 1) * limit;
+            const rows = await Order.count({
+                where: {
+                    [Op.or]: [
+                        { code: { [Op.like]: `%${search}%` } },
+                    ]
+                }
+            });
+            const pages = Math.ceil(rows / limit);
+
+            const orders = await Order.findAll({
+                where: {
+                    [Op.or]: [
+                        { code: { [Op.like]: `%${search}%` } },
+                    ]
+                },
+                include: [
+                    {
+                        model: OrderDetail,
+                        as: 'orderDetails',
+                        include: [
+                            {
+                                model: Flight,
+                                as: 'flight',
+                                include: [
+                                    {
+                                        model: Airplane,
+                                        as: 'airplane',
+                                        include: [
+                                            {
+                                                model: Airline,
+                                                as: 'airline',
+                                                attributes: ['id', 'name', 'logo'],
+                                            }
+                                        ]
+                                    },
+                                ],
+                            }
+                        ]
+                    }
+                ],
+                limit: limit,
+                offset: offset,
+                order: [
+                    ['id', 'DESC'],
+                    ['orderDetails', 'id', 'ASC'],
+                ],
+            });
+            const ordersTransformed = IndexOrderTransformer(orders);
+
+            return apiResponse(status.OK, 'OK', 'Orders retrieved successfully.',
+                {
+                    orders: ordersTransformed,
+                    pagination: { page, limit, offset, rows, pages }
+                },
+            );
+        } catch (e) {
+            throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+        }
+    },
+    show: async (req) => {
+        try {
+            const { identifier } = req.params;
+            const { id, role } = req.user;
+
+            const orderExists = await Order.findOne({
+                where: {
+                    identifier: identifier,
+                },
+                include: [
+                    {
+                        model: OrderDetail,
+                        as: 'orderDetails',
+                    }
+                ]
+            });
+            if (!orderExists) {
+                throw apiNotFoundResponse('Order not found.');
+            }
+            if (role !== 'ADMIN' && orderExists.userId !== id) {
+                throw apiBadRequestResponse('You are not authorized to view this order.');
+            }
+
+            const order = await Order.findOne({
+                where: {
+                    identifier: identifier,
+                },
+                include: [
+                    {
+                        model: OrderDetail,
+                        as: 'orderDetails',
+                        include: [
+                            {
+                                model: Flight,
+                                as: 'flight',
+                                include: [
+                                    {
+                                        model: Airplane,
+                                        as: 'airplane',
+                                        subQuery: false,
+                                        include: [
+                                            {
+                                                model: Airline,
+                                                as: 'airline',
+                                            },
+                                            {
+                                                model: SeatClass,
+                                                as: 'seatClasses',
+                                                through: {
+                                                    attributes: []
+                                                },
+                                                where: {
+                                                    type: orderExists.orderDetails[0].seatType
+                                                },
+                                                include: [
+                                                    {
+                                                        model: Benefit,
+                                                        as: 'benefits',
+                                                        through: {
+                                                            attributes: []
+                                                        },
+                                                    }
+                                                ],
+                                            }
+                                        ],
+                                    }
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        model: OrderContact,
+                        as: 'orderContact',
+                    },
+                    {
+                        model: Passenger,
+                        as: 'passengers',
+                    },
+                ],
+                order: [
+                    ['orderDetails', 'id', 'ASC'],
+                ]
+            });
+            const orderTransformed = ShowOrderTransformer(order);
+
+            return apiResponse(status.OK, 'OK', 'Order retrieved successfully.', { order: orderTransformed });
+        } catch (e) {
+            throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+        }
+    },
     create: async (req) => {
         try {
             const res = await sequelize.transaction(async (t) => {
@@ -65,6 +222,7 @@ module.exports = {
                     type: tripType,
                     isRequiredVisa: requireVisa,
                     paymentMethod,
+                    status: 'PENDING',
                 }, { transaction: t });
 
                 await Promise.all(
@@ -86,12 +244,8 @@ module.exports = {
                     passengers.map(async (passenger) => {
                         await order.createPassenger({
                             fullName: passenger.fullName,
-                            firstName: passenger.firstName || null,
-                            lastName: passenger.lastName || null,
-                            citizenship: passenger.citizenship || null,
-                            passport: passenger.passport || null,
-                            passportCitizenship: passenger.passportCitizenship || null,
-                            passportExpire: passenger.passportExpire || null,
+                            type: passenger.type,
+                            number: passenger.number,
                         }, { transaction: t });
                     })
                 );
@@ -141,6 +295,9 @@ module.exports = {
                         as: 'passengers',
                     }
                 ],
+                order: [
+                    ['orderDetails', 'id', 'ASC'],
+                ]
             });
             const orderTransformed = CreateOrderTransformer(order);
 

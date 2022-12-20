@@ -13,16 +13,26 @@ const options = {
 
 const passengersValidation = Joi.object({
     fullName: Joi.string().max(255).required().label('Full Name'),
-    firstName: Joi.string().max(255).allow(null).label('First Name'),
-    lastName: Joi.string().max(255).allow(null).label('Last Name'),
-    citizenship: Joi.string().max(255).allow(null).label('Citizenship'),
-    birthdate: Joi.date().format('YYYY-MM-DD').allow(null).label('Birthdate'),
-    passport: Joi.string().max(255).allow(null).label('Passport'),
-    passportCitizenship: Joi.string().max(255).allow(null).label('Passport Citizenship'),
-    passportExpire: Joi.date().format('YYYY-MM-DD').allow(null).label('Passport Expire'),
+    type: Joi.string().valid('KTP', 'Passport').required().label('Type'),
+    number: Joi.string().max(255).required().label('Number'),
 });
 
 module.exports = {
+    indexOrderValidation: (req, res, next) => {
+        const schema = Joi.object({
+            page: Joi.number().integer().min(1).label('Page'),
+            limit: Joi.number().integer().min(1).label('Limit'),
+            search: Joi.string().max(255).label('Search'),
+        });
+
+        const { error } = schema.validate(req.query, options);
+
+        if (error) {
+            return res.status(status.UNPROCESSABLE_ENTITY).json(apiResponseValidationError(error));
+        }
+
+        next();
+    },
     createOrderValidation: (req, res, next) => {
         const schema = Joi.object({
             flightId: Joi.array().items(Joi.number().required()).max(2).required().label('Flight ID'),
