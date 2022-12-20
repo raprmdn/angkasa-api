@@ -91,6 +91,14 @@ const swaggerDefinition = {
                 url: '#'
             }
         },
+        {
+            name: 'Order',
+            description: 'Everything about Order',
+            externalDocs: {
+                description: 'Find out more',
+                url: '#'
+            }
+        },
     ],
     basePath: '/api'
 };

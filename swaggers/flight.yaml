@@ -347,11 +347,11 @@ paths:
               x-examples:
                 Example 1:
                   airplaneId: 2
-                  date: '2022-12-17'
-                  from: CGK
-                  to: DPS
-                  std: '2022-12-17 08:55:00'
-                  sta: '2022-12-17 11:35:00'
+                  date: '2022-12-26'
+                  from: DPS
+                  to: CGK
+                  std: '2022-12-26 17:55:00'
+                  sta: '2022-12-26 21:40:00'
                   estimated: 110
                   seatPrices:
                     - airplaneSeatClassId: 4
@@ -364,11 +364,11 @@ paths:
               Example Request Body:
                 value:
                   airplaneId: 2
-                  date: '2022-12-17'
-                  from: CGK
-                  to: DPS
-                  std: '2022-12-17 08:55:00'
-                  sta: '2022-12-17 11:35:00'
+                  date: '2022-12-26'
+                  from: DPS
+                  to: CGK
+                  std: '2022-12-26 17:55:00'
+                  sta: '2022-12-26 21:40:00'
                   estimated: 110
                   seatPrices:
                     - airplaneSeatClassId: 4
