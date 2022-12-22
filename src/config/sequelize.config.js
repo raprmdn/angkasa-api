@@ -10,9 +10,9 @@ module.exports = {
         port: process.env.DB_PORT,
         dialectOptions: {
             useUTC: false,
-            timezone: 'Asia/Jakarta',
+            timezone: '+07:00',
         },
-        timezone: 'Asia/Jakarta',
+        timezone: '+07:00',
     },
     test: {
         username: process.env.DB_USERNAME,
@@ -23,9 +23,9 @@ module.exports = {
         port: process.env.DB_PORT,
         dialectOptions: {
             useUTC: false,
-            timezone: 'Asia/Jakarta',
+            timezone: '+07:00',
         },
-        timezone: 'Asia/Jakarta',
+        timezone: '+07:00',
     },
     production: {
         username: process.env.DB_USERNAME,
@@ -36,8 +36,8 @@ module.exports = {
         port: process.env.DB_PORT,
         dialectOptions: {
             useUTC: false,
-            timezone: 'Asia/Jakarta',
+            timezone: '+07:00',
         },
-        timezone: 'Asia/Jakarta',
+        timezone: '+07:00',
     },
 };

@@ -17,6 +17,7 @@ require("./utils/scheduler.utils");
 
 const app = express();
 const port = process.env.PORT;
+process.env.TZ = "Asia/Jakarta";
 
 app.use(compression());
 app.use(helmet());
