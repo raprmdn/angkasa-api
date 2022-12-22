@@ -52,7 +52,7 @@ module.exports = {
                         [Op.lte]: moment(date).format('YYYY-MM-DD 23:59:59'),
                     },
                     std: {
-                        [Op.gte]: moment().format()
+                        [Op.gte]: moment().format('YYYY-MM-DD HH:mm:ss'),
                     },
                 },
                 include: [
@@ -100,6 +100,9 @@ module.exports = {
                     },
                 ],
                 distinct: true,
+                order: [
+                    ['std', 'ASC']
+                ]
             });
             const flights = FlightSearchTransform(response.rows);
 
