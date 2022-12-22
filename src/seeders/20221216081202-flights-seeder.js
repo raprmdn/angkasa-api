@@ -3,11 +3,11 @@
 const moment = require("moment");
 
 const length = 7;
-const dateNow = moment().format('YYYY-MM-DD HH:mm:ss');
+const dateNow = moment().format('YYYY-MM-DD 00:00:00');
 const flights = [];
 
 const airplane1 = [...Array(length)].map((_, i) => {
-    const date = moment(dateNow).add(i, "days").format('YYYY-MM-DD HH:mm:ss');
+    const date = moment(dateNow).add(i, "days").format('YYYY-MM-DD 00:00:00');
     return {
         airplaneId: 1,
         flightNumber: 'GA 420',
@@ -29,7 +29,7 @@ const airplane1 = [...Array(length)].map((_, i) => {
 });
 
 const airplane2 = [...Array(length)].map((_, i) => {
-    const date = moment(dateNow).add(i, "days").format('YYYY-MM-DD HH:mm:ss');
+    const date = moment(dateNow).add(i, "days").format('YYYY-MM-DD 00:00:00');
     return {
         airplaneId: 2,
         flightNumber: 'GA 421',
@@ -51,7 +51,7 @@ const airplane2 = [...Array(length)].map((_, i) => {
 });
 
 const airplane6 = [...Array(length)].map((_, i) => {
-    const date = moment(dateNow).add(i, "days").format('YYYY-MM-DD HH:mm:ss');
+    const date = moment(dateNow).add(i, "days").format('YYYY-MM-DD 00:00:00');
     return {
         airplaneId: 6,
         flightNumber: 'JT 620',
@@ -73,7 +73,7 @@ const airplane6 = [...Array(length)].map((_, i) => {
 });
 
 const airplane7 = [...Array(length)].map((_, i) => {
-    const date = moment(dateNow).add(i, "days").format('YYYY-MM-DD HH:mm:ss');
+    const date = moment(dateNow).add(i, "days").format('YYYY-MM-DD 00:00:00');
     return {
         airplaneId: 7,
         flightNumber: 'JT 621',
@@ -95,7 +95,7 @@ const airplane7 = [...Array(length)].map((_, i) => {
 });
 
 const airplane8 = [...Array(length)].map((_, i) => {
-    const date = moment(dateNow).add(i, "days").format('YYYY-MM-DD HH:mm:ss');
+    const date = moment(dateNow).add(i, "days").format('YYYY-MM-DD 00:00:00');
     return {
         airplaneId: 8,
         flightNumber: 'ID 6504',
@@ -117,7 +117,7 @@ const airplane8 = [...Array(length)].map((_, i) => {
 });
 
 const airplane9 = [...Array(length)].map((_, i) => {
-    const date = moment(dateNow).add(i, "days").format('YYYY-MM-DD HH:mm:ss');
+    const date = moment(dateNow).add(i, "days").format('YYYY-MM-DD 00:00:00');
     return {
         airplaneId: 9,
         flightNumber: 'ID 6505',
@@ -229,5 +229,6 @@ module.exports = {
 
     async down(queryInterface, Sequelize) {
         await queryInterface.bulkDelete('Flights', null, {});
+        await queryInterface.bulkDelete('SeatPrices', null, {});
     }
 };
