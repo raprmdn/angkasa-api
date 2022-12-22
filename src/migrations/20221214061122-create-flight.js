@@ -59,6 +59,10 @@ module.exports = {
                 type: Sequelize.STRING,
                 defaultValue: 'direct'
             },
+            status: {
+                type: Sequelize.STRING,
+                defaultValue: 'SCHEDULED'
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE

@@ -13,6 +13,7 @@ const routes = require("./routes/index");
 const { apiResponse, apiNotFoundResponse } = require("./utils/apiResponse.utils");
 const { swaggerAccess } = require("./middlewares/swagger.middleware");
 const { limiter } = require("./middlewares/limiter.middleware");
+require("./utils/scheduler.utils");
 
 const app = express();
 const port = process.env.PORT;

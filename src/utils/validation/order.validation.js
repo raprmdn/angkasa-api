@@ -43,7 +43,7 @@ module.exports = {
                 phone: Joi.string().max(15).required().label('Phone'),
             }),
             passengers: Joi.array().items(passengersValidation)
-                .has(passengersValidation).min(1).max(req.body.totalPassengers)
+                .has(passengersValidation).min(req.body.totalPassengers || 1).max(req.body.totalPassengers || 1)
                 .required().label('Passengers'),
             paymentMethod: Joi.string().max(255).required().label('Payment Method'),
             class: Joi.string().valid('ECONOMY', 'PREMIUM', 'BUSINESS', 'FIRST CLASS', 'QUIET ZONE')
