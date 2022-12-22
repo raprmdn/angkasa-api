@@ -34,9 +34,6 @@ cron.schedule('0 * * * *', async () => {
     Affected rows: ${flightNumbers.length}
     Affected flight numbers: ${flightNumbers.join(', ')}
     Type: UPDATE_FLIGHT_STATUS
-    Triggered at: ${moment().format('MMMM DD, YYYY HH:mm:ss')} Asia/Jakarta
+    Triggered at: ${moment().format('MMMM DD, YYYY HH:mm:ss')}
     `);
-}, {
-    scheduled: true,
-    timezone: "Asia/Jakarta",
 });
