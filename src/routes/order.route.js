@@ -6,7 +6,7 @@ const { hasRole } = require("../middlewares/authorization.middleware");
 
 const router = express.Router();
 
-router.get('/check-order', checkOrderValidation, OrderController.checkOrder);
+router.post('/check-order', checkOrderValidation, OrderController.checkOrder);
 router.get('/history', authentication, OrderController.userOrderHistory);
 router.get('/', authentication, hasRole(['ADMIN']), indexOrderValidation, OrderController.index);
 router.post('/', authentication, createOrderValidation, OrderController.create);
