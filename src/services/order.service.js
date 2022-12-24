@@ -306,6 +306,106 @@ module.exports = {
             throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
         }
     },
+    checkOrder: async (req) => {
+        try {
+            const { email, code } = req.body;
+
+            const orderExists = await Order.findOne({
+                where: {
+                    code,
+                },
+                include: [
+                    {
+                        model: User,
+                        as: 'user',
+                        where: {
+                            email,
+                        }
+                    },
+                    {
+                        model: OrderDetail,
+                        as: 'orderDetails',
+                    }
+                ]
+            });
+            if (!orderExists) {
+                throw apiNotFoundResponse('Order not found');
+            }
+
+            const order = await Order.findOne({
+                where: {
+                    code,
+                },
+                include: [
+                    {
+                        model: OrderDetail,
+                        as: 'orderDetails',
+                        include: [
+                            {
+                                model: Flight,
+                                as: 'flight',
+                                include: [
+                                    {
+                                        model: Airplane,
+                                        as: 'airplane',
+                                        subQuery: false,
+                                        include: [
+                                            {
+                                                model: Airline,
+                                                as: 'airline',
+                                            },
+                                            {
+                                                model: SeatClass,
+                                                as: 'seatClasses',
+                                                through: {
+                                                    attributes: []
+                                                },
+                                                where: {
+                                                    type: orderExists.orderDetails[0].seatType
+                                                },
+                                                include: [
+                                                    {
+                                                        model: Benefit,
+                                                        as: 'benefits',
+                                                        through: {
+                                                            attributes: []
+                                                        },
+                                                    }
+                                                ],
+                                            }
+                                        ],
+                                    }
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        model: OrderContact,
+                        as: 'orderContact',
+                    },
+                    {
+                        model: Passenger,
+                        as: 'passengers',
+                    },
+                    {
+                        model: User,
+                        as: 'user',
+                        where: {
+                            email,
+                        }
+                    }
+                ],
+                order: [
+                    ['orderDetails', 'id', 'ASC'],
+                ]
+            });
+            const orderTransformed = ShowOrderTransformer(order);
+
+            return apiResponse(status.OK, 'OK', 'Order found', { order: orderTransformed });
+        } catch (e) {
+            throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
+        }
+    },
     acceptOrder: async (req) => {
       try {
         const { id: orderId } = req.params;
@@ -400,7 +500,7 @@ module.exports = {
           orders: ordersTransformed,
           pagination: { page, limit, offset, rows, pages }
         });
-        
+
       } catch (error) {
         throw apiResponse(
           error.code || status.INTERNAL_SERVER_ERROR,

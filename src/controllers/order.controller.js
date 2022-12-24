@@ -25,6 +25,14 @@ module.exports = {
             return res.status(e.code).json(e);
         }
     },
+    checkOrder: async (req, res) => {
+        try {
+            const serviceResponse = await OrderService.checkOrder(req);
+            return res.status(serviceResponse.code).json(serviceResponse);
+        } catch (e) {
+            return res.status(e.code).json(e);
+        }
+    },
     acceptOrder: async (req, res) => {
       try {
         const serviceResponse = await OrderService.acceptOrder(req);
