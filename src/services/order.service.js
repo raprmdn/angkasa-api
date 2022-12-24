@@ -305,5 +305,107 @@ module.exports = {
         } catch (e) {
             throw apiResponse(e.code || status.INTERNAL_SERVER_ERROR, e.status || 'INTERNAL_SERVER_ERROR', e.message);
         }
+    },
+    acceptOrder: async (req) => {
+      try {
+        const { id: orderId } = req.params;
+
+        const order = await Order.findByPk(orderId);
+
+        if (!order) {
+          throw apiNotFoundResponse("Order not found.");
+        }
+
+        if (order.status == "COMPLETED") {
+          throw apiResponse(
+            status.BAD_REQUEST,
+            "BAD_REQUEST",
+            "status of this order is already COMPLETED"
+          );
+        }
+
+        order.status = "COMPLETED";
+
+        await order.save();
+
+        return apiResponse(status.OK, "OK", "Payment APPROVED by admin");
+      } catch (error) {
+        throw apiResponse(
+          error.code || status.INTERNAL_SERVER_ERROR,
+          error.status || "INTERNAL_SERVER_ERROR",
+          error.message || null
+        );
+      }
+    },
+    userOrderHistory: async (req) => {
+      try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const search = req.query.search ? req.query.search.toUpperCase() : "";
+        const offset = (page - 1) * limit;
+        const rows = await Order.count({
+          where: {
+            [Op.or]: [{ code: { [Op.like]: `%${search}%` } }],
+          },
+        });
+        const pages = Math.ceil(rows / limit);
+        const { id: userId } = req.user;
+
+        const user = await User.findByPk(userId);
+        if(!user){
+          throw apiNotFoundResponse("User not Found");
+        }
+
+        const orders = await Order.findAll({
+          where: {
+            userId,
+          },
+          include: [
+            {
+              model: OrderDetail,
+              as: "orderDetails",
+              include: [
+                {
+                  model: Flight,
+                  as: "flight",
+                  include: [
+                    {
+                      model: Airplane,
+                      as: "airplane",
+                      include: [
+                        {
+                          model: Airline,
+                          as: "airline",
+                          attributes: ["id", "name", "logo"],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          limit: limit,
+          offset: offset,
+          order: [
+            ["id", "DESC"],
+            ["orderDetails", "id", "ASC"],
+          ],
+        });
+
+        const ordersTransformed = IndexOrderTransformer(orders);
+
+        return apiResponse(status.OK, "OK", "Success to get user Orders History", {
+          orders: ordersTransformed,
+          pagination: { page, limit, offset, rows, pages }
+        });
+        
+      } catch (error) {
+        throw apiResponse(
+          error.code || status.INTERNAL_SERVER_ERROR,
+          error.status || "INTERNAL_SERVER_ERROR",
+          error.message || null
+        )
+      }
     }
 };

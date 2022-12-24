@@ -25,4 +25,20 @@ module.exports = {
             return res.status(e.code).json(e);
         }
     },
+    acceptOrder: async (req, res) => {
+      try {
+        const serviceResponse = await OrderService.acceptOrder(req);
+        return res.status(serviceResponse.code).json(serviceResponse);
+      } catch (error) {
+        return res.status(error.code).json(error);
+      }
+    },
+    userOrderHistory: async (req, res) => {
+      try {
+        const serviceResponse = await OrderService.userOrderHistory(req);
+        return res.status(serviceResponse.code).json(serviceResponse);
+      } catch (error) {
+        return res.status(error.code).json(error);
+      }
+    }
 };
