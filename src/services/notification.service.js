@@ -53,13 +53,6 @@ module.exports = {
         include: "notifications",
       });
 
-      if (!notifications || notifications.length == 0)
-        throw apiResponse(
-          status.NOT_FOUND,
-          "NOT_FOUND",
-          "Notification not found"
-        );
-
       return apiResponse(status.OK, "OK", "Success to get all Notification", {
         notifications,
       });
