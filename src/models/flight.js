@@ -37,7 +37,8 @@ module.exports = (sequelize, DataTypes) => {
         std: DataTypes.DATE,
         sta: DataTypes.DATE,
         estimated: DataTypes.STRING,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        status: DataTypes.STRING,
     }, {
         sequelize,
         modelName: 'Flight',

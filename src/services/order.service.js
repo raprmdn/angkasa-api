@@ -8,7 +8,7 @@ const moment = require('moment');
 const { Op } = require("sequelize");
 const { apiResponse, apiNotFoundResponse, apiBadRequestResponse } = require("../utils/apiResponse.utils");
 const { generateIdentifier, generateCode, isRequiredVisa } = require("../helpers/order.helper");
-const { IndexOrderTransformer, CreateOrderTransformer, ShowOrderTransformer} = require("../helpers/transformers/order.transformers");
+const { IndexOrderTransformer, CreateOrderTransformer, ShowOrderTransformer } = require("../helpers/transformers/order.transformers");
 
 module.exports = {
     index: async (req) => {
@@ -191,12 +191,20 @@ module.exports = {
                         }
                     ]
                 });
+
                 if (flights.length !== flightId.length) {
                     throw apiNotFoundResponse('Flight not found');
                 }
-                if (flights.some(flight => moment(flight.date).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD'))) {
-                    throw apiBadRequestResponse('Flight is already expired');
-                }
+
+                flights.some(flight => {
+                    if (moment(flight.date).format('YYYY-MM-DD') < moment().format('YYYY-MM-DD')) {
+                        throw apiBadRequestResponse('Flight is already expired');
+                    }
+
+                    if (moment(flight.std).format('YYYY-MM-DD HH:mm:ss') < moment().format('YYYY-MM-DD HH:mm:ss')) {
+                        throw apiBadRequestResponse('Flight is already expired');
+                    }
+                });
 
                 const identifier = generateIdentifier();
                 const code = generateCode();
