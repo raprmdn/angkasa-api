@@ -359,6 +359,7 @@ module.exports = {
         const orders = await Order.findAll({
           where: {
             userId,
+            [Op.or]: [{ code: { [Op.like]: `%${search}%` } }],
           },
           include: [
             {
