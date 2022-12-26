@@ -1,0 +1,189 @@
+openapi: 3.0.0
+info:
+  title: E-Ticket Angkasa API Documentation
+  description: API Documentation for Angkasa Final Project.
+  version: 1.0.0
+tags:
+  - name: User
+    description: Everything about User
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /update-profile:
+    put:
+      summary: ''
+      operationId: put-update-profile
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          fullname:
+                            type: string
+                          username:
+                            type: string
+                          email:
+                            type: string
+                          provider:
+                            type: string
+                          avatar:
+                            type: 'null'
+                          emailVerifiedAt:
+                            type: 'null'
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Success update user profile
+                    data:
+                      user:
+                        id: 5
+                        fullname: Rafi Putra Ramadhan
+                        username: rafirap
+                        email: raprmdn@gmail.com
+                        provider: local
+                        avatar: null
+                        emailVerifiedAt: null
+                        createdAt: '2022-12-26 14:40:32'
+                        updatedAt: '2022-12-26 16:43:50'
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Success update user profile
+                    data:
+                      user:
+                        id: 5
+                        fullname: Rafi Putra Ramadhan
+                        username: rafirap
+                        email: raprmdn@gmail.com
+                        provider: local
+                        avatar: null
+                        emailVerifiedAt: null
+                        createdAt: '2022-12-26 14:40:32'
+                        updatedAt: '2022-12-26 16:43:50'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - User
+      description: Endpoint for update profile information
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullname:
+                  type: string
+                username:
+                  type: string
+              x-examples:
+                Example 1:
+                  fullname: Rafi Putra Ramadhan
+                  username: rafirap
+            examples:
+              Example Request Body:
+                value:
+                  fullname: Rafi Putra Ramadhan
+                  username: raprmdn
+        description: Request body for update user profile information
+  /update-password:
+    put:
+      summary: ''
+      operationId: put-update-password
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Success update user password
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Success update user password
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - User
+      description: Endpoint for update user password
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+                newPasswordConfirmation:
+                  type: string
+              x-examples:
+                Example 1:
+                  oldPassword: Abc123456
+                  newPassword: Abc123456!
+                  newPasswordConfirmation: Abc123456!
+            examples:
+              Example Request Body:
+                value:
+                  oldPassword: Abc123456
+                  newPassword: Abc123456!
+                  newPasswordConfirmation: Abc123456!
+        description: Request body for update user password
+    parameters: []

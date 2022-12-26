@@ -1,7 +1,8 @@
 const cron = require('node-cron');
-const { Flight } = require('../models');
+const { Flight, SeatPrice } = require('../models');
 const { Op } = require('sequelize');
 const moment = require('moment');
+const { SeedFlights, SeedFlightSeatPrices} = require("../helpers/flight.helper");
 
 // Run Every 1 Hour
 cron.schedule('0 * * * *', async () => {
@@ -36,4 +37,23 @@ cron.schedule('0 * * * *', async () => {
     Type: UPDATE_FLIGHT_STATUS
     Triggered at: ${moment().format('MMMM DD, YYYY HH:mm:ss')}
     `);
+});
+
+// Run every 1 week
+cron.schedule('0 0 * * 0', async () => {
+    const flights = SeedFlights();
+    await Flight.bulkCreate(flights).then(async (flights) => {
+        const seatPrices = SeedFlightSeatPrices(flights);
+        await SeatPrice.bulkCreate(seatPrices);
+        console.info(`
+        Scheduler: (Flights Scheduler) [Create new flights every 1 week]
+        Flights created: ${flights.length}
+        Flights:
+        ${JSON.stringify(flights, null, 2)}
+        Seat Prices:
+        ${JSON.stringify(seatPrices, null, 2)}
+        Type: CREATE_FLIGHTS
+        Triggered at: ${moment().format('MMMM DD, YYYY HH:mm:ss')}
+        `);
+    });
 });

@@ -1,0 +1,306 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Angaksa E-Ticket</title>
+    <style>
+        @media only screen and (max-width: 620px) {
+            table.body h1 {
+                font-size: 28px !important;
+                margin-bottom: 10px !important;
+            }
+            table.body p,
+            table.body ul,
+            table.body ol,
+            table.body td,
+            table.body span,
+            table.body a {
+                font-size: 16px !important;
+            }
+            table.body .wrapper,
+            table.body .article {
+                padding: 10px !important;
+            }
+            table.body .content {
+                padding: 0 !important;
+            }
+            table.body .container {
+                padding: 0 !important;
+                width: 100% !important;
+            }
+            table.body .main {
+                border-left-width: 0 !important;
+                border-radius: 0 !important;
+                border-right-width: 0 !important;
+            }
+            table.body .btn table {
+                width: 100% !important;
+            }
+            table.body .btn a {
+                width: 100% !important;
+            }
+            table.body .img-responsive {
+                height: auto !important;
+                max-width: 100% !important;
+                width: auto !important;
+            }
+        }
+        @media all {
+            .ExternalClass {
+                width: 100%;
+            }
+            .ExternalClass,
+            .ExternalClass p,
+            .ExternalClass span,
+            .ExternalClass font,
+            .ExternalClass td,
+            .ExternalClass div {
+                line-height: 100%;
+            }
+            .apple-link a {
+                color: inherit !important;
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                line-height: inherit !important;
+                text-decoration: none !important;
+            }
+            #MessageViewBody a {
+                color: inherit;
+                text-decoration: none;
+                font-size: inherit;
+                font-family: inherit;
+                font-weight: inherit;
+                line-height: inherit;
+            }
+        }
+    </style>
+</head>
+
+<body style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
+<span class="preheader"
+      style="color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0;">Angkasa E-Ticket</span>
+<table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body"
+       style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f6f6f6; width: 100%;"
+       width="100%" bgcolor="#f6f6f6">
+    <tr>
+        <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;" valign="top">&nbsp;</td>
+        <td class="container"
+            style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; max-width: 580px; padding: 10px; width: 580px; margin: 0 auto;"
+            width="580" valign="top">
+            <div class="content"
+                 style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 580px; padding: 10px;">
+                <table role="presentation" class="main"
+                       style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background: #ffffff; border-radius: 3px; width: 100%;"
+                       width="100%">
+                    <tr>
+                        <td class="wrapper"
+                            style="font-family: sans-serif; font-size: 16px; vertical-align: top; box-sizing: border-box; padding: 20px;"
+                            valign="top">
+                            <table border="0"
+                                   style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;"
+                                   width="100%">
+                                <tr>
+                                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;"
+                                        valign="top">
+                                        <p style="font-family: sans-serif; text-align:center; font-size: 30px; font-weight: bold; margin: 0; margin-bottom: 10px;">
+                                            Thanks for your order!</p>
+                                        <p style="font-family:sans-serif; text-align: center; font-size: 15px; font-weight: normal; margin: 0; margin-bottom: 15px;">
+                                            Invoice
+                                            #<%= data.code %>
+                                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">
+                                            Hello,
+                                            <%= data.user.fullName %>!</p>
+                                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">
+                                            You recently ordered flights from our website. Thank you for your
+                                            order!.</p>
+                                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px;">
+                                            Here is summary of recently the order you have been made up. You can also
+                                            view this invoice in our <b>Website</b>.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table border="0" width="100%" style="font-size: 13px;">
+                                <tbody>
+                                <tr>
+                                    <td colspan="3"
+                                        style="padding:5px 0 0 0;color:#333333;font-size:16px;font-weight:bold;"
+                                        align="center">
+                                        <p style="margin-bottom: 10px;">Order Summary</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 7px 0 7px;" align="left" valign="top">Transaction Date</td>
+                                    <td style="font-size:0;line-height:0">&nbsp;</td>
+                                    <td style="font-weight:bold;" align="right"><%= data.paidAt %></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 7px 0 7px;" align="left" valign="top">Invoice</td>
+                                    <td style="font-size:0;line-height:0">&nbsp;</td>
+                                    <td style="font-weight:bold" align="right"><%= data.code %></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" align="center">
+                                        <hr style="border-top: 1px dashed; margin-top: 15px; margin-bottom: 15px;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 7px 0 7px;" align="left" valign="top">Customer</td>
+                                    <td style="font-size:0;line-height:0">&nbsp;</td>
+                                    <td style="font-weight:bold" align="right"><%= data.user.email %></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 7px 0 7px;" align="left" valign="top">Payment Method</td>
+                                    <td style="font-size:0;line-height:0">&nbsp;</td>
+                                    <td style="font-weight:bold" align="right"><%= data.paymentMethod %></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 7px 0 7px;" align="left" valign="top">Status</td>
+                                    <td style="font-size:0;line-height:0">&nbsp;</td>
+                                    <td style="font-weight:bold; color:#50cd89;" align="right"><%= data.status %></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" align="center">
+                                        <hr style="border-top: 1px dashed; margin-top: 15px; margin-bottom: 15px;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" align="center">
+                                        <p style="margin: 5px;">
+                                            Contact
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 7px 0 7px;" align="left" valign="top">Full Name</td>
+                                    <td style="font-size:0;line-height:0">&nbsp;</td>
+                                    <td style="font-weight:bold" align="right"><%= data.contact.fullName %></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 7px 0 7px;" align="left" valign="top">Email</td>
+                                    <td style="font-size:0;line-height:0">&nbsp;</td>
+                                    <td style="font-weight:bold" align="right"><%= data.contact.email %></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 7px 0 7px;" align="left" valign="top">Phone</td>
+                                    <td style="font-size:0;line-height:0">&nbsp;</td>
+                                    <td style="font-weight:bold" align="right"><%= data.contact.phone %></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" align="center">
+                                        <hr style="border-top: 1px dashed; margin-top: 15px; margin-bottom: 15px;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" align="center">
+                                        <p style="margin: 5px;">
+                                            Flights
+                                        </p>
+                                    </td>
+                                </tr>
+                                <% data.orderDetails.map(_ => { %>
+                                    <tr>
+                                        <td style="padding-top: 20px;" align="left" valign="top"><%= _.airplane.airline.name %> - <%= _.flight.flightNumber %> - <%= _.flight.date %></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" valign="top"><%= _.flight.fromAirport.name %> (<%= _.flight.fromAirport.iata %>) [<%= _.flight.std %>]</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" valign="top"><%= _.flight.toAirport.name %> (<%= _.flight.toAirport.iata %>) [<%= _.flight.sta %>]</td>
+                                        <td style="font-size:0;line-height:0">&nbsp;</td>
+                                        <td style="font-weight:bold; color: #fa591d;" align="right"><%= _.seatPrice.total.formatted %></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" valign="top"><%= _.seatPrice.seatType %></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" valign="top">
+                                            <span style="font-weight: bold"><%= data.totalPassengers %> x </span>
+                                            <span style="color: #fa591d; font-weight: bold;"> <%= _.seatPrice.price.formatted %></span>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                                <tr>
+                                    <td colspan="3" align="center">
+                                        <hr style="border-top: 1px dashed; margin-top: 15px; margin-bottom: 15px;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" align="center">
+                                        <p style="margin: 5px;">
+                                            Passengers
+                                        </p>
+                                    </td>
+                                </tr>
+                                <% data.passengers.map(_ => { %>
+                                    <tr>
+                                        <td style="padding: 7px 0 7px;" align="left" valign="top">
+                                            <%= _.fullName %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                                <tr>
+                                    <td colspan="3" align="center">
+                                        <hr style="border-top: 1px dashed; margin-top: 15px; margin-bottom: 15px;">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 7px 0 7px;" align="left" valign="top">Discount</td>
+                                    <td style="font-size:0;line-height:0">&nbsp;</td>
+                                    <td style="font-weight:bold; color:#ff0000;" align="right"><%= data.discount %></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 7px 0 7px;" align="left" valign="top">Total Paid</td>
+                                    <td style="font-size:0;line-height:0">&nbsp;</td>
+                                    <td style="font-weight:bold; color:#50cd89;" align="right"><%= data.total %></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table border="0" width="100%" style="font-size: 13px;">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <p style="font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; margin-bottom: 15px; margin-top: 30px;">
+                                            If you any further question, just contact our customer service, we're always
+                                            happy to help you out.</p>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <div class="footer" style="clear: both; margin-top: 10px; text-align: center; width: 100%;">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0"
+                           style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;"
+                           width="100%">
+                        <tr>
+                            <td class="content-block"
+                                style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; color: #999999; font-size: 12px; text-align: center;"
+                                valign="top" align="center">
+                                <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Jakarta, Indonesia</span>
+                                <br> Don't like these emails? <a href="#"
+                                                                 style="text-decoration: underline; color: #999999; font-size: 12px; text-align: center;">Unsubscribe</a>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="content-block powered-by"
+                                style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; color: #999999; font-size: 12px; text-align: center;"
+                                valign="top" align="center">
+                                <a href="#"
+                                   style="color: #999999; font-size: 12px; text-align: center; text-decoration: none;">Angkasa E-Ticket</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </td>
+        <td style="font-family: sans-serif; font-size: 14px; vertical-align: top;" valign="top">&nbsp;</td>
+    </tr>
+</table>
+</body>
+
+</html>

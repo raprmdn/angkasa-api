@@ -105,7 +105,7 @@ const indexOrderTransform = (order) => ({
         fromAirportIata: orderDetail.flight.fromAirportIata,
         toAirportIata: orderDetail.flight.toAirportIata,
         date: moment(orderDetail.flight.date).format('YYYY-MM-DD'),
-        std: moment(orderDetail.flight.sta).format('HH:mm'),
+        std: moment(orderDetail.flight.std).format('HH:mm'),
         sta: moment(orderDetail.flight.sta).format('HH:mm'),
         estimated: orderDetail.flight.estimated,
         airline: {
@@ -173,9 +173,73 @@ const showOrderTransform = (order) => ({
     ...contactAndPassengers(order)
 });
 
+const orderInvoiceTransform = (order) => ({
+    id: order.id,
+    code: order.code,
+    totalPassengers: order.totalPassengers,
+    total: RupiahFormat(order.total),
+    discount: RupiahFormat(order.discount),
+    paymentMethod: order.paymentMethod,
+    paidAt: moment(order.paidAt).format('lll'),
+    type: order.type,
+    status: order.status,
+    user: {
+        fullName: order.user.fullname,
+        email: order.user.email,
+    },
+    contact: {
+        fullName: order.orderContact.fullName,
+        email: order.orderContact.email,
+        phone: order.orderContact.phone,
+    },
+    orderDetails: order.orderDetails.map((orderDetail) => ({
+        flight: {
+            flightNumber: orderDetail.flight.flightNumber,
+            date: moment(orderDetail.flight.date).format('YYYY-MM-DD'),
+            fromAirport: {
+                iata: orderDetail.flight.fromAirportIata,
+                name: orderDetail.flight.fromAirportName,
+                country: orderDetail.flight.fromAirportCountry,
+                city: orderDetail.flight.fromAirportCity,
+            },
+            toAirport: {
+                iata: orderDetail.flight.toAirportIata,
+                name: orderDetail.flight.toAirportName,
+                country: orderDetail.flight.toAirportCountry,
+                city: orderDetail.flight.toAirportCity,
+            },
+            std: moment(orderDetail.flight.std).format('HH:mm'),
+            sta: moment(orderDetail.flight.sta).format('HH:mm'),
+            estimated: orderDetail.flight.estimated,
+            type: orderDetail.flight.type,
+        },
+        seatPrice: {
+            seatType: orderDetail.flight.seatPrices[0].seatType,
+            total: {
+                raw: orderDetail.flight.seatPrices[0].price,
+                formatted: RupiahFormat(orderDetail.flight.seatPrices[0].price),
+            },
+            price: {
+                raw: orderDetail.flight.seatPrices[0].price * order.totalPassengers,
+                formatted: RupiahFormat(orderDetail.flight.seatPrices[0].price * order.totalPassengers),
+            }
+        },
+        airplane: {
+            type: orderDetail.flight.airplane.type,
+            airplaneCode: orderDetail.flight.airplane.airplaneCode,
+            airline: {
+                name: orderDetail.flight.airplane.airline.name,
+            }
+        }
+    })),
+    passengers: order.passengers.map((passenger) => ({
+        fullName: passenger.fullName,
+    })),
+});
 
 module.exports = {
     IndexOrderTransformer: (orders) => orders.map((order) => indexOrderTransform(order)),
     ShowOrderTransformer: (order) => showOrderTransform(order),
     CreateOrderTransformer: (order) => createOrderTransform(order),
+    InvoiceOrderTransformer: (order) => orderInvoiceTransform(order),
 };

@@ -1,6 +1,6 @@
 const { User, Role } = require("../models");
 const { StatusCodes: status } = require("http-status-codes");
-const { apiResponse } = require("../utils/apiResponse.utils");
+const { apiResponse, apiBadRequestResponse } = require("../utils/apiResponse.utils");
 const { hashPassword, checkPassword } = require("../utils/bcrypt.utils");
 const { generateToken } = require("../utils/jwt.utils");
 const { UserTransform } = require("../helpers/transformers/user.transformers");
@@ -126,22 +126,14 @@ module.exports = {
 
       const isPasswordValid = await checkPassword(oldPassword, user.password);
       if (!isPasswordValid) {
-        throw apiResponse(
-          status.NOT_FOUND,
-          "NOT_FOUND",
-          "Old password does not match!"
-        );
+        throw apiBadRequestResponse('Wrong current password');
       }
       const hashed = await hashPassword(newPassword);
       const updatePassword = await user.update({
         password: hashed,
       });
 
-      const userTransformed = UserTransform(updatePassword);
-
-      return apiResponse(status.OK, "OK", "Success update user password", {
-        user: userTransformed,
-      });
+      return apiResponse(status.OK, "OK", "Success update user password");
     } catch (e) {
       console.log(e);
       throw apiResponse(
