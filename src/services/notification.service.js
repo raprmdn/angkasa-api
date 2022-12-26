@@ -51,6 +51,7 @@ module.exports = {
 
       const { notifications } = await User.findByPk(userId, {
         include: "notifications",
+        order: [["notifications", "createdAt", "DESC"]],
       });
 
       return apiResponse(status.OK, "OK", "Success to get all Notification", {

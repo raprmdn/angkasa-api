@@ -433,6 +433,7 @@ module.exports = {
         }
 
         order.status = "COMPLETED";
+        order.paidAt = moment().format("YYYY-MM-DD HH:mm:ss");
 
         await order.save();
 
