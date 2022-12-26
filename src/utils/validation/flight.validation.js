@@ -80,6 +80,18 @@ module.exports = {
 
         next();
     },
+    showFlightValidation: (req, res, next) => {
+        const schema = Joi.object({
+            id: Joi.number().positive().required().label('Flight ID'),
+        });
+
+        const { error } = schema.validate(req.params, options);
+        if (error) {
+            return res.status(status.UNPROCESSABLE_ENTITY).json(apiResponseValidationError(error));
+        }
+
+        next();
+    },
     rescheduleFlightValidation: (req, res, next) => {
         const schema = Joi.object({
             date: Joi.date().format('YYYY-MM-DD').required().label('Date'),

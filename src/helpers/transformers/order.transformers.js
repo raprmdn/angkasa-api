@@ -105,7 +105,7 @@ const indexOrderTransform = (order) => ({
         fromAirportIata: orderDetail.flight.fromAirportIata,
         toAirportIata: orderDetail.flight.toAirportIata,
         date: moment(orderDetail.flight.date).format('YYYY-MM-DD'),
-        std: moment(orderDetail.flight.sta).format('HH:mm'),
+        std: moment(orderDetail.flight.std).format('HH:mm'),
         sta: moment(orderDetail.flight.sta).format('HH:mm'),
         estimated: orderDetail.flight.estimated,
         airline: {
