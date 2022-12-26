@@ -8,13 +8,13 @@ const router = express.Router();
 router.post("/register", userValidation.register, userController.register);
 router.post("/login", userValidation.login, userController.login);
 router.get("/me", authentication, userController.me);
-router.post(
+router.put(
   "/update-profile",
   authentication,
   userValidation.updateProfile,
   userController.updateProfile
 );
-router.post(
+router.put(
   "/update-password",
   authentication,
   userValidation.updatePassword,

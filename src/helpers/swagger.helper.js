@@ -28,6 +28,14 @@ const swaggerDefinition = {
             }
         },
         {
+            name: 'User',
+            description: 'Everything about User',
+            externalDocs: {
+                description: 'Find out more',
+                url: '#'
+            }
+        },
+        {
             name: 'Role',
             description: 'Everything about Role',
             externalDocs: {

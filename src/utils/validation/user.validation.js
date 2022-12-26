@@ -80,13 +80,13 @@ module.exports = {
   },
   updateProfile: async (req, res, next) => {
     const schema = Joi.object({
-      fullname: Joi.string().max(255).label("fullname"),
+      fullname: Joi.string().max(255).required().label("fullname"),
       username: Joi.string()
         .min(5)
-        .max(25)
+        .max(25).required()
         .label("username")
         .external(async (value) => {
-          return await isUsernameExist(value);
+          return await isUsernameExist(value, req.user.id);
         }),
     });
 
