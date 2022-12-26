@@ -8,7 +8,8 @@ const moment = require('moment');
 const { Op } = require("sequelize");
 const { apiResponse, apiNotFoundResponse, apiBadRequestResponse } = require("../utils/apiResponse.utils");
 const { generateIdentifier, generateCode, isRequiredVisa } = require("../helpers/order.helper");
-const { IndexOrderTransformer, CreateOrderTransformer, ShowOrderTransformer } = require("../helpers/transformers/order.transformers");
+const { IndexOrderTransformer, CreateOrderTransformer, ShowOrderTransformer, InvoiceOrderTransformer } = require("../helpers/transformers/order.transformers");
+const { SendInvoice } = require("../helpers/mail.helper");
 
 module.exports = {
     index: async (req) => {
@@ -61,7 +62,7 @@ module.exports = {
                 offset: offset,
                 order: [
                     ['id', 'DESC'],
-                    ['orderDetails', 'id', 'ASC'],
+                    ['orderDetails', 'flight', 'date', 'ASC'],
                 ],
             });
             const ordersTransformed = IndexOrderTransformer(orders);
@@ -156,7 +157,7 @@ module.exports = {
                     },
                 ],
                 order: [
-                    ['orderDetails', 'id', 'ASC'],
+                    ['orderDetails', 'flight', 'date', 'ASC'],
                 ]
             });
             const orderTransformed = ShowOrderTransformer(order);
@@ -304,7 +305,7 @@ module.exports = {
                     }
                 ],
                 order: [
-                    ['orderDetails', 'id', 'ASC'],
+                    ['orderDetails', 'flight', 'date', 'ASC'],
                 ]
             });
             const orderTransformed = CreateOrderTransformer(order);
@@ -415,36 +416,90 @@ module.exports = {
         }
     },
     acceptOrder: async (req) => {
-      try {
-        const { id: orderId } = req.params;
+        try {
+            const {id: orderId} = req.params;
 
-        const order = await Order.findByPk(orderId);
+            const order = await Order.findByPk(orderId);
 
-        if (!order) {
-          throw apiNotFoundResponse("Order not found.");
+            if (!order) {
+                throw apiNotFoundResponse("Order not found.");
+            }
+
+            if (order.status === "COMPLETED") {
+                throw apiResponse(
+                    status.BAD_REQUEST,
+                    "BAD_REQUEST",
+                    "Status of this order is already COMPLETED"
+                );
+            }
+
+            order.status = "COMPLETED";
+            order.paidAt = moment().format("YYYY-MM-DD HH:mm:ss");
+
+            await order.save();
+
+            const orderDetails = await order.getOrderDetails();
+            const data = await Order.findByPk(order.id, {
+                include: [
+                    {
+                        model: OrderDetail,
+                        as: 'orderDetails',
+                        include: [
+                            {
+                                model: Flight,
+                                as: 'flight',
+                                include: [
+                                    {
+                                        model: SeatPrice,
+                                        as: 'seatPrices',
+                                        where: {
+                                            seatType: orderDetails[0].seatType
+                                        }
+                                    },
+                                    {
+                                        model: Airplane,
+                                        as: 'airplane',
+                                        subQuery: false,
+                                        include: [
+                                            {
+                                                model: Airline,
+                                                as: 'airline',
+                                            },
+                                        ],
+                                    }
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        model: User,
+                        as: 'user',
+                        attributes: ['id', 'fullname', 'email'],
+                    },
+                    {
+                        model: OrderContact,
+                        as: 'orderContact',
+                    },
+                    {
+                        model: Passenger,
+                        as: 'passengers',
+                    },
+                ],
+                order: [
+                    ['orderDetails', 'flight', 'date', 'ASC'],
+                ]
+            });
+            const invoice = InvoiceOrderTransformer(data);
+            await SendInvoice(invoice);
+
+            return apiResponse(status.OK, "OK", "Payment is APPROVED by ADMIN");
+        } catch (error) {
+            throw apiResponse(
+                error.code || status.INTERNAL_SERVER_ERROR,
+                error.status || "INTERNAL_SERVER_ERROR",
+                error.message || null
+            );
         }
-
-        if (order.status == "COMPLETED") {
-          throw apiResponse(
-            status.BAD_REQUEST,
-            "BAD_REQUEST",
-            "status of this order is already COMPLETED"
-          );
-        }
-
-        order.status = "COMPLETED";
-        order.paidAt = moment().format("YYYY-MM-DD HH:mm:ss");
-
-        await order.save();
-
-        return apiResponse(status.OK, "OK", "Payment APPROVED by admin");
-      } catch (error) {
-        throw apiResponse(
-          error.code || status.INTERNAL_SERVER_ERROR,
-          error.status || "INTERNAL_SERVER_ERROR",
-          error.message || null
-        );
-      }
     },
     userOrderHistory: async (req) => {
       try {
@@ -499,7 +554,7 @@ module.exports = {
           offset: offset,
           order: [
             ["id", "DESC"],
-            ["orderDetails", "id", "ASC"],
+            ['orderDetails', 'flight', 'date', 'ASC'],
           ],
         });
 

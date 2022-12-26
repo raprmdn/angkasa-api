@@ -10,5 +10,9 @@ module.exports = {
     SendResetPasswordOTP: async (data) => {
         const resetPasswordEJS = await ejs.renderFile(path.join(__dirname, '../templates/reset-password.ejs'), { data });
         await sendEmail(data.email, 'Reset Password', resetPasswordEJS)
+    },
+    SendInvoice: async (data) => {
+        const invoiceEJS = await ejs.renderFile(path.join(__dirname, '../templates/invoice.ejs'), { data });
+        await sendEmail(data.user.email, `Invoice #${data.code}`, invoiceEJS)
     }
 };
