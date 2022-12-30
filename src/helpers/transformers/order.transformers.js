@@ -117,6 +117,11 @@ const indexOrderTransform = (order) => ({
 
 const showOrderTransform = (order) => ({
     ...transform(order),
+    user: {
+        id: order.user.id,
+        fullName: order.user.fullname,
+        email: order.user.email,
+    },
     orderDetails: order.orderDetails.map((orderDetail) => ({
         id: orderDetail.id,
         orderId: orderDetail.orderId,

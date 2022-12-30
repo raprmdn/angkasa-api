@@ -155,6 +155,11 @@ module.exports = {
                         model: Passenger,
                         as: 'passengers',
                     },
+                    {
+                        model: User,
+                        as: 'user',
+                        attributes: ['id', 'fullname', 'email'],
+                    }
                 ],
                 order: [
                     ['orderDetails', 'flight', 'date', 'ASC'],
