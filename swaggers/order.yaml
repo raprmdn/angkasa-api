@@ -1,0 +1,1969 @@
+openapi: 3.0.0
+info:
+  title: E-Ticket Angkasa API Documentation
+  description: API Documentation for Angkasa Final Project.
+  version: 1.0.0
+tags:
+  - name: Order
+    description: Everything about Order
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /orders:
+    get:
+      summary: List Orders
+      tags:
+        - Order
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      orders:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            userId:
+                              type: integer
+                            identifier:
+                              type: string
+                            code:
+                              type: string
+                            totalPassengers:
+                              type: integer
+                            total:
+                              type: object
+                              properties:
+                                raw:
+                                  type: integer
+                                formatted:
+                                  type: string
+                            discount:
+                              type: object
+                              properties:
+                                raw:
+                                  type: integer
+                                formatted:
+                                  type: string
+                            type:
+                              type: string
+                            isRequiredVisa:
+                              type: boolean
+                            paymentMethod:
+                              type: string
+                            paidAt:
+                              type: object
+                              properties:
+                                raw:
+                                  type: 'null'
+                                formatted:
+                                  type: 'null'
+                            status:
+                              type: string
+                            transactionDate:
+                              type: object
+                              properties:
+                                raw:
+                                  type: string
+                                formatted:
+                                  type: string
+                            orderDetails:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  flightNumber:
+                                    type: string
+                                  fromAirportIata:
+                                    type: string
+                                  toAirportIata:
+                                    type: string
+                                  date:
+                                    type: string
+                                  std:
+                                    type: string
+                                  sta:
+                                    type: string
+                                  estimated:
+                                    type: string
+                                  airline:
+                                    type: object
+                                    properties:
+                                      name:
+                                        type: string
+                                      logo:
+                                        type: string
+                      pagination:
+                        type: object
+                        properties:
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                          offset:
+                            type: integer
+                          rows:
+                            type: integer
+                          pages:
+                            type: integer
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Orders retrieved successfully.
+                    data:
+                      orders:
+                        - id: 1
+                          userId: 1
+                          identifier: 4eda7c12876d3c61ded794f53d651e0e4b1ba6f4b59f9cd3c8589c77fccd7b38
+                          code: 35761BFC
+                          totalPassengers: 1
+                          total:
+                            raw: 38093063
+                            formatted: "Rp\_38.093.063"
+                          discount:
+                            raw: 75000
+                            formatted: "Rp\_75.000"
+                          type: round-trip
+                          isRequiredVisa: false
+                          paymentMethod: BCA Virtual Account
+                          paidAt:
+                            raw: null
+                            formatted: null
+                          status: PENDING
+                          transactionDate:
+                            raw: '2022-12-20T14:34:34.161Z'
+                            formatted: '2022-12-20 21:34:34'
+                          orderDetails:
+                            - id: 1
+                              flightNumber: GA 421
+                              fromAirportIata: CGK
+                              toAirportIata: DPS
+                              date: '2022-12-21'
+                              std: '16:07'
+                              sta: '16:07'
+                              estimated: 1h 50m
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                            - id: 2
+                              flightNumber: GA 4579
+                              fromAirportIata: DPS
+                              toAirportIata: CGK
+                              date: '2022-12-26'
+                              std: '21:40'
+                              sta: '21:40'
+                              estimated: 1h 50m
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                      pagination:
+                        page: 1
+                        limit: 10
+                        offset: 0
+                        rows: 1
+                        pages: 1
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Orders retrieved successfully.
+                    data:
+                      orders:
+                        - id: 1
+                          userId: 1
+                          identifier: 4eda7c12876d3c61ded794f53d651e0e4b1ba6f4b59f9cd3c8589c77fccd7b38
+                          code: 35761BFC
+                          totalPassengers: 1
+                          total:
+                            raw: 38093063
+                            formatted: "Rp\_38.093.063"
+                          discount:
+                            raw: 75000
+                            formatted: "Rp\_75.000"
+                          type: round-trip
+                          isRequiredVisa: false
+                          paymentMethod: BCA Virtual Account
+                          paidAt:
+                            raw: null
+                            formatted: null
+                          status: PENDING
+                          transactionDate:
+                            raw: '2022-12-20T14:34:34.161Z'
+                            formatted: '2022-12-20 21:34:34'
+                          orderDetails:
+                            - id: 1
+                              flightNumber: GA 421
+                              fromAirportIata: CGK
+                              toAirportIata: DPS
+                              date: '2022-12-21'
+                              std: '16:07'
+                              sta: '16:07'
+                              estimated: 1h 50m
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                            - id: 2
+                              flightNumber: GA 4579
+                              fromAirportIata: DPS
+                              toAirportIata: CGK
+                              date: '2022-12-26'
+                              std: '21:40'
+                              sta: '21:40'
+                              estimated: 1h 50m
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                      pagination:
+                        page: 1
+                        limit: 10
+                        offset: 0
+                        rows: 1
+                        pages: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: get-orders
+      description: Endpoint to get all orders
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - schema:
+            type: number
+            example: '1'
+          in: query
+          name: page
+          description: page
+        - schema:
+            type: number
+            example: 10
+          in: query
+          name: limit
+          description: limit
+        - schema:
+            type: string
+          in: query
+          name: search
+          description: Search Query
+    post:
+      summary: User make an order
+      operationId: post-orders
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      order:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          userId:
+                            type: integer
+                          identifier:
+                            type: string
+                          code:
+                            type: string
+                          totalPassengers:
+                            type: integer
+                          total:
+                            type: object
+                            properties:
+                              raw:
+                                type: integer
+                              formatted:
+                                type: string
+                          discount:
+                            type: object
+                            properties:
+                              raw:
+                                type: integer
+                              formatted:
+                                type: string
+                          type:
+                            type: string
+                          isRequiredVisa:
+                            type: boolean
+                          paymentMethod:
+                            type: string
+                          paidAt:
+                            type: object
+                            properties:
+                              raw:
+                                type: 'null'
+                              formatted:
+                                type: 'null'
+                          status:
+                            type: string
+                          transactionDate:
+                            type: object
+                            properties:
+                              raw:
+                                type: string
+                              formatted:
+                                type: string
+                          orderDetails:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                orderId:
+                                  type: integer
+                                flightId:
+                                  type: integer
+                                seatType:
+                                  type: string
+                                flight:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    flightNumber:
+                                      type: string
+                                    date:
+                                      type: object
+                                      properties:
+                                        raw:
+                                          type: string
+                                        formatted:
+                                          type: string
+                                    fromAirportIata:
+                                      type: string
+                                    toAirportIata:
+                                      type: string
+                                    std:
+                                      type: object
+                                      properties:
+                                        raw:
+                                          type: string
+                                        hours:
+                                          type: string
+                                        dm:
+                                          type: string
+                                    sta:
+                                      type: object
+                                      properties:
+                                        raw:
+                                          type: string
+                                        hours:
+                                          type: string
+                                        dm:
+                                          type: string
+                                    estimated:
+                                      type: string
+                                    type:
+                                      type: string
+                                seatPrice:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    seatType:
+                                      type: string
+                                    price:
+                                      type: object
+                                      properties:
+                                        raw:
+                                          type: integer
+                                        formatted:
+                                          type: string
+                                    discount:
+                                      type: object
+                                      properties:
+                                        raw:
+                                          type: integer
+                                        formatted:
+                                          type: string
+                                airplane:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    type:
+                                      type: string
+                                    airplaneCode:
+                                      type: string
+                                    airline:
+                                      type: object
+                                      properties:
+                                        name:
+                                          type: string
+                                        logo:
+                                          type: string
+                          orderContact:
+                            type: object
+                            properties:
+                              fullName:
+                                type: string
+                              email:
+                                type: string
+                              phone:
+                                type: string
+                          passengers:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                fullName:
+                                  type: string
+                                type:
+                                  type: string
+                                number:
+                                  type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Order created successfully
+                    data:
+                      order:
+                        id: 1
+                        userId: 1
+                        identifier: 4eda7c12876d3c61ded794f53d651e0e4b1ba6f4b59f9cd3c8589c77fccd7b38
+                        code: 35761BFC
+                        totalPassengers: 1
+                        total:
+                          raw: 38093063
+                          formatted: "Rp\_38.093.063"
+                        discount:
+                          raw: 75000
+                          formatted: "Rp\_75.000"
+                        type: round-trip
+                        isRequiredVisa: false
+                        paymentMethod: BCA Virtual Account
+                        paidAt:
+                          raw: null
+                          formatted: null
+                        status: PENDING
+                        transactionDate:
+                          raw: '2022-12-20T14:34:34.161Z'
+                          formatted: '2022-12-20 21:34:34'
+                        orderDetails:
+                          - id: 1
+                            orderId: 1
+                            flightId: 8
+                            seatType: FIRST CLASS
+                            flight:
+                              id: 8
+                              flightNumber: GA 421
+                              date:
+                                raw: '2022-12-20T21:32:18.000Z'
+                                formatted: '2022-12-21'
+                              fromAirportIata: CGK
+                              toAirportIata: DPS
+                              std:
+                                raw: '2022-12-21T06:12:18.000Z'
+                                hours: '13:12'
+                                dm: 21 Dec
+                              sta:
+                                raw: '2022-12-21T09:07:18.000Z'
+                                hours: '16:07'
+                                dm: 21 Dec
+                              estimated: 1h 50m
+                              type: direct
+                            seatPrice:
+                              id: 15
+                              seatType: FIRST CLASS
+                              price:
+                                raw: 18672528
+                                formatted: "Rp\_18.672.528"
+                              discount:
+                                raw: 75000
+                                formatted: "Rp\_75.000"
+                            airplane:
+                              id: 2
+                              type: Boeing 777-3U3ER
+                              airplaneCode: PK-GIK
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                          - id: 2
+                            orderId: 1
+                            flightId: 43
+                            seatType: FIRST CLASS
+                            flight:
+                              id: 43
+                              flightNumber: GA 4579
+                              date:
+                                raw: '2022-12-25T17:00:00.000Z'
+                                formatted: '2022-12-26'
+                              fromAirportIata: DPS
+                              toAirportIata: CGK
+                              std:
+                                raw: '2022-12-26T10:55:00.000Z'
+                                hours: '17:55'
+                                dm: 26 Dec
+                              sta:
+                                raw: '2022-12-26T14:40:00.000Z'
+                                hours: '21:40'
+                                dm: 26 Dec
+                              estimated: 1h 50m
+                              type: direct
+                            seatPrice:
+                              id: 64
+                              seatType: FIRST CLASS
+                              price:
+                                raw: 19420535
+                                formatted: "Rp\_19.420.535"
+                              discount:
+                                raw: 0
+                                formatted: "Rp\_0"
+                            airplane:
+                              id: 2
+                              type: Boeing 777-3U3ER
+                              airplaneCode: PK-GIK
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                        orderContact:
+                          fullName: Rafi Putra Ramadhan
+                          email: me@email.com
+                          phone: '+62123456789'
+                        passengers:
+                          - id: 1
+                            fullName: Rafi Putra Ramadhan
+                            type: KTP
+                            number: '1234567890'
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Order created successfully
+                    data:
+                      order:
+                        id: 1
+                        userId: 1
+                        identifier: 4eda7c12876d3c61ded794f53d651e0e4b1ba6f4b59f9cd3c8589c77fccd7b38
+                        code: 35761BFC
+                        totalPassengers: 1
+                        total:
+                          raw: 38093063
+                          formatted: "Rp\_38.093.063"
+                        discount:
+                          raw: 75000
+                          formatted: "Rp\_75.000"
+                        type: round-trip
+                        isRequiredVisa: false
+                        paymentMethod: BCA Virtual Account
+                        paidAt:
+                          raw: null
+                          formatted: null
+                        status: PENDING
+                        transactionDate:
+                          raw: '2022-12-20T14:34:34.161Z'
+                          formatted: '2022-12-20 21:34:34'
+                        orderDetails:
+                          - id: 1
+                            orderId: 1
+                            flightId: 8
+                            seatType: FIRST CLASS
+                            flight:
+                              id: 8
+                              flightNumber: GA 421
+                              date:
+                                raw: '2022-12-20T21:32:18.000Z'
+                                formatted: '2022-12-21'
+                              fromAirportIata: CGK
+                              toAirportIata: DPS
+                              std:
+                                raw: '2022-12-21T06:12:18.000Z'
+                                hours: '13:12'
+                                dm: 21 Dec
+                              sta:
+                                raw: '2022-12-21T09:07:18.000Z'
+                                hours: '16:07'
+                                dm: 21 Dec
+                              estimated: 1h 50m
+                              type: direct
+                            seatPrice:
+                              id: 15
+                              seatType: FIRST CLASS
+                              price:
+                                raw: 18672528
+                                formatted: "Rp\_18.672.528"
+                              discount:
+                                raw: 75000
+                                formatted: "Rp\_75.000"
+                            airplane:
+                              id: 2
+                              type: Boeing 777-3U3ER
+                              airplaneCode: PK-GIK
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                          - id: 2
+                            orderId: 1
+                            flightId: 43
+                            seatType: FIRST CLASS
+                            flight:
+                              id: 43
+                              flightNumber: GA 4579
+                              date:
+                                raw: '2022-12-25T17:00:00.000Z'
+                                formatted: '2022-12-26'
+                              fromAirportIata: DPS
+                              toAirportIata: CGK
+                              std:
+                                raw: '2022-12-26T10:55:00.000Z'
+                                hours: '17:55'
+                                dm: 26 Dec
+                              sta:
+                                raw: '2022-12-26T14:40:00.000Z'
+                                hours: '21:40'
+                                dm: 26 Dec
+                              estimated: 1h 50m
+                              type: direct
+                            seatPrice:
+                              id: 64
+                              seatType: FIRST CLASS
+                              price:
+                                raw: 19420535
+                                formatted: "Rp\_19.420.535"
+                              discount:
+                                raw: 0
+                                formatted: "Rp\_0"
+                            airplane:
+                              id: 2
+                              type: Boeing 777-3U3ER
+                              airplaneCode: PK-GIK
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                        orderContact:
+                          fullName: Rafi Putra Ramadhan
+                          email: me@email.com
+                          phone: '+62123456789'
+                        passengers:
+                          - id: 1
+                            fullName: Rafi Putra Ramadhan
+                            type: KTP
+                            number: '1234567890'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Order
+      description: Endpoint for user make an order or transaction
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                flightId:
+                  type: array
+                  items:
+                    type: integer
+                totalPassengers:
+                  type: integer
+                contact:
+                  type: object
+                  properties:
+                    fullName:
+                      type: string
+                    email:
+                      type: string
+                    phone:
+                      type: string
+                passengers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      fullName:
+                        type: string
+                      type:
+                        type: string
+                      number:
+                        type: string
+                paymentMethod:
+                  type: string
+                class:
+                  type: string
+              x-examples:
+                Example 1:
+                  flightId:
+                    - 8
+                    - 43
+                  totalPassengers: 1
+                  contact:
+                    fullName: Rafi Putra Ramadhan
+                    email: me@email.com
+                    phone: '+62123456789'
+                  passengers:
+                    - fullName: Rafi Putra Ramadhan
+                      type: KTP
+                      number: '1234567890'
+                  paymentMethod: BCA Virtual Account
+                  class: FIRST CLASS
+            examples:
+              Example Request Body one-way:
+                value:
+                  flightId:
+                    - 43
+                  totalPassengers: 1
+                  contact:
+                    fullName: Rafi Putra Ramadhan
+                    email: me@email.com
+                    phone: '+62123456789'
+                  passengers:
+                    - fullName: Rafi Putra Ramadhan
+                      type: KTP
+                      number: '1234567890'
+                  paymentMethod: BCA Virtual Account
+                  class: FIRST CLASS
+              Example Request Body round-trip:
+                value:
+                  flightId:
+                    - 8
+                    - 43
+                  totalPassengers: 1
+                  contact:
+                    fullName: Rafi Putra Ramadhan
+                    email: me@email.com
+                    phone: '+62123456789'
+                  passengers:
+                    - fullName: Rafi Putra Ramadhan
+                      type: KTP
+                      number: '1234567890'
+                  paymentMethod: BCA Virtual Account
+                  class: FIRST CLASS
+        description: Request body for create an order
+  '/orders/{identifier}':
+    parameters:
+      - schema:
+          type: string
+          example: 4eda7c12876d3c61ded794f53d651e0e4b1ba6f4b59f9cd3c8589c77fccd7b38
+        name: identifier
+        in: path
+        required: true
+        description: Unique Identifier
+    get:
+      summary: Show an order
+      tags:
+        - Order
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      order:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          userId:
+                            type: integer
+                          identifier:
+                            type: string
+                          code:
+                            type: string
+                          totalPassengers:
+                            type: integer
+                          total:
+                            type: object
+                            properties:
+                              raw:
+                                type: integer
+                              formatted:
+                                type: string
+                          discount:
+                            type: object
+                            properties:
+                              raw:
+                                type: integer
+                              formatted:
+                                type: string
+                          type:
+                            type: string
+                          isRequiredVisa:
+                            type: boolean
+                          paymentMethod:
+                            type: string
+                          paidAt:
+                            type: object
+                            properties:
+                              raw:
+                                type: string
+                              formatted:
+                                type: string
+                          status:
+                            type: string
+                          transactionDate:
+                            type: object
+                            properties:
+                              raw:
+                                type: string
+                              formatted:
+                                type: string
+                          user:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              fullName:
+                                type: string
+                              email:
+                                type: string
+                          orderDetails:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                orderId:
+                                  type: integer
+                                flightId:
+                                  type: integer
+                                seatType:
+                                  type: string
+                                flight:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    flightNumber:
+                                      type: string
+                                    date:
+                                      type: object
+                                      properties:
+                                        raw:
+                                          type: string
+                                        formatted:
+                                          type: string
+                                    fromAirport:
+                                      type: object
+                                      properties:
+                                        iata:
+                                          type: string
+                                        name:
+                                          type: string
+                                        country:
+                                          type: string
+                                        city:
+                                          type: string
+                                    toAirport:
+                                      type: object
+                                      properties:
+                                        iata:
+                                          type: string
+                                        name:
+                                          type: string
+                                        country:
+                                          type: string
+                                        city:
+                                          type: string
+                                    std:
+                                      type: object
+                                      properties:
+                                        raw:
+                                          type: string
+                                        hours:
+                                          type: string
+                                        dm:
+                                          type: string
+                                    sta:
+                                      type: object
+                                      properties:
+                                        raw:
+                                          type: string
+                                        hours:
+                                          type: string
+                                        dm:
+                                          type: string
+                                    estimated:
+                                      type: string
+                                    type:
+                                      type: string
+                                airplane:
+                                  type: object
+                                  properties:
+                                    type:
+                                      type: string
+                                    airplaneCode:
+                                      type: string
+                                    airline:
+                                      type: object
+                                      properties:
+                                        name:
+                                          type: string
+                                        logo:
+                                          type: string
+                                    seatClass:
+                                      type: object
+                                      properties:
+                                        type:
+                                          type: string
+                                        benefits:
+                                          type: array
+                                          items:
+                                            type: object
+                                            properties:
+                                              name:
+                                                type: string
+                                              icon:
+                                                type: string
+                          orderContact:
+                            type: object
+                            properties:
+                              fullName:
+                                type: string
+                              email:
+                                type: string
+                              phone:
+                                type: string
+                          passengers:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                fullName:
+                                  type: string
+                                type:
+                                  type: string
+                                number:
+                                  type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Order retrieved successfully.
+                    data:
+                      order:
+                        id: 2
+                        userId: 5
+                        identifier: c7657301cf2b7643674014dc8518f9faa4e647a3436e3cc5b4e777fa1ccfa5b3
+                        code: 97BBEDFF
+                        totalPassengers: 1
+                        total:
+                          raw: 38093063
+                          formatted: "Rp\_38.093.063"
+                        discount:
+                          raw: 75000
+                          formatted: "Rp\_75.000"
+                        type: round-trip
+                        isRequiredVisa: false
+                        paymentMethod: BCA Virtual Account
+                        paidAt:
+                          raw: '2022-12-26T17:33:26.000Z'
+                          formatted: '2022-12-27 00:33:26'
+                        status: COMPLETED
+                        transactionDate:
+                          raw: '2022-12-26T13:53:18.852Z'
+                          formatted: '2022-12-26 20:53:18'
+                        user:
+                          id: 5
+                          fullName: Rafi Putra Ramadhan
+                          email: raprmdn@gmail.com
+                        orderDetails:
+                          - id: 3
+                            orderId: 2
+                            flightId: 43
+                            seatType: FIRST CLASS
+                            flight:
+                              id: 43
+                              flightNumber: GA 4259
+                              date:
+                                raw: '2022-12-26T17:00:00.000Z'
+                                formatted: '2022-12-27'
+                              fromAirport:
+                                iata: DPS
+                                name: Ngurah Rai (Bali) International Airport
+                                country: Indonesia
+                                city: Denpasar
+                              toAirport:
+                                iata: CGK
+                                name: Soekarno-Hatta International Airport
+                                country: Indonesia
+                                city: Jakarta
+                              std:
+                                raw: '2022-12-27T10:55:00.000Z'
+                                hours: '17:55'
+                                dm: 27 Dec
+                              sta:
+                                raw: '2022-12-27T14:40:00.000Z'
+                                hours: '21:40'
+                                dm: 27 Dec
+                              estimated: 1h 50m
+                              type: direct
+                            airplane:
+                              type: Boeing 777-3U3ER
+                              airplaneCode: PK-GIK
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                              seatClass:
+                                type: FIRST CLASS
+                                benefits:
+                                  - name: USB PORT / POWER
+                                    icon: 'https://cdn0.iconfinder.com/data/icons/iphone-7-airpods-icons/24/lightning-usb-256.png'
+                                  - name: HIBURAN
+                                    icon: 'https://cdn4.iconfinder.com/data/icons/48-bubbles/48/24.TV-256.png'
+                                  - name: BAGASI 50 KG
+                                    icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                                  - name: WIFI
+                                    icon: 'https://cdn3.iconfinder.com/data/icons/feather-5/24/wifi-256.png'
+                                  - name: MAKANAN
+                                    icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                          - id: 2
+                            orderId: 2
+                            flightId: 13
+                            seatType: FIRST CLASS
+                            flight:
+                              id: 13
+                              flightNumber: GA 421
+                              date:
+                                raw: '2022-12-30T17:00:00.000Z'
+                                formatted: '2022-12-31'
+                              fromAirport:
+                                iata: CGK
+                                name: Soekarno-Hatta International Airport
+                                country: Indonesia
+                                city: Jakarta
+                              toAirport:
+                                iata: DPS
+                                name: Ngurah Rai (Bali) International Airport
+                                country: Indonesia
+                                city: Denpasar
+                              std:
+                                raw: '2022-12-31T01:40:00.000Z'
+                                hours: '08:40'
+                                dm: 31 Dec
+                              sta:
+                                raw: '2022-12-31T04:35:00.000Z'
+                                hours: '11:35'
+                                dm: 31 Dec
+                              estimated: 1h 50m
+                              type: direct
+                            airplane:
+                              type: Boeing 777-3U3ER
+                              airplaneCode: PK-GIK
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                              seatClass:
+                                type: FIRST CLASS
+                                benefits:
+                                  - name: HIBURAN
+                                    icon: 'https://cdn4.iconfinder.com/data/icons/48-bubbles/48/24.TV-256.png'
+                                  - name: BAGASI 50 KG
+                                    icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                                  - name: WIFI
+                                    icon: 'https://cdn3.iconfinder.com/data/icons/feather-5/24/wifi-256.png'
+                                  - name: MAKANAN
+                                    icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                                  - name: USB PORT / POWER
+                                    icon: 'https://cdn0.iconfinder.com/data/icons/iphone-7-airpods-icons/24/lightning-usb-256.png'
+                        orderContact:
+                          fullName: Rafi Putra Ramadhan
+                          email: me@email.com
+                          phone: '+62123456789'
+                        passengers:
+                          - id: 2
+                            fullName: Rafi Putra Ramadhan
+                            type: KTP
+                            number: '1234567890'
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Order retrieved successfully.
+                    data:
+                      order:
+                        id: 2
+                        userId: 5
+                        identifier: c7657301cf2b7643674014dc8518f9faa4e647a3436e3cc5b4e777fa1ccfa5b3
+                        code: 97BBEDFF
+                        totalPassengers: 1
+                        total:
+                          raw: 38093063
+                          formatted: "Rp\_38.093.063"
+                        discount:
+                          raw: 75000
+                          formatted: "Rp\_75.000"
+                        type: round-trip
+                        isRequiredVisa: false
+                        paymentMethod: BCA Virtual Account
+                        paidAt:
+                          raw: '2022-12-26T17:33:26.000Z'
+                          formatted: '2022-12-27 00:33:26'
+                        status: COMPLETED
+                        transactionDate:
+                          raw: '2022-12-26T13:53:18.852Z'
+                          formatted: '2022-12-26 20:53:18'
+                        user:
+                          id: 5
+                          fullName: Rafi Putra Ramadhan
+                          email: raprmdn@gmail.com
+                        orderDetails:
+                          - id: 3
+                            orderId: 2
+                            flightId: 43
+                            seatType: FIRST CLASS
+                            flight:
+                              id: 43
+                              flightNumber: GA 4259
+                              date:
+                                raw: '2022-12-26T17:00:00.000Z'
+                                formatted: '2022-12-27'
+                              fromAirport:
+                                iata: DPS
+                                name: Ngurah Rai (Bali) International Airport
+                                country: Indonesia
+                                city: Denpasar
+                              toAirport:
+                                iata: CGK
+                                name: Soekarno-Hatta International Airport
+                                country: Indonesia
+                                city: Jakarta
+                              std:
+                                raw: '2022-12-27T10:55:00.000Z'
+                                hours: '17:55'
+                                dm: 27 Dec
+                              sta:
+                                raw: '2022-12-27T14:40:00.000Z'
+                                hours: '21:40'
+                                dm: 27 Dec
+                              estimated: 1h 50m
+                              type: direct
+                            airplane:
+                              type: Boeing 777-3U3ER
+                              airplaneCode: PK-GIK
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                              seatClass:
+                                type: FIRST CLASS
+                                benefits:
+                                  - name: USB PORT / POWER
+                                    icon: 'https://cdn0.iconfinder.com/data/icons/iphone-7-airpods-icons/24/lightning-usb-256.png'
+                                  - name: HIBURAN
+                                    icon: 'https://cdn4.iconfinder.com/data/icons/48-bubbles/48/24.TV-256.png'
+                                  - name: BAGASI 50 KG
+                                    icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                                  - name: WIFI
+                                    icon: 'https://cdn3.iconfinder.com/data/icons/feather-5/24/wifi-256.png'
+                                  - name: MAKANAN
+                                    icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                          - id: 2
+                            orderId: 2
+                            flightId: 13
+                            seatType: FIRST CLASS
+                            flight:
+                              id: 13
+                              flightNumber: GA 421
+                              date:
+                                raw: '2022-12-30T17:00:00.000Z'
+                                formatted: '2022-12-31'
+                              fromAirport:
+                                iata: CGK
+                                name: Soekarno-Hatta International Airport
+                                country: Indonesia
+                                city: Jakarta
+                              toAirport:
+                                iata: DPS
+                                name: Ngurah Rai (Bali) International Airport
+                                country: Indonesia
+                                city: Denpasar
+                              std:
+                                raw: '2022-12-31T01:40:00.000Z'
+                                hours: '08:40'
+                                dm: 31 Dec
+                              sta:
+                                raw: '2022-12-31T04:35:00.000Z'
+                                hours: '11:35'
+                                dm: 31 Dec
+                              estimated: 1h 50m
+                              type: direct
+                            airplane:
+                              type: Boeing 777-3U3ER
+                              airplaneCode: PK-GIK
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                              seatClass:
+                                type: FIRST CLASS
+                                benefits:
+                                  - name: HIBURAN
+                                    icon: 'https://cdn4.iconfinder.com/data/icons/48-bubbles/48/24.TV-256.png'
+                                  - name: BAGASI 50 KG
+                                    icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                                  - name: WIFI
+                                    icon: 'https://cdn3.iconfinder.com/data/icons/feather-5/24/wifi-256.png'
+                                  - name: MAKANAN
+                                    icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                                  - name: USB PORT / POWER
+                                    icon: 'https://cdn0.iconfinder.com/data/icons/iphone-7-airpods-icons/24/lightning-usb-256.png'
+                        orderContact:
+                          fullName: Rafi Putra Ramadhan
+                          email: me@email.com
+                          phone: '+62123456789'
+                        passengers:
+                          - id: 2
+                            fullName: Rafi Putra Ramadhan
+                            type: KTP
+                            number: '1234567890'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: get-order-identifier
+      description: Endpoint for show more detail about the order/transaction
+      security:
+        - bearerAuth: []
+  /orders/history:
+    get:
+      summary: User order history
+      tags:
+        - Order
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      orders:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            userId:
+                              type: integer
+                            identifier:
+                              type: string
+                            code:
+                              type: string
+                            totalPassengers:
+                              type: integer
+                            total:
+                              type: object
+                              properties:
+                                raw:
+                                  type: integer
+                                formatted:
+                                  type: string
+                            discount:
+                              type: object
+                              properties:
+                                raw:
+                                  type: integer
+                                formatted:
+                                  type: string
+                            type:
+                              type: string
+                            isRequiredVisa:
+                              type: boolean
+                            paymentMethod:
+                              type: string
+                            paidAt:
+                              type: object
+                              properties:
+                                raw:
+                                  type: 'null'
+                                formatted:
+                                  type: 'null'
+                            status:
+                              type: string
+                            transactionDate:
+                              type: object
+                              properties:
+                                raw:
+                                  type: string
+                                formatted:
+                                  type: string
+                            orderDetails:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  flightNumber:
+                                    type: string
+                                  fromAirportIata:
+                                    type: string
+                                  toAirportIata:
+                                    type: string
+                                  date:
+                                    type: string
+                                  std:
+                                    type: string
+                                  sta:
+                                    type: string
+                                  estimated:
+                                    type: string
+                                  airline:
+                                    type: object
+                                    properties:
+                                      name:
+                                        type: string
+                                      logo:
+                                        type: string
+                      pagination:
+                        type: object
+                        properties:
+                          page:
+                            type: integer
+                          limit:
+                            type: integer
+                          offset:
+                            type: integer
+                          rows:
+                            type: integer
+                          pages:
+                            type: integer
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Orders retrieved successfully.
+                    data:
+                      orders:
+                        - id: 1
+                          userId: 1
+                          identifier: 4eda7c12876d3c61ded794f53d651e0e4b1ba6f4b59f9cd3c8589c77fccd7b38
+                          code: 35761BFC
+                          totalPassengers: 1
+                          total:
+                            raw: 38093063
+                            formatted: "Rp\_38.093.063"
+                          discount:
+                            raw: 75000
+                            formatted: "Rp\_75.000"
+                          type: round-trip
+                          isRequiredVisa: false
+                          paymentMethod: BCA Virtual Account
+                          paidAt:
+                            raw: null
+                            formatted: null
+                          status: PENDING
+                          transactionDate:
+                            raw: '2022-12-20T14:34:34.161Z'
+                            formatted: '2022-12-20 21:34:34'
+                          orderDetails:
+                            - id: 1
+                              flightNumber: GA 421
+                              fromAirportIata: CGK
+                              toAirportIata: DPS
+                              date: '2022-12-21'
+                              std: '16:07'
+                              sta: '16:07'
+                              estimated: 1h 50m
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                            - id: 2
+                              flightNumber: GA 4579
+                              fromAirportIata: DPS
+                              toAirportIata: CGK
+                              date: '2022-12-26'
+                              std: '21:40'
+                              sta: '21:40'
+                              estimated: 1h 50m
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                      pagination:
+                        page: 1
+                        limit: 10
+                        offset: 0
+                        rows: 1
+                        pages: 1
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Success to get user Orders History
+                    data:
+                      orders:
+                        - id: 1
+                          userId: 1
+                          identifier: 4eda7c12876d3c61ded794f53d651e0e4b1ba6f4b59f9cd3c8589c77fccd7b38
+                          code: 35761BFC
+                          totalPassengers: 1
+                          total:
+                            raw: 38093063
+                            formatted: "Rp\_38.093.063"
+                          discount:
+                            raw: 75000
+                            formatted: "Rp\_75.000"
+                          type: round-trip
+                          isRequiredVisa: false
+                          paymentMethod: BCA Virtual Account
+                          paidAt:
+                            raw: null
+                            formatted: null
+                          status: PENDING
+                          transactionDate:
+                            raw: '2022-12-20T14:34:34.161Z'
+                            formatted: '2022-12-20 21:34:34'
+                          orderDetails:
+                            - id: 1
+                              flightNumber: GA 421
+                              fromAirportIata: CGK
+                              toAirportIata: DPS
+                              date: '2022-12-21'
+                              std: '16:07'
+                              sta: '16:07'
+                              estimated: 1h 50m
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                            - id: 2
+                              flightNumber: GA 4579
+                              fromAirportIata: DPS
+                              toAirportIata: CGK
+                              date: '2022-12-26'
+                              std: '21:40'
+                              sta: '21:40'
+                              estimated: 1h 50m
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                      pagination:
+                        page: 1
+                        limit: 10
+                        offset: 0
+                        rows: 1
+                        pages: 1
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: get-orders-history
+      description: Endpoint for get user order history
+      security:
+        - bearerAuth: []
+  /orders/check-order:
+    post:
+      summary: Check order
+      operationId: post-orders-check-order
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      order:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          userId:
+                            type: integer
+                          identifier:
+                            type: string
+                          code:
+                            type: string
+                          totalPassengers:
+                            type: integer
+                          total:
+                            type: object
+                            properties:
+                              raw:
+                                type: integer
+                              formatted:
+                                type: string
+                          discount:
+                            type: object
+                            properties:
+                              raw:
+                                type: integer
+                              formatted:
+                                type: string
+                          type:
+                            type: string
+                          isRequiredVisa:
+                            type: boolean
+                          paymentMethod:
+                            type: string
+                          paidAt:
+                            type: object
+                            properties:
+                              raw:
+                                type: 'null'
+                              formatted:
+                                type: 'null'
+                          status:
+                            type: string
+                          transactionDate:
+                            type: object
+                            properties:
+                              raw:
+                                type: string
+                              formatted:
+                                type: string
+                          orderDetails:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                orderId:
+                                  type: integer
+                                flightId:
+                                  type: integer
+                                seatType:
+                                  type: string
+                                flight:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                    flightNumber:
+                                      type: string
+                                    date:
+                                      type: object
+                                      properties:
+                                        raw:
+                                          type: string
+                                        formatted:
+                                          type: string
+                                    fromAirport:
+                                      type: object
+                                      properties:
+                                        iata:
+                                          type: string
+                                        name:
+                                          type: string
+                                        country:
+                                          type: string
+                                        city:
+                                          type: string
+                                    toAirport:
+                                      type: object
+                                      properties:
+                                        iata:
+                                          type: string
+                                        name:
+                                          type: string
+                                        country:
+                                          type: string
+                                        city:
+                                          type: string
+                                    std:
+                                      type: object
+                                      properties:
+                                        raw:
+                                          type: string
+                                        hours:
+                                          type: string
+                                        dm:
+                                          type: string
+                                    sta:
+                                      type: object
+                                      properties:
+                                        raw:
+                                          type: string
+                                        hours:
+                                          type: string
+                                        dm:
+                                          type: string
+                                    estimated:
+                                      type: string
+                                    type:
+                                      type: string
+                                airplane:
+                                  type: object
+                                  properties:
+                                    type:
+                                      type: string
+                                    airplaneCode:
+                                      type: string
+                                    airline:
+                                      type: object
+                                      properties:
+                                        name:
+                                          type: string
+                                        logo:
+                                          type: string
+                                    seatClass:
+                                      type: object
+                                      properties:
+                                        type:
+                                          type: string
+                                        benefits:
+                                          type: array
+                                          items:
+                                            type: object
+                                            properties:
+                                              name:
+                                                type: string
+                                              icon:
+                                                type: string
+                          orderContact:
+                            type: object
+                            properties:
+                              fullName:
+                                type: string
+                              email:
+                                type: string
+                              phone:
+                                type: string
+                          passengers:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                fullName:
+                                  type: string
+                                type:
+                                  type: string
+                                number:
+                                  type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Order found
+                    data:
+                      order:
+                        id: 1
+                        userId: 1
+                        identifier: 4aa3883cd3332c5799d5e92aa7fe1ddb06f06cd30d66bcb37a657b1374cd8f9f
+                        code: F5279180
+                        totalPassengers: 1
+                        total:
+                          raw: 18672528
+                          formatted: "Rp\_18.672.528"
+                        discount:
+                          raw: 75000
+                          formatted: "Rp\_75.000"
+                        type: one-way
+                        isRequiredVisa: false
+                        paymentMethod: BCA Virtual Account
+                        paidAt:
+                          raw: null
+                          formatted: null
+                        status: PENDING
+                        transactionDate:
+                          raw: '2022-12-24T05:15:03.336Z'
+                          formatted: '2022-12-24 12:15:03'
+                        orderDetails:
+                          - id: 1
+                            orderId: 1
+                            flightId: 9
+                            seatType: FIRST CLASS
+                            flight:
+                              id: 9
+                              flightNumber: GA 421
+                              date:
+                                raw: '2022-12-24T17:00:00.000Z'
+                                formatted: '2022-12-25'
+                              fromAirport:
+                                iata: CGK
+                                name: Soekarno-Hatta International Airport
+                                country: Indonesia
+                                city: Jakarta
+                              toAirport:
+                                iata: DPS
+                                name: Ngurah Rai (Bali) International Airport
+                                country: Indonesia
+                                city: Denpasar
+                              std:
+                                raw: '2022-12-25T01:40:00.000Z'
+                                hours: '08:40'
+                                dm: 25 Dec
+                              sta:
+                                raw: '2022-12-25T04:35:00.000Z'
+                                hours: '11:35'
+                                dm: 25 Dec
+                              estimated: 1h 50m
+                              type: direct
+                            airplane:
+                              type: Boeing 777-3U3ER
+                              airplaneCode: PK-GIK
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                              seatClass:
+                                type: FIRST CLASS
+                                benefits:
+                                  - name: HIBURAN
+                                    icon: 'https://cdn4.iconfinder.com/data/icons/48-bubbles/48/24.TV-256.png'
+                                  - name: BAGASI 50 KG
+                                    icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                                  - name: WIFI
+                                    icon: 'https://cdn3.iconfinder.com/data/icons/feather-5/24/wifi-256.png'
+                                  - name: MAKANAN
+                                    icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                                  - name: USB PORT / POWER
+                                    icon: 'https://cdn0.iconfinder.com/data/icons/iphone-7-airpods-icons/24/lightning-usb-256.png'
+                        orderContact:
+                          fullName: Rafi Putra Ramadhan
+                          email: me@email.com
+                          phone: '+62123456789'
+                        passengers:
+                          - id: 1
+                            fullName: Rafi Putra Ramadhan
+                            type: KTP
+                            number: '1234567890'
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Order found
+                    data:
+                      order:
+                        id: 1
+                        userId: 1
+                        identifier: 4aa3883cd3332c5799d5e92aa7fe1ddb06f06cd30d66bcb37a657b1374cd8f9f
+                        code: F5279180
+                        totalPassengers: 1
+                        total:
+                          raw: 18672528
+                          formatted: "Rp\_18.672.528"
+                        discount:
+                          raw: 75000
+                          formatted: "Rp\_75.000"
+                        type: one-way
+                        isRequiredVisa: false
+                        paymentMethod: BCA Virtual Account
+                        paidAt:
+                          raw: null
+                          formatted: null
+                        status: PENDING
+                        transactionDate:
+                          raw: '2022-12-24T05:15:03.336Z'
+                          formatted: '2022-12-24 12:15:03'
+                        orderDetails:
+                          - id: 1
+                            orderId: 1
+                            flightId: 9
+                            seatType: FIRST CLASS
+                            flight:
+                              id: 9
+                              flightNumber: GA 421
+                              date:
+                                raw: '2022-12-24T17:00:00.000Z'
+                                formatted: '2022-12-25'
+                              fromAirport:
+                                iata: CGK
+                                name: Soekarno-Hatta International Airport
+                                country: Indonesia
+                                city: Jakarta
+                              toAirport:
+                                iata: DPS
+                                name: Ngurah Rai (Bali) International Airport
+                                country: Indonesia
+                                city: Denpasar
+                              std:
+                                raw: '2022-12-25T01:40:00.000Z'
+                                hours: '08:40'
+                                dm: 25 Dec
+                              sta:
+                                raw: '2022-12-25T04:35:00.000Z'
+                                hours: '11:35'
+                                dm: 25 Dec
+                              estimated: 1h 50m
+                              type: direct
+                            airplane:
+                              type: Boeing 777-3U3ER
+                              airplaneCode: PK-GIK
+                              airline:
+                                name: GARUDA INDONESIA
+                                logo: 'https://s-light.tiket.photos/t/01E25EBZS3W0FY9GTG6C42E1SE/rsfit00gsmenlarge1/string/2020/12/17/884009ae-b512-478a-9c3d-f4dbf22386eb-1608152537048-0c289e6d3a1bcb518efdd93be5ae139c.png'
+                              seatClass:
+                                type: FIRST CLASS
+                                benefits:
+                                  - name: HIBURAN
+                                    icon: 'https://cdn4.iconfinder.com/data/icons/48-bubbles/48/24.TV-256.png'
+                                  - name: BAGASI 50 KG
+                                    icon: 'https://cdn3.iconfinder.com/data/icons/kicon-business/24/suitcase-256.png'
+                                  - name: WIFI
+                                    icon: 'https://cdn3.iconfinder.com/data/icons/feather-5/24/wifi-256.png'
+                                  - name: MAKANAN
+                                    icon: 'https://cdn2.iconfinder.com/data/icons/ui-basic-outline-2/512/UI_Basic_outline-120-256.png'
+                                  - name: USB PORT / POWER
+                                    icon: 'https://cdn0.iconfinder.com/data/icons/iphone-7-airpods-icons/24/lightning-usb-256.png'
+                        orderContact:
+                          fullName: Rafi Putra Ramadhan
+                          email: me@email.com
+                          phone: '+62123456789'
+                        passengers:
+                          - id: 1
+                            fullName: Rafi Putra Ramadhan
+                            type: KTP
+                            number: '1234567890'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      tags:
+        - Order
+      description: Endpoint for check order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                code:
+                  type: string
+              x-examples:
+                Example 1:
+                  email: rafi@email.com
+                  code: F5279180
+            examples:
+              Example Response:
+                value:
+                  email: rafi@email.com
+                  code: F5279180
+        description: Request body for check order
+  '/orders/accept/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    put:
+      summary: Admin accept order
+      operationId: put-orders-accept-id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  status:
+                    type: string
+                  message:
+                    type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    status: OK
+                    message: Payment APPROVED by admin
+              examples:
+                Example Response:
+                  value:
+                    code: 200
+                    status: OK
+                    message: Payment APPROVED by admin
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Order
+      description: Endpoint for admin accept the order
+      security:
+        - bearerAuth: []

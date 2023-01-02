@@ -1,0 +1,254 @@
+openapi: 3.0.0
+info:
+  title: E-Ticket Angkasa API Documentation
+  description: API Documentation for Angkasa Final Project.
+  version: 1.0.0
+tags:
+  - name: Airline
+    description: Everything about Airline
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /airline:
+    get:
+      tags:
+        - Airline
+      summary: Find all airlines
+      description: Endpoint to get all airlines
+      operationId: getAirline
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success to get all Airlines
+                  data:
+                    type: object
+                    properties:
+                      airlines:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Airline'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Airline
+      security:
+        - bearerAuth: [ ]
+      summary: Create a new airline
+      description: Endpoint to create a new airline
+      operationId: createAirline
+      requestBody:
+        description: Create a new airline
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+                - logo
+                - iata
+              type: object
+              properties:
+                name:
+                  type: string
+                logo:
+                  type: string
+                iata:
+                  type: string
+        required:
+          true
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 201
+                  status:
+                    type: string
+                    example: CREATED
+                  message:
+                    type: string
+                    example: Success to created a new Airline
+                  data:
+                    type: object
+                    properties:
+                      airline:
+                        $ref: '#/components/schemas/Airline'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /airline/{id}:
+    get:
+      tags:
+        - Airline
+      summary: Show a airline
+      description: Endpoint to get a airline
+      operationId: showAirline
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be fetched.'
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success to get an Airline
+                  data:
+                    type: object
+                    properties:
+                      airline:
+                        $ref: '#/components/schemas/Airline'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Airline
+      security:
+        - bearerAuth: [ ]
+      summary: Update a airline
+      description: Endpoint to update a airline
+      operationId: updateAirline
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be provided for update airline'
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: Create a new airline
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+                - logo
+                - iata
+              type: object
+              properties:
+                name:
+                  type: string
+                logo:
+                  type: string
+                iata:
+                  type: string
+        required:
+          true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Succes to update an Airline
+                  data:
+                    type: object
+                    properties:
+                      airline:
+                        $ref: '#/components/schemas/Airline'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Airline
+      security:
+        - bearerAuth: [ ]
+      summary: Delete a airline
+      description: Endpoint to delete a airline
+      operationId: deleteAirline
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be provided for delete airport'
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success to deleted a Airline
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'

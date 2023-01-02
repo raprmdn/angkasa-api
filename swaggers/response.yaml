@@ -1,0 +1,147 @@
+components:
+  responses:
+    ApiResponse:
+      description: API Response
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        status:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+    ValidationError:
+      description: Validation Error. The given data was invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EntityError'
+    Unauthorized:
+      description: Unauthorized. Missing or Invalid token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Unauthorized'
+    InternalServerError:
+      description: Internal Server Error. Something went wrong.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalError'
+    BadRequest:
+      description: Bad Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequest'
+    TooManyRequest:
+      description: Too Many Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequest'
+    NotFound:
+      description: Not Found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFound'
+    Forbidden:
+      description: Forbidden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Forbidden'
+  schemas:
+    Unauthorized:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 401
+        status:
+          type: string
+          example: UNAUTHORIZED
+        message:
+          type: string
+    EntityError:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 422
+        status:
+          type: string
+          example: UNPROCESSABLE_ENTITY
+        message:
+          type: string
+          example: The given data was invalid.
+        errors:
+          type: object
+          properties:
+            field:
+              type: string
+              example: The field is required.
+    InternalError:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 500
+        status:
+          type: string
+          example: INTERNAL_SERVER_ERROR
+        message:
+          type: string
+    BadRequest:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        status:
+          type: string
+          example: BAD_REQUEST
+        message:
+          type: string
+    TooManyRequest:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 429
+        status:
+          type: string
+          example: TOO_MANY_REQUESTS
+        message:
+          type: string
+    NotFound:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 404
+        status:
+          type: string
+          example: NOT_FOUND
+        message:
+          type: string
+    Forbidden:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 403
+        status:
+          type: string
+          example: FORBIDDEN
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

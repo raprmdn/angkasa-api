@@ -1,0 +1,248 @@
+openapi: 3.0.0
+info:
+  title: E-Ticket Angkasa API Documentation
+  description: API Documentation for Angkasa Final Project.
+  version: 1.0.0
+tags:
+  - name: Benefit
+    description: Everything about Benefit
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /benefit:
+    get:
+      tags:
+        - Benefit
+      summary: Find all benefits
+      description: Endpoint to get all benefit
+      operationId: getBenefit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success to get all Airlines
+                  data:
+                    type: object
+                    properties:
+                      benefits:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Benefit'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Benefit
+      security:
+        - bearerAuth: [ ]
+      summary: Create a new benefit
+      description: Endpoint to create a new benefit
+      operationId: createBenefit
+      requestBody:
+        description: Create a new benefit
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+                - icon
+              type: object
+              properties:
+                name:
+                  type: string
+                icon:
+                  type: string
+        required:
+          true
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 201
+                  status:
+                    type: string
+                    example: CREATED
+                  message:
+                    type: string
+                    example: Success to created a new Benefit
+                  data:
+                    type: object
+                    properties:
+                      benefit:
+                        $ref: '#/components/schemas/Benefit'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /benefit/{id}:
+    get:
+      tags:
+        - Benefit
+      summary: Show a benefit
+      description: Endpoint to get a benefit
+      operationId: showBenefit
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be fetched.'
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success to get a Benefit
+                  data:
+                    type: object
+                    properties:
+                      benefit:
+                        $ref: '#/components/schemas/Benefit'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Benefit
+      security:
+        - bearerAuth: [ ]
+      summary: Update a benefit
+      description: Endpoint to update a benefit
+      operationId: updateBenefit
+      requestBody:
+        description: Create a new benefit
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+                - icon
+              type: object
+              properties:
+                name:
+                  type: string
+                icon:
+                  type: string
+        required:
+          true
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be provided for update airline'
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success to updated a Benefit
+                  data:
+                    type: object
+                    properties:
+                      benefit:
+                        $ref: '#/components/schemas/Benefit'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Benefit
+      security:
+        - bearerAuth: [ ]
+      summary: Delete a benefit
+      description: Endpoint to delete a benefit
+      operationId: deleteBenefit
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be provided for delete benefit'
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Success to deleted a Benefit
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'

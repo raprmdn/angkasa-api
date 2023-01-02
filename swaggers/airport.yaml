@@ -1,0 +1,312 @@
+openapi: 3.0.0
+info:
+  title: E-Ticket Angkasa API Documentation
+  description: API Documentation for Angkasa Final Project.
+  version: 1.0.0
+tags:
+  - name: Airport
+    description: Everything about Airport
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /airports/popular:
+    get:
+      tags:
+        - Airport
+      summary: Get popular airports
+      description: Endpoint to get 10 popular airports
+      operationId: popularAirports
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Popular airports retrieved successfully
+                  data:
+                    type: object
+                    properties:
+                      airports:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Airport'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /airports/search:
+    get:
+      tags:
+        - Airport
+      summary: Search airport
+      description: Endpoint to get a airport
+      operationId: searchAirport
+      parameters:
+        - name: airport
+          in: query
+          description: 'The airport query param for search the airport.'
+          required: true
+          schema:
+            type: string
+            example: 'Jakarta'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Airports retrieved successfully
+                  data:
+                    type: object
+                    properties:
+                      airports:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Airport'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /airports:
+    post:
+      tags:
+        - Airport
+      security:
+        - bearerAuth: [ ]
+      summary: Create a new airport
+      description: Endpoint to create a new airport
+      operationId: createAirport
+      requestBody:
+        description: Create a new role
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+                - country
+                - region
+                - municipality
+                - iata
+                - type
+              type: object
+              properties:
+                name:
+                  type: string
+                country:
+                  type: string
+                region:
+                  type: string
+                municipality:
+                  type: string
+                iata:
+                  type: string
+                type:
+                  type: string
+        required:
+          true
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 201
+                  status:
+                    type: string
+                    example: CREATED
+                  message:
+                    type: string
+                    example: Airport created successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /airports/{id}:
+    get:
+      tags:
+        - Airport
+      security:
+        - bearerAuth: [ ]
+      summary: Show a airport
+      description: Endpoint to get a airport
+      operationId: showAirport
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be fetched.'
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Airport retrieved successfully
+                  data:
+                    type: object
+                    properties:
+                      airport:
+                        $ref: '#/components/schemas/Airport'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      tags:
+        - Airport
+      security:
+        - bearerAuth: [ ]
+      summary: Update a aiport
+      description: Endpoint to update a airport
+      operationId: updateAirport
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be proviede for update airport'
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: Update airport request body
+        content:
+          application/json:
+            schema:
+              required:
+                - name
+                - country
+                - region
+                - municipality
+                - iata
+                - type
+              type: object
+              properties:
+                name:
+                  type: string
+                country:
+                  type: string
+                region:
+                  type: string
+                municipality:
+                  type: string
+                iata:
+                  type: string
+                type:
+                  type: string
+        required:
+          true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Airport updated successfully
+                  data:
+                    type: object
+                    properties:
+                      airport:
+                        $ref: '#/components/schemas/Airport'
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Airport
+      security:
+        - bearerAuth: [ ]
+      summary: Delete a aiport
+      description: Endpoint to delete a airport
+      operationId: deleteAirport
+      parameters:
+        - name: id
+          in: path
+          description: 'The id params that needs to be proviede for update airport'
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  status:
+                    type: string
+                    example: OK
+                  message:
+                    type: string
+                    example: Airport deleted successfully
+
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
