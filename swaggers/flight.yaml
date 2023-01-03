@@ -306,6 +306,26 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '408':
+          description: Request Timeout
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    code: 408
+                    status: REQUEST_TIMEOUT
+                    message: 'network timeout at: https://port-api.com/port/suggest/Jakarta'
+                properties:
+                  code:
+                    type: integer
+                    example: 408
+                  status:
+                    type: string
+                    example: REQUEST_TIMEOUT
+                  message:
+                    type: string
         '422':
           $ref: '#/components/responses/ValidationError'
         '500':
