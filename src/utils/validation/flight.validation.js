@@ -60,6 +60,9 @@ module.exports = {
             if (e.code === 500) {
                 return res.status(e.code).json(e);
             }
+            if (e.code === 408) {
+                return res.status(e.code).json(e);
+            }
 
             return res.status(status.UNPROCESSABLE_ENTITY).json(apiResponseValidationError(e));
         }

@@ -9,11 +9,17 @@ module.exports = {
         try {
             const { airport } = req.query;
 
-            const response = await fetch(`https://port-api.com/port/suggest/${airport}`)
-                .catch((e) => {
-                    console.error(`Error fetching airport on port-api.com: ${e}`);
-                    throw apiResponse(status.INTERNAL_SERVER_ERROR, 'INTERNAL_SERVER_ERROR', 'There\'s an issue. Please try again later.');
-                });
+            const response = await fetch(`https://port-api.com/port/suggest/${airport}`, {
+                method: 'GET',
+                timeout: 10000,
+            }).catch((e) => {
+                console.error(`Error fetching airport on port-api.com: ${e}`);
+                if (e.type === 'request-timeout') {
+                    throw apiResponse(status.REQUEST_TIMEOUT, 'REQUEST_TIMEOUT', e.message);
+                }
+
+                throw apiResponse(status.INTERNAL_SERVER_ERROR, 'INTERNAL_SERVER_ERROR', 'There\'s an issue. Please try again later.');
+            });
             const data = await response.json();
             const filteredData = data.features.filter((item) => item.properties.iata !== null);
             const airports = AirportTransform.AirportApiCollectionResponse(filteredData);

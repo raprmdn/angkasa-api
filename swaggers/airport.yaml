@@ -82,6 +82,26 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Airport'
+        '408':
+          description: Request Timeout
+          content:
+            application/json:
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    code: 408
+                    status: REQUEST_TIMEOUT
+                    message: 'network timeout at: https://port-api.com/airport/iata/DPS (From Airport (IATA))'
+                properties:
+                  code:
+                    type: integer
+                    example: 408
+                  status:
+                    type: string
+                    example: REQUEST_TIMEOUT
+                  message:
+                    type: string
         '500':
           $ref: '#/components/responses/InternalServerError'
   /airports:

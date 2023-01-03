@@ -135,11 +135,18 @@ module.exports = {
   },
   isExistsIata: async (req, iata, label) => {
     try {
-      const res = await fetch(`https://port-api.com/airport/iata/${iata}`)
-          .catch((e) => {
-            console.error(`Error fetching airport on port-api.com: ${e}`);
-            throw apiResponse(status.INTERNAL_SERVER_ERROR, 'INTERNAL_SERVER_ERROR', e.message);
-          });
+      const res = await fetch(`https://port-api.com/airport/iata/${iata}`, {
+        method: "GET",
+        timeout: 10000,
+      }).catch((e) => {
+        console.error(`Error fetching airport on port-api.com: ${e}`);
+        if (e.type === 'request-timeout') {
+          throw apiResponse(status.REQUEST_TIMEOUT, 'REQUEST_TIMEOUT', e.message);
+        }
+
+        throw apiResponse(status.INTERNAL_SERVER_ERROR, 'INTERNAL_SERVER_ERROR', e.message);
+      });
+
       if (res.status !== 200) {
         throw apiNotFoundResponse(`Airport with IATA '${iata}' not found`)
       }
